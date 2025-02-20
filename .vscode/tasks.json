@@ -51,6 +51,7 @@
             "command": "make",
             "args": [
                 "PLATFORM=PLATFORM_DESKTOP"
+                
             ],
             "windows": {
                 "command": "C:/raylib/w64devkit/bin/mingw32-make.exe",
@@ -58,6 +59,7 @@
                     "RAYLIB_PATH=C:/raylib/raylib",
                     "PROJECT_NAME=${fileBasenameNoExtension}",
                     "OBJS=src/*.cpp"
+                    
                 ]
             },
             "osx": {
