@@ -3,8 +3,6 @@
 #include "./headers/scene.h"
 #include "./headers/welcomeScene.h"
 
-
-
 int main() 
 {
     constexpr int screenWidth = 800;
