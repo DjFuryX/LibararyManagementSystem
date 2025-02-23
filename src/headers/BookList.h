@@ -37,7 +37,7 @@ class BookList{
     }
 
 
-    //Display all 
+    //Display all l
 
     void displayBookInfo(){
         Node* temp = head; //start at head
