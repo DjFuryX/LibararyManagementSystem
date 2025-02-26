@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
-#include "Book.h"
+#include "node.h"
+#include "book.h"
 
 using namespace std;
 
@@ -23,7 +24,7 @@ class BookList{
    
    
     //Add Book
-    void addBook (Book, book){
+    void addBook (Book book){
         Node* newNode = new Node(book);
         if(!head){
             head = newNode;

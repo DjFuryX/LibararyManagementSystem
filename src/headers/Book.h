@@ -5,74 +5,78 @@
 
 using namespace std;
 
-class Book{
+class Book
+{
 private:
-
     string title;
     string author;
     string ISBN;
     bool isAvailabile;
-    
+
 public:
-    //Constructor
-    Book() {
+    // Constructor
+    Book()
+    {
         title = "NotSet";
         author = "NotSet";
         ISBN = "NotSet";
-        isAvailable = true;  
+        isAvailabile = true;
     }
 
-    Book(string nTitle, string nAuthor, string nISBN, bool availability ){
+    Book(string nTitle, string nAuthor, string nISBN, bool availability)
+    {
         title = nTitle;
         author = nAuthor;
         ISBN = nISBN;
-        isAvailability = availability;
+        isAvailabile = availability;
     }
-
-
 
     // Getters
-     string getTitle(){ 
-        return title; 
+    string getTitle()
+    {
+        return title;
     }
-    string getAuthor(){ 
-        return author; 
+    string getAuthor()
+    {
+        return author;
     }
-    string getISBN(){ 
-        return ISBN; 
+    string getISBN()
+    {
+        return ISBN;
     }
-    bool getAvailability(){ 
-        return isAvailable; 
+    bool getAvailability()
+    {
+        return isAvailabile;
     }
-
 
     // Setter methods
-    
-    void setTitle(string nTitle){ 
+
+    void setTitle(string nTitle)
+    {
         title = nTitle;
     }
-    void setAuthor(string nAuthor){ 
+    void setAuthor(string nAuthor)
+    {
         author = nAuthor;
     }
-    void setISBN(string nISBN){ 
+    void setISBN(string nISBN)
+    {
         ISBN = nISBN;
     }
-    void setAvailability(bool availability) { 
-        isAvailabile = availability; 
-    }
-    
-    
-    
-    //display book details
-    void displayBookInfo(){
-
-        cout <<"Title: "<<title<<"\n";
-        cout <<"Author: "<<author<<"\n";
-        cout <<"ISBN: "<<ISBN<<"\n";
-        cout <<"Book Availabilty: "<<isAvailability<<"\n";
-
+    void setAvailability(bool availability)
+    {
+        isAvailabile = availability;
     }
 
+    // display book details
+    void displayBookInfo()
+    {
+
+        cout << "Title: " << title << "\n";
+        cout << "Author: " << author << "\n";
+        cout << "ISBN: " << ISBN << "\n";
+        cout << "Book Availabilty: " << isAvailabile << "\n";
+    }
 };
 
 #endif

@@ -3,9 +3,10 @@
 
 #include "Book.h"
 
-struct Node {
-    Book data;        
-    Node* nextNode;
-
-
+class Node
+{
+private:
+    Book data;
+    Node *nextNode;
+};
 #endif
