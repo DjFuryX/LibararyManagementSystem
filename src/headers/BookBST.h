@@ -36,8 +36,8 @@ public:
         rootNode = root;
     }
 
-    // Recursive function to insert a key into a BST
-    Node *insert(Node *root, Book book)
+    // Recursive function to insert a key into a BST by pointer
+    Node *PointerInsert(Node *root, Book book)
     {
         // if the root is null, create a new node and return it
         if (root == NULL)
@@ -58,25 +58,58 @@ public:
         // if the given key is less than the root node, recur for the left subtree
         if (book.getISBN() < root->GetData().getISBN())
         {
-            root->SetleftNode(insert(root->GetLeftNode(), book));
+            root->SetleftNode(PointerInsert(root->GetLeftNode(), book));
         }
         // if the given key is more than the root node, recur for the right subtree
         else
         {
-            root->SetRightNode(insert(root->GetRightNode(), book));
+            root->SetRightNode(PointerInsert(root->GetRightNode(), book));
         }
 
         return root;
     }
 
+    // Recursive function to insert a key into a BST by reference
+    void ReferenceInsert(Node* &root, Book book)
+    {
+        // if the root is null, create a new node and return it
+        if (root == NULL)
+        {
+            if (!IsFull())
+            {
+                root = new Node(book);
+                return;
+            }
+            
+            else // if memory was not allocated successfully
+            {
+                cerr << "Error! List is full (Out of Memory), can NOT add a new node" << endl;
+            }
+
+        }
+
+        // if the given key is less than the root node, recur for the left subtree
+        if (book.getISBN() < root->GetData().getISBN())
+        {
+            ReferenceInsert(root->GetLeftNodeRef(), book);   
+        }
+        // if the given key is more than the root node, recur for the right subtree
+        else
+        {
+           ReferenceInsert(root->GetRightNodeRef(), book);
+           
+        }
+
+    }
+
     void InsertBook(Book book)
     {
-        rootNode = insert(rootNode, book);
+        //rootNode = PointerInsert(rootNode, book);
+        ReferenceInsert(rootNode, book);
     }
 
     void DisplayInorder()
     {
-
         inorder(rootNode);
     }
     // Function to perform inorder traversal on the tree
@@ -86,13 +119,14 @@ public:
         {
             return;
         }
-
         inorder(root->GetLeftNode());
         cout << "-------------------------------------------------------" << endl;
         root->GetData().displayBookInfo();
         cout << "-------------------------------------------------------" << endl;
         inorder(root->GetRightNode());
     }
+
+
 
     bool IsEmpty()
     {
@@ -113,4 +147,6 @@ public:
         }
         return true;
     }
+
+
 };

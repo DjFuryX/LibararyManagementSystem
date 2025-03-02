@@ -56,7 +56,7 @@ public:
         return Data;
     }
 
-    Node *GetLeftNode()
+     Node  *GetLeftNode()
     {
         return leftNode;
     }
@@ -64,6 +64,16 @@ public:
     Node *GetRightNode(){
         return rightNode;
     }
+
+    Node*& GetLeftNodeRef(){
+        return leftNode;
+    };  // Return by reference to modify the actual node pointer
+
+    Node*& GetRightNodeRef(){
+        return rightNode;
+    };  // Return by reference to modify the actual node pointer
+
+
 
     // Mutators
     void SetData(Book data)
