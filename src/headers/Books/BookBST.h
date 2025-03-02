@@ -1,10 +1,7 @@
-#include "node.h"
-#include "book.h"
 
+#include "BookNode.h"
 using namespace std;
-
-// Used to store collection of Books
-
+// Used to store collection of Books in Binary Search tree
 class BookBST
 {
 private:

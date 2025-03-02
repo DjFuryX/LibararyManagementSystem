@@ -1,20 +1,17 @@
 
 #include <raylib.h>
-#include "./headers/scene.h"
-#include "./headers/welcomeScene.h"
-#include "./headers/bookBSt.h"
+#include "./headers/GUI/scene.h"
+#include "./headers/GUI/welcomeScene.h"
+#include "./headers/Books/BookBST.h"
 
-//Remove afterwards
-#include "./headers/Password.h"
-
+//testing Remove afterwards
+#include "./headers/PasswordMangement/Password.h"
 int main()
 {
 
-
-
     Password newPassword;
     
-    newPassword.printAllsCharacter();
+    newPassword.GenerateTemporayPassword();
 
     // create students using primary constructor
     Book book1(4, "Tom Sayer", "Jane Doe");
