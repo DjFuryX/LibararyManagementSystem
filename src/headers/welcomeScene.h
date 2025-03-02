@@ -1,5 +1,6 @@
-#include "scene.h"
 
+
+#include "scene.h"
 class WelcomeScene : public Scene
 {
 private:
@@ -48,6 +49,7 @@ public:
         if (GuiTextBox((Rectangle){centerPositionHorizontal(500), 540, 500, 50}, userPasword, 128, userPasswordInput)) {
            buttonClear(userPasswordInput,userPasword);
         };
+        
 
 
         GuiSetStyle(DEFAULT,TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);

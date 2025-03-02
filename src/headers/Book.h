@@ -2,6 +2,7 @@
 #include <iostream>
 #ifndef BOOK_H
 #define BOOK_H
+#include "Patron.h"
 
 using namespace std;
 
@@ -10,8 +11,8 @@ class Book
 private:
     string title;
     string author;
-    string ISBN;
-    bool isAvailabile;
+    int ISBN;
+    Patron *rentee;
 
 public:
     // Constructor
@@ -19,16 +20,32 @@ public:
     {
         title = "NotSet";
         author = "NotSet";
-        ISBN = "NotSet";
-        isAvailabile = true;
+        ISBN = 0;
+        rentee = NULL;
     }
 
-    Book(string nTitle, string nAuthor, string nISBN, bool availability)
+    Book(string nTitle, string nAuthor, int nISBN)
     {
         title = nTitle;
         author = nAuthor;
         ISBN = nISBN;
-        isAvailabile = availability;
+        rentee = NULL;
+    }
+
+    Book(int nISBN, string nTitle, string nAuthor)
+    {
+        title = nTitle;
+        author = nAuthor;
+        ISBN = nISBN;
+        rentee = NULL;
+    }
+
+    Book(const Book &newBook)
+    {
+        title = newBook.title;
+        author = newBook.author;
+        ISBN = newBook.ISBN;
+        rentee = newBook.rentee;
     }
 
     // Getters
@@ -40,13 +57,13 @@ public:
     {
         return author;
     }
-    string getISBN()
+    int getISBN()
     {
         return ISBN;
     }
-    bool getAvailability()
+    Patron *getRentee()
     {
-        return isAvailabile;
+        return rentee;
     }
 
     // Setter methods
@@ -59,13 +76,13 @@ public:
     {
         author = nAuthor;
     }
-    void setISBN(string nISBN)
+    void setISBN(int nISBN)
     {
         ISBN = nISBN;
     }
-    void setAvailability(bool availability)
+    void Addrentee(Patron *barrower)
     {
-        isAvailabile = availability;
+        rentee = barrower;
     }
 
     // display book details
@@ -75,8 +92,13 @@ public:
         cout << "Title: " << title << "\n";
         cout << "Author: " << author << "\n";
         cout << "ISBN: " << ISBN << "\n";
-        cout << "Book Availabilty: " << isAvailabile << "\n";
+        if (rentee!=NULL){
+            cout << "Book Rentee: " << rentee->getName() << "\n";
+        }
+        
     }
+
+    ~Book(){}
 };
 
 #endif

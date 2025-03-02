@@ -10,7 +10,6 @@ class Patron{
 
     string name;
     int libraryNumber;       //Used as the Patron Library Card Number
-    std::list<Book> checkedOutBooks;
 
     // Constructor 
     Patron(){
@@ -43,20 +42,6 @@ class Patron{
         name =pName; 
     }
 
-    //CheckOut Book
-    void getCheckoutBook(Book book) {
-        checkedOutBooks.push(book);
-        cout << name << " Checked out " << book.getTitle << endl;
-    }
-
-
-    //Return Book Method
-    void returnBook(Book){
-        cout << name << " Retruned Vook " << book.getTitle << endl;
-
-    }
-   
-   
     //display patron details
     void displayPatronDetails(){
         cout <<"Patron Name: "<<name<<"\n";
