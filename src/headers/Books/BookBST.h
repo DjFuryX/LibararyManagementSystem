@@ -5,7 +5,7 @@ using namespace std;
 class BookBST
 {
 private:
-    Node *rootNode;
+    BookNode *rootNode;
 
 public:
     // constructor
@@ -16,32 +16,32 @@ public:
     }
 
     // primary
-    BookBST(Node *h) // Creates a list with one element in there
+    BookBST(BookNode *h) // Creates a list with one element in there
     {
         rootNode = h;
     }
 
     // Accessors
-    Node *GetRoot()
+    BookNode *GetRoot()
     {
         return rootNode;
     }
 
     // Mutator
-    void SetRoot(Node *root)
+    void SetRoot(BookNode *root)
     {
         rootNode = root;
     }
 
     // Recursive function to insert a key into a BST by pointer
-    Node *PointerInsert(Node *root, Book book)
+    BookNode *PointerInsert(BookNode *root, Book book)
     {
         // if the root is null, create a new node and return it
         if (root == NULL)
         {
             if (!IsFull())
             {
-                return new Node(book);
+                return new BookNode(book);
             }
             
             else // if memory was not allocated successfully
@@ -67,14 +67,14 @@ public:
     }
 
     // Recursive function to insert a key into a BST by reference
-    void ReferenceInsert(Node* &root, Book book)
+    void ReferenceInsert(BookNode* &root, Book book)
     {
         // if the root is null, create a new node and return it
         if (root == NULL)
         {
             if (!IsFull())
             {
-                root = new Node(book);
+                root = new BookNode(book);
                 return;
             }
             
@@ -110,7 +110,7 @@ public:
         inorder(rootNode);
     }
     // Function to perform inorder traversal on the tree
-    void inorder(Node *root)
+    void inorder(BookNode *root)
     {
         if (root == NULL)
         {
@@ -136,7 +136,7 @@ public:
 
     bool IsFull()
     {
-        Node *temp = new Node; // attempt to reserve space for a new node by calling default constructor
+        BookNode *temp = new BookNode; // attempt to reserve space for a new node by calling default constructor
         if (temp != NULL)      // if memory was allocated successfully
         {
             delete temp; // deallocate the memory for temp

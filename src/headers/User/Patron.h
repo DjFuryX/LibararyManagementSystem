@@ -20,7 +20,9 @@ public:
     // Primary
     Patron(string name):User(name)// Create patron and set username  //no password set
     {
-        libraryID = 0;
+        //TO do ensure Id number does not exist already
+        libraryID= GenerateLibraryID();
+        //libraryID = 0;
     }
 
     // Getters
@@ -35,7 +37,7 @@ public:
     }
     
     // Setter methods
-    void SetLibraryNumber(int libNumb)
+    void SetLibraryNumber(int libNumb)//will propblaby not be used id is genereated automatically
     {
         libraryID = libNumb;
     }
@@ -52,6 +54,7 @@ public:
        return generatetandomNumber(5000,7000);//new ID in range specified
 
     }
+
 };
 
 #endif

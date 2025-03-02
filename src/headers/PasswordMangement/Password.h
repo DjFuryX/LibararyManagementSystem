@@ -13,57 +13,71 @@ private:
     string password;
 
 public:
+    // constructors
     Password()
     {
         username = "Notset";
         password = "Notset";
     };
 
-    Password(string username)
+    Password(string name)
     {
-        username = username;
+        username = name;
         password = "Notset";
     }
-// Accessors
-    string GetUsername(){
+
+    Password(string name, string pass)
+    { // used with admin class only
+        username = name;
+        password = pass;
+    }
+
+    // Accessors
+    string GetUsername()
+    {
         return username;
     }
-    string GetPassword(){
+    string GetPassword()
+    {
         return password;
     }
-     // Mutators
+    // Mutators
 
-    void SetUsername(string name){
-        username=name;
-     }
+    void SetUsername(string name)
+    {
+        username = name;
+    }
 
     string GenerateTemporayPassword()
     {
         int passwordLenght = 6; // lenght of password
-        string tempPassword;  //empty string to store password
+        string tempPassword;    // empty string to store password
         int randomNumber;
 
-        srand(time(NULL));   // Initialization, should only be called once outside of loop to get random seed
+        srand(time(NULL)); // Initialization, should only be called once outside of loop to get random seed
 
-        for (int element=0;element<passwordLenght;element++)//for lenght of password
+        for (int element = 0; element < passwordLenght; element++) // for lenght of password
         {
-            if(element<2){
-                randomNumber=GenerateRandomNumber(65,91);//generate numbers corresponding to A-Z as char 
+            if (element < 2)
+            {
+                randomNumber = GenerateRandomNumber(65, 91); // generate numbers corresponding to A-Z as char
             }
-            else if(element<4){
-                randomNumber=GenerateRandomNumber(48,58);//generate numbers  corresponding to 1-9 as char 
+            else if (element < 4)
+            {
+                randomNumber = GenerateRandomNumber(48, 58); // generate numbers  corresponding to 1-9 as char
             }
-            else{
-                randomNumber=GenerateRandomNumber(97,123);//generate numbers corresponding to a-b as char 
+            else
+            {
+                randomNumber = GenerateRandomNumber(97, 123); // generate numbers corresponding to a-b as char
             }
-            //creates a temporay password with format AA-11-aa
+            // creates a temporay password with format AA-11-aa
             tempPassword += char(randomNumber);
         }
-        cout <<"Generated Password: "<<tempPassword<<endl;
+        cout << "Generated Password: " << tempPassword << endl;
         return tempPassword;
     }
 
-    int GenerateRandomNumber( int rand_min,int rand_max)
+    int GenerateRandomNumber(int rand_min, int rand_max)
     {
         // rand_max maximum number that can be generated
         // rand_min minimum number that can be generated

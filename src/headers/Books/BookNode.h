@@ -1,47 +1,47 @@
 // Node.h
-#ifndef Node_H
-#define Node_H
+#ifndef BookNode_H
+#define BookNode_H
 #include "Book.h"
 // Node object
-class Node
+class BookNode
 {
     // Class Attributes
 private:
     Book Data;   // Data portion - Composition
-    Node *leftNode;  // left node link portion (dynamically declared)
-    Node *rightNode; // right node link portion (dynamically declared)
+    BookNode *leftNode;  // left node link portion (dynamically declared)
+    BookNode *rightNode; // right node link portion (dynamically declared)
 
 public:
     // default constructor
-    Node() : Data() // initialize (composition) student using its default constructor
+    BookNode() : Data() // initialize (composition) student using its default constructor
     {
         leftNode = NULL; // empty pointer to left node
         rightNode = NULL;   //empyt pointer to right node
     }
 
      // primary constructor No Nodes set only data created
-     Node(Book data) : Data(data) // initialize (composition) student using its copy constructor
+     BookNode(Book data) : Data(data) // initialize (composition) student using its copy constructor
      {
          leftNode = NULL; // empty pointer to left node
          rightNode = NULL;   //empyt pointer to right nodel
      }
 
     // primary constructor leftnode
-    Node(Book data, Node *lefttNode,Node *rightNode) : Data(data) // initialize (composition) student using its copy constructor
+    BookNode(Book data, BookNode *lefttNode,BookNode *rightNode) : Data(data) // initialize (composition) student using its copy constructor
     {
         this->leftNode = leftNode;
         this->rightNode = leftNode;
     }
 
     // primary constructor 3
-    Node(string title, string author, int isbn) : Data(title, author, isbn) // initialize (composition) student using its primary constructor
+    BookNode(string title, string author, int isbn) : Data(title, author, isbn) // initialize (composition) student using its primary constructor
     {
         leftNode = NULL; // empty pointer to left node
         rightNode = NULL;   //empyt pointer to right nodel
     }
 
     // copy constructor
-    Node(Node *node)
+    BookNode(BookNode *node)
     {
         Data = node->Data;
         leftNode = node->leftNode;
@@ -54,20 +54,20 @@ public:
         return Data;
     }
 
-     Node  *GetLeftNode()
+     BookNode  *GetLeftNode()
     {
         return leftNode;
     }
 
-    Node *GetRightNode(){
+    BookNode *GetRightNode(){
         return rightNode;
     }
 
-    Node*& GetLeftNodeRef(){
+    BookNode*& GetLeftNodeRef(){
         return leftNode;
     };  // Return by reference to modify the actual node pointer
 
-    Node*& GetRightNodeRef(){
+    BookNode*& GetRightNodeRef(){
         return rightNode;
     };  // Return by reference to modify the actual node pointer
 
@@ -79,18 +79,18 @@ public:
         Data = data;
     }
 
-    void SetleftNode(Node *nextNode)
+    void SetleftNode(BookNode *nextNode)
     {
         leftNode = nextNode;
     }
 
-    void SetRightNode(Node *nextnode){
+    void SetRightNode(BookNode *nextnode){
         rightNode = nextnode;
     }
 
-    ~Node(){
-        delete leftNode;
-        delete rightNode;
+    ~BookNode(){
+        //delete leftNode;
+       // delete rightNode;
     }
 };
 

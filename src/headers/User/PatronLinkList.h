@@ -1,14 +1,14 @@
-#ifndef LinkedList_H
-#define LinkedList_H
+#ifndef PatronLinkList_H
+#define PatronLinkedList_H
 
 #include "PatronNode.h"
 
-// Node object
+// PatronNode object
 class PatronLinkList
 {
     // Class attribues
 private:
-    Node *Head; // Head should point to the first element in list
+    PatronNode *Head; // Head should point to the first element in list
 
 public:
     // default constructor
@@ -18,28 +18,27 @@ public:
     }
 
     // primary
-    PatronLinkList(Node *h) // Creates a list with one element in there
+    PatronLinkList(PatronNode *h) // Creates a list with one element in there
     {
         Head = h;
     }
 
     // Accessors
-    Node *GetHead()
+    PatronNode *GetHead()
     {
         return Head;
     }
 
     // Mutator
-    void SetHead(Node *head)
+    void SetHead(PatronNode *head)
     {
         Head = head;
     }
 
-
     void InsertAtFront(Patron dataToInsert)
     {
-        Node *temp;      // declare temp as a pointer to the memory address of a node
-        temp = new Node; // calls default constructor and attempts to reserve memory for temp
+        PatronNode *temp;      // declare temp as a pointer to the memory address of a node
+        temp = new PatronNode; // calls default constructor and attempts to reserve memory for temp
 
         if (temp != NULL) // if memory was allocated successfully
         {
@@ -62,12 +61,67 @@ public:
         }
     }
 
-    
+    void InsertByLibaryNumber(Patron dataToInsert)
+    {
+
+        PatronNode *temp;                      // declare temp as a pointer to the memory address of a node
+        temp = new PatronNode;                 // calls default constructor and attempts to reserve memory for temp
+        PatronNode *curr = Head, *prev = NULL; // point curr to the first element in the list.
+        bool nodeAdded = false;
+
+        if (temp != NULL) // if memory was allocated successfully
+        {
+            temp->SetData(dataToInsert); // set the data of the new node
+            temp->SetNextNode(NULL);     // set the link portion to point to NULL
+
+            if (Head == NULL) // if the list is empty
+            {
+                Head = temp;
+            }
+            else // if the list was not empty
+            {
+                while (curr != NULL) // while curr is pointing to a valid node; go through list
+                {
+
+                    if (curr->GetData().GetLibraryNumber() >= temp->GetData().GetLibraryNumber()) // if the curr node has age younger than the next in the list
+                    {
+                        if (curr == Head) // if curr is pointing to head (if we are inserting at the first node in list)
+                        {
+                            temp->SetNextNode(Head); // points temps next node to head
+                            Head = temp;             // makes temp the new first node in the list
+                        }
+                        else
+                        {
+
+                            temp->SetNextNode(curr);//set temp node to point to curr node
+                            prev->SetNextNode(temp);//prev node points to the current node
+                            //prev ---/temp/----curr
+                            
+                        }
+                        nodeAdded = true;// if a node was added to the list
+                        break; // jump out of loop
+                    }
+                    prev = curr;
+                    curr = curr->GetNextNode(); // point curr to IT's next ndoe
+                }
+                if (!nodeAdded)// if a node was not added
+                {
+                    prev->SetNextNode(temp); //add node to end of list
+
+                    //prev ---/temp/----curr(NULL)
+                }
+            }
+        }
+        else // if memory was not allocated successfully
+        {
+            cerr << "Error! List is full (Out of Memory), can NOT add a new node" << endl;
+        }
+    }
 
     int CountNodes()
     {
         int count = 0;       // initialize counter
-        Node *curr = Head;   // initialize curr to point to first element in list
+        PatronNode *curr = Head;   // initialize curr to point to first element in list
         while (curr != NULL) // while curr is pointing to a valid node
         {
             count++;                    // increment counter
@@ -80,7 +134,7 @@ public:
     {
         bool isFound = false;
 
-        Node *curr = Head;   // point curr to the first element in the list.
+        PatronNode *curr = Head;   // point curr to the first element in the list.
         while (curr != NULL) // while curr is pointing to a valid node
         {
             if (curr->GetData().GetLibraryNumber() == librayNumber) // if the curr node has the data we are searching for
@@ -96,7 +150,7 @@ public:
 
     void DisplayList()
     {
-        Node *curr = Head;   // point curr to the first element in the list.
+        PatronNode *curr = Head;   // point curr to the first element in the list.
         while (curr != NULL) // while curr is pointing to a valid node
         {
             cout << "[";
@@ -118,7 +172,7 @@ public:
 
     bool IsFull()
     {
-        Node *temp = new Node; // attempt to reserve space for a new node by calling default constructor
+        PatronNode *temp = new PatronNode; // attempt to reserve space for a new node by calling default constructor
         if (temp != NULL)      // if memory was allocated successfully
         {
             delete temp; // deallocate the memory for temp
@@ -135,7 +189,7 @@ public:
 
         if (!IsEmpty())
         {
-            Node *curr = Head, *prev = NULL; // point curr to the first element in the list.
+            PatronNode *curr = Head, *prev = NULL; // point curr to the first element in the list.
 
             while (curr != NULL) // while curr is pointing to a valid node; go through list
             {

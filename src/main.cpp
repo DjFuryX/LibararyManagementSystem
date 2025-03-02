@@ -1,19 +1,58 @@
 
 #include <raylib.h>
+
+//testing Remove afterwards
 #include "./headers/GUI/scene.h"
 #include "./headers/GUI/welcomeScene.h"
 #include "./headers/Books/BookBST.h"
-
-//testing Remove afterwards
 #include "./headers/PasswordMangement/Password.h"
+#include "./headers/User/PatronLinkList.h"
+#include "./headers/User/Admin.h"
 int main()
 {
 
-    Password newPassword;
+// testing patron Sinlge link List
+//---------------------------------------------------
+    PatronLinkList *list = new PatronLinkList;
+
+    Patron patron1("Norman");
+    Patron patron2("Dave");
+    Patron patron3("Bob");
+
+    
+
+    list->InsertByLibaryNumber(patron1);
+    list->InsertByLibaryNumber(patron2);
+    list->InsertByLibaryNumber(patron3);
+
+    list->DisplayList();
+
+// testing admin login
+//---------------------------------------------------
+    Admin newAdmin;
+
+    string username;
+    string password;
+    bool result;
+
+    cout<<endl;
+    cout<<"User Name: "<<endl;
+    cin>> username;
+    cout<<"Password: "<<endl;
+    cin>>password;
+
+    result = newAdmin.Login(username,password);
+
+    cout<<(result? "Login Succesful" : "Login Failed")<<endl;
+//---------------------------------------------------
+// testing password generation
+Password newPassword;
     
     newPassword.GenerateTemporayPassword();
 
-    // create students using primary constructor
+//---------------------------------------------------
+  // testing Binary Search tree
+  /*   // create students using primary constructor
     Book book1(4, "Tom Sayer", "Jane Doe");
     Book book2(1, "The Whale", "John Smith");
     Book book3(10, "Robing Hood", "Jessie Jackson");
@@ -29,7 +68,7 @@ int main()
     BST->InsertBook(book4);
     BST->InsertBook(book5);
 
-    BST->DisplayInorder();
+    BST->DisplayInorder(); */
 
 
     /*  constexpr int screenWidth = 1920;
