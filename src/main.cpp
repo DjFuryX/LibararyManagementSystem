@@ -4,8 +4,17 @@
 #include "./headers/welcomeScene.h"
 #include "./headers/bookBSt.h"
 
+//Remove afterwards
+#include "./headers/Password.h"
+
 int main()
 {
+
+
+
+    Password newPassword;
+    
+    newPassword.printAllsCharacter();
 
     // create students using primary constructor
     Book book1(4, "Tom Sayer", "Jane Doe");
@@ -24,9 +33,6 @@ int main()
     BST->InsertBook(book5);
 
     BST->DisplayInorder();
-    
-    //BST->DisplayLayers();
-
 
 
     /*  constexpr int screenWidth = 1920;

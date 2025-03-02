@@ -1,9 +1,7 @@
 // Node.h
-#include <iostream>
 #ifndef Node_H
 #define Node_H
 #include "Book.h"
-using namespace std;
 // Node object
 class Node
 {
