@@ -8,7 +8,8 @@ class Patron : public User
 {
 private:
     int libraryID; // Used as the Patron Library Card Number
-    
+    //queue of book checked out
+    //TO DO  BookQueue bookqueue
 
 public:
     // Constructor

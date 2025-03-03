@@ -48,6 +48,11 @@ public:
         username = name;
     }
 
+    void SetPassword(string pass)
+    {
+        password = pass;
+    }
+
     string GenerateTemporayPassword()
     {
         int passwordLenght = 6; // lenght of password
@@ -73,7 +78,6 @@ public:
             // creates a temporay password with format AA-11-aa
             tempPassword += char(randomNumber);
         }
-        cout << "Generated Password: " << tempPassword << endl;
         return tempPassword;
     }
 
@@ -84,6 +88,11 @@ public:
         int randomNumber = rand() % (rand_max - rand_min) + rand_min; // generate random numbers
         return randomNumber;
     }
+
+    string EncryptPassword(){
+        return password;
+    }
+
 };
 
 #endif

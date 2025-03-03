@@ -41,6 +41,9 @@ public:
     {
         password.SetUsername(name);
     }
+    void SetPassword(string userPassword){
+        password.SetPassword(userPassword);
+    }
 
     int generatetandomNumber(int min, int max)
     {

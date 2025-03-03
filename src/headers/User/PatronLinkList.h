@@ -29,6 +29,8 @@ public:
         return Head;
     }
 
+
+
     // Mutator
     void SetHead(PatronNode *head)
     {
@@ -130,7 +132,7 @@ public:
         return count; // return number of elements in list
     }
 
-    bool SearchForANode(int librayNumber)
+    bool SearchForPatron(int librayNumber)
     {
         bool isFound = false;
 
