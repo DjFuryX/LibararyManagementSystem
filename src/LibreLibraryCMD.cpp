@@ -16,8 +16,12 @@ int main()
   Patron patron3("Bob");
 
   patron1.SetPassword("Login");
-
+  //hashPassword
   patron1.GetPasswordPtr()->HashPassword();
+  cout<<"Hashed Password: "<<patron1.GetPasswordPtr()->GetPassword()<<endl;
+  //reverse hashedPassword
+  patron1.GetPasswordPtr()->UnHashPassword();
+  cout<<"UnHashed Password: "<<patron1.GetPasswordPtr()->GetPassword()<<endl;
 
   patron1.Display();
 

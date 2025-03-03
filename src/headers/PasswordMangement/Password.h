@@ -11,6 +11,8 @@ class Password
 private:
     string username;
     string password;
+    static int tempPasswordlenght; // lenght of password
+    static int key;            // key to encrypt and decrypt password
 
 public:
     // constructors
@@ -55,13 +57,13 @@ public:
 
     string GenerateTemporayPassword()
     {
-        int passwordLenght = 6; // lenght of password
-        string tempPassword;    // empty string to store password
+
+        string tempPassword; // empty string to store password
         int randomNumber;
 
         srand(time(NULL)); // Initialization, should only be called once outside of loop to get random seed
 
-        for (int element = 0; element < passwordLenght; element++) // for lenght of password
+        for (int element = 0; element < tempPasswordlenght; element++) // for lenght of password
         {
             if (element < 2)
             {
@@ -93,22 +95,57 @@ public:
     {
         string hashPassword;
         int num;
+        int remainder;
+        int divisions;
+        int count = password.length();
         // Traverse the string
-        for (auto &ch : password)
+        for (int i = 0; i <count; i++)
         {
-            num=ch;
-            // Print current character
-            cout <<ch<< " : "<<num<<" : ";
+            num = password[i]; // store character as int
 
-            num=num%11;
-
-            cout <<num<<" : "<<char(num)<<endl;
-            hashPassword += char(num);
+            remainder = num % key; // get the remainder when number is divided by key
+            divisions = num / key; // get number of divsions
+            cout<<"num: "<<num;
+            cout<<" divisions: "<<divisions;
+            cout<<" remainder: "<<remainder<<endl;
+            // assign new number to string as a character
+            // Hashed password should be twice as long
+            hashPassword += char(divisions);
+            hashPassword += char(remainder);
         }
-        //cout<<"HashPassword: "<<hashPassword<<endl;
-
+        // overwritecurrent password with hashPassworded
         password = hashPassword;
     }
+
+    void UnHashPassword()
+    {
+
+        string unHashPassword;
+        int num;
+        int remainder;
+        int divisions;
+        int count = password.length();
+        // Traverse the string
+        for (int i = 0; i < count; i+=2)
+        {
+
+            divisions = password[i]; // get number of divsions
+            remainder = password[i+1]; // get the remainder when number is divided by key
+            num = (key*divisions)+remainder; // calculate original number 
+
+            cout<<"num: "<<num;
+            cout<<" divisions: "<<divisions;
+            cout<<" remainder: "<<remainder<<endl;
+            // assign new number to string as a character
+            unHashPassword += char(num);
+        }
+        // cout<<"HashPassword: "<<hashPassword<<endl;
+        // overwritecurrent password with hashPassworded
+        password = unHashPassword;
+    }
 };
+
+int Password::tempPasswordlenght = 6;
+int Password::key = 65;
 
 #endif
