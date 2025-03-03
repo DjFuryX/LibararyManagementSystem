@@ -23,7 +23,7 @@
         }
       ],
       "windows": {
-        "miDebuggerPath": "C:/raylib/w64devkit/bin/gdb.exe",
+        "miDebuggerPath": "C:/raylib/w64devkit/bin/gdb.exe",//remove if debugger gives issues
       },
       "osx": {
         "MIMode": "lldb"
@@ -83,7 +83,7 @@
       "linux": {
         "miDebuggerPath": "/usr/bin/gdb",
       },
-      "preLaunchTask": "C/C++ build"
+      "preLaunchTask": "build CMD"
     }
   ]
 }

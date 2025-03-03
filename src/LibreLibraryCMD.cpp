@@ -1,5 +1,5 @@
 
-//testing Remove afterwards
+// testing Remove afterwards
 #include "headers/PasswordMangement/Password.h"
 #include "headers/User/Admin.h"
 #include "headers/LibraryManagement.h"
@@ -7,24 +7,27 @@
 int main()
 {
 
-// testing patron Sinlge link List
-//---------------------------------------------------
-PatronLinkList *list = new PatronLinkList;
+  // testing patron Sinlge link List
+  //---------------------------------------------------
+  PatronLinkList *list = new PatronLinkList;
 
-Patron patron1("Norman");
-Patron patron2("Dave");
-Patron patron3("Bob");
+  Patron patron1("Norman");
+  Patron patron2("Dave");
+  Patron patron3("Bob");
 
-patron1.SetPassword("Login");
+  patron1.SetPassword("Login");
 
+  patron1.GetPasswordPtr()->HashPassword();
 
-list->InsertByLibaryNumber(patron1);
-list->InsertByLibaryNumber(patron2);
-list->InsertByLibaryNumber(patron3);
+  patron1.Display();
 
-list->DisplayList();
+  list->InsertByLibaryNumber(patron1);
+  list->InsertByLibaryNumber(patron2);
+  list->InsertByLibaryNumber(patron3);
 
-  //testing FileManager
+  list->DisplayList();
+
+  // testing FileManager
 
   FileManager filemanager;
 
@@ -34,48 +37,46 @@ list->DisplayList();
 
   filemanager.SaveData(library);
 
+  // testing admin login
+  //---------------------------------------------------
+  /*  Admin newAdmin;
 
-// testing admin login
-//---------------------------------------------------
-   /*  Admin newAdmin;
+   string username;
+   string password;
+   bool result;
 
-    string username;
-    string password;
-    bool result;
+   cout<<endl;
+  cout<<"User Name: "<<endl;
+  cin>> username;
+   cout<<"Password: "<<endl;
+   cin>>password;
 
-    cout<<endl;
-   cout<<"User Name: "<<endl;
-   cin>> username;
-    cout<<"Password: "<<endl;
-    cin>>password;
+   result = newAdmin.Login(username,password);
 
-    result = newAdmin.Login(username,password);
+   cout<<(result? "Login Succesful" : "Login Failed")<<endl; */
+  //---------------------------------------------------
+  // testing password generation
+  // Password newPassword;
 
-    cout<<(result? "Login Succesful" : "Login Failed")<<endl; */
-//---------------------------------------------------
-// testing password generation
-//Password newPassword;
-    
-    //newPassword.GenerateTemporayPassword();
+  // newPassword.GenerateTemporayPassword();
 
-//---------------------------------------------------
+  //---------------------------------------------------
   // testing Binary Search tree
-   // create students using primary constructor
-   /* Book book1(4, "Moby Dick", "Jane Doe");
-    Book book2(1, "The Whale", "John Smith");
-    Book book3(10, "Robing Hood", "Jessie Jackson");
-    Book book4(400, "Rolling", "Jessie Jackson");
-    Book book5(22, "Task Master", "Michael Monrowe");
+  // create students using primary constructor
+  /* Book book1(4, "Moby Dick", "Jane Doe");
+   Book book2(1, "The Whale", "John Smith");
+   Book book3(10, "Robing Hood", "Jessie Jackson");
+   Book book4(400, "Rolling", "Jessie Jackson");
+   Book book5(22, "Task Master", "Michael Monrowe");
 
-    // declare an empty linked list using its default constructor
-    BookBST *BST = new BookBST;
+   // declare an empty linked list using its default constructor
+   BookBST *BST = new BookBST;
 
-    BST->InsertBook(book1);  
-    BST->InsertBook(book2);
-    BST->InsertBook(book3);
-    BST->InsertBook(book4);
-    BST->InsertBook(book5);
-    BST->DisplayInorder(); 
+   BST->InsertBook(book1);
+   BST->InsertBook(book2);
+   BST->InsertBook(book3);
+   BST->InsertBook(book4);
+   BST->InsertBook(book5);
+   BST->DisplayInorder();
 */
-
 }

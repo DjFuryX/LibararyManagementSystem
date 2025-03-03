@@ -36,6 +36,11 @@ public:
         return password.GetPassword();
     }
 
+    Password* GetPasswordPtr()
+    {
+        return &password;
+    }
+
     // Mutators
     void SetName(string name)
     {

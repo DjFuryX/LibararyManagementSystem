@@ -89,10 +89,26 @@ public:
         return randomNumber;
     }
 
-    string EncryptPassword(){
-        return password;
-    }
+    void HashPassword()
+    {
+        string hashPassword;
+        int num;
+        // Traverse the string
+        for (auto &ch : password)
+        {
+            num=ch;
+            // Print current character
+            cout <<ch<< " : "<<num<<" : ";
 
+            num=num%11;
+
+            cout <<num<<" : "<<char(num)<<endl;
+            hashPassword += char(num);
+        }
+        //cout<<"HashPassword: "<<hashPassword<<endl;
+
+        password = hashPassword;
+    }
 };
 
 #endif
