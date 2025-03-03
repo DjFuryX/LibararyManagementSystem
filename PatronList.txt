@@ -1,6 +1,0 @@
-Name: Norman
-Password: Login
-Name: Bob
-Password: Notset
-Name: Dave
-Password: Notset

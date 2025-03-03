@@ -12,7 +12,7 @@ private:
     string username;
     string password;
     static int tempPasswordlenght; // lenght of password
-    static int key;            // key to encrypt and decrypt password
+    static int key;                // key to encrypt and decrypt password
 
 public:
     // constructors
@@ -99,15 +99,12 @@ public:
         int divisions;
         int count = password.length();
         // Traverse the string
-        for (int i = 0; i <count; i++)
+        for (int i = 0; i < count; i++)
         {
             num = password[i]; // store character as int
 
             remainder = num % key; // get the remainder when number is divided by key
             divisions = num / key; // get number of divsions
-            cout<<"num: "<<num;
-            cout<<" divisions: "<<divisions;
-            cout<<" remainder: "<<remainder<<endl;
             // assign new number to string as a character
             // Hashed password should be twice as long
             hashPassword += char(divisions);
@@ -126,16 +123,12 @@ public:
         int divisions;
         int count = password.length();
         // Traverse the string
-        for (int i = 0; i < count; i+=2)
+        for (int i = 0; i < count; i += 2)
         {
 
-            divisions = password[i]; // get number of divsions
-            remainder = password[i+1]; // get the remainder when number is divided by key
-            num = (key*divisions)+remainder; // calculate original number 
-
-            cout<<"num: "<<num;
-            cout<<" divisions: "<<divisions;
-            cout<<" remainder: "<<remainder<<endl;
+            divisions = password[i];             // get number of divsions
+            remainder = password[i + 1];         // get the remainder when number is divided by key
+            num = (key * divisions) + remainder; // calculate original number
             // assign new number to string as a character
             unHashPassword += char(num);
         }
@@ -147,5 +140,4 @@ public:
 
 int Password::tempPasswordlenght = 6;
 int Password::key = 65;
-
 #endif

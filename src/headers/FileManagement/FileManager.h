@@ -17,18 +17,17 @@ public:
         // save patron list
         try
         {
-            ofstream outfile("PatronList.txt");
+            ofstream outfile("files/PatronList.txt");
             if (outfile.is_open())
             {
 
                 PatronNode *curr = library.GetPatronList().GetHead(); // point curr to the first element in the list.
 
-              while (curr != NULL) // while curr is pointing to a valid node
-               {
-                    outfile <<"Name: "<< curr->GetData().GetName()<<endl; //  the data for that node
-                    outfile <<"Password: "<<curr->GetData().GetPassword()<<endl; //  TO DO encrypt password
+                while (curr != NULL) // while curr is pointing to a valid node
+                {
+                    outfile << curr->GetData(); //  the data for that node
 
-                 curr=curr->GetNextNode();
+                    curr = curr->GetNextNode();
                 }
                 outfile.close();
             }
@@ -38,8 +37,12 @@ public:
             cerr << e.what() << endl;
         }
 
+        // save
+    }
 
-        //save 
+    void ReadData(){
+        
     }
 };
+
 
