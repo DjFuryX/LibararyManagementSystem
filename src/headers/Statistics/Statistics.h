@@ -58,7 +58,6 @@ public:
         cout << "Total Books: " << totalBooks << endl;
         cout << "Total Patrons: " << totalPatrons << endl;
         cout << "Total Current Checkouts: " << currentCheckouts << endl;
-         
     }
 
     ~Statistics() {}
