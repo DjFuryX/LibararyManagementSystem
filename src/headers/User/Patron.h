@@ -61,7 +61,6 @@ public:
 // Overrides How the objects of this class are stored as string
 ostream &operator<<(ostream &out, Patron c)
 {
-    c.GetPasswordPtr()->HashPassword(); //encypts Password
     out << c.GetLibraryNumber() << "|" << c.GetUsername() << "|" << c.GetPassword() << endl;
     return out;
 }

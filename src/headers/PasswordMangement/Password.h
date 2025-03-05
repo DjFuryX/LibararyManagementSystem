@@ -1,7 +1,7 @@
 
 #ifndef PASSWORD_H
 #define PASSWORD_H
-
+#include "sha256/SHA256.h"
 #include <iostream>
 using namespace std;
 
@@ -11,8 +11,8 @@ class Password
 private:
     string username;
     string password;
+    static string key; // key to generate Sha256 Hash of password
     static int tempPasswordlenght; // lenght of password
-    static int key;                // key to encrypt and decrypt password
 
 public:
     // constructors
@@ -93,51 +93,22 @@ public:
 
     void HashPassword()
     {
-        string hashPassword;
-        int num;
-        int remainder;
-        int divisions;
-        int count = password.length();
-        // Traverse the string
-        for (int i = 0; i < count; i++)
-        {
-            num = password[i]; // store character as int
-
-            remainder = num % key; // get the remainder when number is divided by key
-            divisions = num / key; // get number of divsions
-            // assign new number to string as a character
-            // Hashed password should be twice as long
-            hashPassword += char(divisions);
-            hashPassword += char(remainder);
-        }
-        // overwritecurrent password with hashPassworded
-        password = hashPassword;
+    
+        password = compute_hash(password+key);
     }
 
-    void UnHashPassword()
-    {
+    bool comparePassword(string pass){
 
-        string unHashPassword;
-        int num;
-        int remainder;
-        int divisions;
-        int count = password.length();
-        // Traverse the string
-        for (int i = 0; i < count; i += 2)
-        {
+        pass=compute_hash(pass+key);
 
-            divisions = password[i];             // get number of divsions
-            remainder = password[i + 1];         // get the remainder when number is divided by key
-            num = (key * divisions) + remainder; // calculate original number
-            // assign new number to string as a character
-            unHashPassword += char(num);
+        if (pass==password){
+            return true;
         }
-        // cout<<"HashPassword: "<<hashPassword<<endl;
-        // overwritecurrent password with hashPassworded
-        password = unHashPassword;
+        return false;
+
     }
 };
 
-int Password::tempPasswordlenght = 6;
-int Password::key = 65;
+string Password::key = "One and Only";
+int Password::tempPasswordlenght = 6; // lenght of password
 #endif

@@ -26,10 +26,7 @@ public:
     LibraryManagement(/* args */){
 
     }
-    ~LibraryManagement(){
-
-    }
-
+    
     PatronLinkList GetPatronList(){
 
         return patronList;
@@ -37,8 +34,13 @@ public:
 
     void SetPatronList(PatronLinkList plist){
 
-        patronList =plist;
+        patronList = plist;
     }
+
+    ~LibraryManagement(){
+
+    }
+
 
 
 };
