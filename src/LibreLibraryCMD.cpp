@@ -1,93 +1,137 @@
+#define BCK "\x1b[1F"  // define line clear for console print
+#define CYN "\x1B[36m" // define colour yellow for console print
+#define YEL "\x1B[33m" // define colour yellow for console print
+#define RED "\x1B[31m" // define colour red for console print
+#define GRN "\x1B[32m" // define colour green for console print
+#define RST "\x1B[0m"  // define colour white for console print
+#include <limits>
 
 // testing Remove afterwards
 #include "headers/PasswordMangement/Password.h"
 #include "headers/User/Admin.h"
 #include "headers/LibraryManagement.h"
 #include "headers/FileManagement/FileManager.h"
+
+void mainMenu(User *);
+void Login(User *);
+void Menu();
+int GetUserInputInt();
+string GetUserInputStr();
+
 int main()
 {
+  User *user = new User;
 
-  // testing patron Sinlge link List
-  //---------------------------------------------------
-  PatronLinkList *list = new PatronLinkList;
+  FileManager *filemanager = new FileManager;
 
-  Patron patron1("Norman");
-  Patron patron2("Dave");
-  Patron patron3("Bob");
+  LibraryManagement *library = new LibraryManagement;
 
-  patron1.SetPassword("Login");
-  // hashPassword
-  patron1.GetPasswordPtr()->HashPassword();
-  cout << "Hashed Password: " << patron1.GetPasswordPtr()->GetPassword() << endl;
-  cout << "Please enter your Password" << endl;
-  string password;
-  cin >> password;
-  bool result;
-  result = patron1.GetPasswordPtr()->comparePassword(password);
+  filemanager->ReadData(library);
 
-  cout << (result ? "Successful" : "Failed")<<endl;
+  library->GetPatronList()->DisplayList();
 
-  // patron1.GetPasswordPtr()->UnHashPassword();
-  // cout<<"UnHashed Password: "<<patron1.GetPasswordPtr()->GetPassword()<<endl;
+  mainMenu(user);
 
-  patron1.Display();
+  // filemanager.SaveData(*library);
 
-  list->InsertByLibaryNumber(patron1);
-  list->InsertByLibaryNumber(patron2);
-  list->InsertByLibaryNumber(patron3);
+  cout << "GoodbyeClosing application......." << endl; // closing message
+  return 0;                                            // 0 indicates that the program terminated successfully
+}
 
-  list->DisplayList();
+void mainMenu(User *userPtr)
+{
+  Menu();                         // Show menu options
+  int option = GetUserInputInt(); // get user option
 
-  // testing FileManager
+  while (option != 0)
+  { // Start while loop for main menu
 
-  FileManager filemanager;
+    switch (option)
+    { // case structure is used to determine option selected
+    case 1:
+      userPtr = new Patron;
+      Login(userPtr);
+      break;
+    case 2:
+      userPtr = new Admin;
+      Login(userPtr);
+      break;
+    default: // if an invalid number is entered
+      cout << "Invalid option chosen" << endl;
+      break;
+    } // end switch case
+    Menu();            // get user option
+    GetUserInputInt(); // get user option
+    system("pause");
+  }
+}
 
-  LibraryManagement library;
+void Menu()
+{
+  // Get current date and time
+  time_t timestamp;
+  time(&timestamp);
+  system("cls");
+  cout << "Date: " << ctime(&timestamp) << endl; // print current date and time
+  // prints a menu so the user can select their desired choice
+  cout << GRN "\n\t\t                             Libre                               " RST << endl;
+  cout << "\n\t\t +----------------------------+ Please Login +---------------------------+" << endl;
+  cout << "  \t\t | " CYN "1." RST "  Patron                                                            |" << endl;
+  cout << "\n\t\t | " CYN "2." RST "  Admin                                                             |" << endl;
+  cout << "\n\t\t | " CYN "0." RST "  Exit                                                              |" << endl;
+  cout << "\t\t +-----------------------------------------------------------------------+" << endl;
+  cout << "\nPlease select with the " CYN "digits" RST " on the left:  " << endl; // prompts for user choice
+}
 
-  library.SetPatronList(*list);
+void Login(User *user)
+{
 
-  filemanager.SaveData(library);
+  cout << "Please Enter Your Credentials: ";
+  // user->Login(GetUserInputStr(), GetUserInputStr());
+}
 
-  // testing admin login
-  //---------------------------------------------------
-  /*  Admin newAdmin;
+int GetUserInputInt()
+{
+  int option;
 
-   string username;
-   string password;
-   bool result;
+  cout << "Please type in a number: ";
+  cin >> option;
 
-   cout<<endl;
-  cout<<"User Name: "<<endl;
-  cin>> username;
-   cout<<"Password: "<<endl;
-   cin>>password;
+  if (cin.eof())
+  {
+    cout << endl;
+    return 1;
+  }
+  else if (cin.fail())
+  {
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "Integer input required. Try again.\n";
+  }
 
-   result = newAdmin.Login(username,password);
+  system("cls");
+  return option;
+}
 
-   cout<<(result? "Login Succesful" : "Login Failed")<<endl; */
-  //---------------------------------------------------
-  // testing password generation
-  // Password newPassword;
+string GetUserInputStr()
+{
+  string option;
 
-  // newPassword.GenerateTemporayPassword();
+  cout << "Please type in a String: ";
+  cin >> option;
 
-  //---------------------------------------------------
-  // testing Binary Search tree
-  // create students using primary constructor
-  /* Book book1(4, "Moby Dick", "Jane Doe");
-   Book book2(1, "The Whale", "John Smith");
-   Book book3(10, "Robing Hood", "Jessie Jackson");
-   Book book4(400, "Rolling", "Jessie Jackson");
-   Book book5(22, "Task Master", "Michael Monrowe");
+  if (cin.eof())
+  {
+    cout << endl;
+    return string(" ");
+  }
+  else if (cin.fail())
+  {
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "Integer input required. Try again.\n";
+  }
 
-   // declare an empty linked list using its default constructor
-   BookBST *BST = new BookBST;
-
-   BST->InsertBook(book1);
-   BST->InsertBook(book2);
-   BST->InsertBook(book3);
-   BST->InsertBook(book4);
-   BST->InsertBook(book5);
-   BST->DisplayInorder();
-*/
+  system("cls");
+  return option;
 }

@@ -29,8 +29,6 @@ public:
         return Head;
     }
 
-
-
     // Mutator
     void SetHead(PatronNode *head)
     {
@@ -119,6 +117,7 @@ public:
             cerr << "Error! List is full (Out of Memory), can NOT add a new node" << endl;
         }
     }
+    
 
     int CountNodes()
     {

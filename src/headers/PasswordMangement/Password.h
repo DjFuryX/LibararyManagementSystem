@@ -11,7 +11,7 @@ class Password
 private:
     string username;
     string password;
-    static string key; // key to generate Sha256 Hash of password
+    static string key;             // key to generate Sha256 Hash of password
     static int tempPasswordlenght; // lenght of password
 
 public:
@@ -93,19 +93,20 @@ public:
 
     void HashPassword()
     {
-    
-        password = compute_hash(password+key);
+
+        password = compute_hash(password + key);
     }
 
-    bool comparePassword(string pass){
+    bool comparePassword(string pass)
+    {
 
-        pass=compute_hash(pass+key);
+        pass = compute_hash(pass + key);
 
-        if (pass==password){
+        if (pass == password)
+        {
             return true;
         }
         return false;
-
     }
 };
 

@@ -1,8 +1,5 @@
-
 #ifndef USER_H
 #define USER_H
-#include "src/headers/PasswordMangement/Password.h"
-
 #include <iostream>
 using namespace std;
 
@@ -36,7 +33,7 @@ public:
         return password.GetPassword();
     }
 
-    Password* GetPasswordPtr()
+    Password *GetPasswordPtr()
     {
         return &password;
     }
@@ -46,7 +43,9 @@ public:
     {
         password.SetUsername(name);
     }
-    void SetPassword(string userPassword){
+
+    void SetPassword(string userPassword)
+    {
         password.SetPassword(userPassword);
     }
 

@@ -20,21 +20,22 @@ private:
     //TO DO---- BookStack bookstack;
 
     //Statistic object
-    Statistics stats;
+    Statistics statistics;
 
 public:
-    LibraryManagement(/* args */){
+    LibraryManagement(/* args */):patronList(),bookList(),statistics()
+    {
 
     }
     
-    PatronLinkList GetPatronList(){
+    PatronLinkList *GetPatronList(){
 
-        return patronList;
+        return &patronList;
     }
 
-    void SetPatronList(PatronLinkList plist){
+    void SetPatronList(PatronLinkList *plist){
 
-        patronList = plist;
+        patronList = *plist;
     }
 
     ~LibraryManagement(){
