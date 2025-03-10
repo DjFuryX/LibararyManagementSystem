@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-// abstract user classs
+//user classs
 class User
 {
 private:

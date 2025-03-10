@@ -20,6 +20,7 @@ private:
     //TO DO---- BookStack bookstack;
 
     //Statistic object
+    //TO Do
     Statistics statistics;
 
 public:
