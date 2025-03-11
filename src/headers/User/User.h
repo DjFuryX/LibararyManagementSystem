@@ -2,7 +2,7 @@
 #define USER_H
 #include <iostream>
 using namespace std;
-
+#include "src/headers/PasswordMangement/Password.h"
 //user classs
 class User
 {
@@ -52,6 +52,11 @@ public:
     int generatetandomNumber(int min, int max)
     {
         return password.GenerateRandomNumber(min, max);
+    }
+
+
+    string GenerateTempPassword(){
+        return password.GenerateTemporayPassword();
     }
 
     bool Login(string username, string password)

@@ -1,7 +1,7 @@
 // Node.h
 #ifndef Node_H
 #define Node_H
-#include "BookNodeStack.h"
+#include "BookStkNode.h"
 using namespace std;
 
 

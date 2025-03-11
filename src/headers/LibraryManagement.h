@@ -3,7 +3,10 @@
 #define LIBRARYMANAGEMENT_H
 #include "User/PatronLinkList.h"
 #include "Books/BookBST.h"
+#include "Books/BookStack.h"
 #include "Statistics/Statistics.h"
+#include "User/Admin.h"
+#include "User/Patron.h"
 
 class LibraryManagement
 {

@@ -7,10 +7,9 @@
 #include <limits>
 
 // testing Remove afterwards
-#include "headers/PasswordMangement/Password.h"
-#include "headers/User/Admin.h"
+
 #include "headers/LibraryManagement.h"
-#include "headers/FileManagement/FileManager.h"
+#include "src/headers/FileManagement/FileManager.h"
 
 void mainMenu(User *);
 void Login(User *);

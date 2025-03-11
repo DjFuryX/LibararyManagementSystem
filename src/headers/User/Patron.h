@@ -44,12 +44,17 @@ public:
         libraryID = libNumb;
     }
 
+    void SetTemporaryPassword()
+    {
+        SetPassword(GenerateTempPassword());
+    }
+
     // display patron details
     void Display()
     {
         cout << "Patron Name: " << GetName() << endl;
-        cout << "Patron Library Number: " << libraryID <<endl;
-        cout << "Patron PassWord Hash: " << GetPassword() << endl;
+        cout << "Patron Library Number: " << libraryID << endl;
+        cout << "Patron PassWord: " << GetPassword() << endl;
     }
 
     int GenerateLibraryID()
@@ -69,17 +74,17 @@ ostream &operator<<(ostream &out, Patron c)
 std::istream &operator>>(std::istream &is, Patron &p)
 {
 
-    //tempororary varaibles to hold class atributes
-    int libraryNumber=0;
+    // tempororary varaibles to hold class atributes
+    int libraryNumber = 0;
     string name, password;
     char delim;
 
     // Read input values separated by '|'
-    is >> libraryNumber >> delim;//read patron id
-    getline(is, name, '|');// read patron name
-    getline(is, password); //read patron password should already be hashed
+    is >> libraryNumber >> delim; // read patron id
+    getline(is, name, '|');       // read patron name
+    getline(is, password);        // read patron password should already be hashed
 
-    //use muttators to set vaules
+    // use muttators to set vaules
     p.SetLibraryNumber(libraryNumber);
     p.SetName(name);
     p.SetPassword(password);

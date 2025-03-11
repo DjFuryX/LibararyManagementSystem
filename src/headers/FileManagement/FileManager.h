@@ -11,8 +11,6 @@ public:
     FileManager(/* args */) {};
     ~FileManager() {};
 
-
-    
     void SaveData(LibraryManagement library)
     {
 
