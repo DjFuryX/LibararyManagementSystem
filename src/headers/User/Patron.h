@@ -44,11 +44,6 @@ public:
         libraryID = libNumb;
     }
 
-    void SetTemporaryPassword()
-    {
-        SetPassword(GenerateTempPassword());
-    }
-
     // display patron details
     void Display()
     {

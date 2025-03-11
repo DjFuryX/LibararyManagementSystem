@@ -26,6 +26,8 @@ private:
     //TO Do
     Statistics statistics;
 
+    User *user;
+
 public:
     LibraryManagement(/* args */):patronList(),bookList(),statistics()
     {
@@ -42,9 +44,15 @@ public:
         patronList = *plist;
     }
 
+
+    void SetUser(User *newUser){
+        user = newUser;
+    }
+
     ~LibraryManagement(){
 
     }
+
 
 
 

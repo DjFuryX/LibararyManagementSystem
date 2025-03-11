@@ -8,15 +8,15 @@ private:
     LoginScene *Login;
     RegisterScene *Register;
     Scene *current;
-    FileManager filemanager;// Filemanager to save patron list,statistiscs and book list
-    LibraryManagement library; //Library Manager with all list and user classes
+    FileManager filemanager;   // Filemanager to save patron list,statistiscs and book list
+    LibraryManagement library; // Library Manager with all list and user classes
+    
 
 public:
     SceneManager()
     {
         Login = new LoginScene;
         Register = new RegisterScene;
-
         current = Login;
     }
 
@@ -28,32 +28,42 @@ public:
 
     void Update()
     {
-        if (Login->RegisterButton())
-        {
-            current = Register;
-           // cout << "Register Pressed" << endl;
+
+        if (current == Login)
+        { // On login screen
+            if (Login->RegisterButton())
+            {
+                current = Register;
+                // cout << "Register Pressed" << endl;
+            }
         }
 
-      
-
-        if(current==Register){// On register scene
+        if (current == Register)
+        { // On register scene
 
             if (Register->LoginButton())
             {
                 current = Login;
-               //cout << "back to Login Pressed" << endl;
+                // cout << "back to Login Pressed" << endl;
             }
 
-            if(Register->RegisterButton()){
-            
-             Patron newPatron(Register->GetUserName());
-             newPatron.SetTemporaryPassword();
-             
-             Register->SetTempPasswordText(newPatron.GetPassword());
+            if (Register->RegisterButton())
+            {
+
+                Patron *newPatron = new Patron(Register->GetUserName());
+                string temp;
+                
+                // TO DO Add check to ensure Username is unique and not
+
+                temp=newPatron->GenerateTempPassword();
+                newPatron->SetPassword(temp);
+
+                Register->SetTempPasswordText(temp);
+
+                library.SetUser(newPatron);
+                
 
             }
-
         }
-
     }
 };

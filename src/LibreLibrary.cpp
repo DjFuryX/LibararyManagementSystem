@@ -14,7 +14,6 @@ int main()
     InitWindow(screenWidth, screenHeight, "LIBRE");
     MaximizeWindow();
     SetWindowMinSize(GetScreenWidth(), GetScreenHeight());
-    
 
     SetWindowIcon(icon);
     SetTargetFPS(60);
@@ -30,6 +29,7 @@ int main()
 
         EndDrawing();
     }
+
     UnloadImage(icon);
     CloseWindow();
 }

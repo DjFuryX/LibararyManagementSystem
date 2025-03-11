@@ -51,12 +51,13 @@ public:
         {
             buttonClear(usernameInput, userInput, (char *)"Please enter name");
         };
+       
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
         GuiLabelFont((Rectangle){centerPositionHorizontal(500), 500, 500, 50}, "Temporary Password", textFont, 30, 0x000000ff);
+        
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
-
         GuiLabelFont((Rectangle){centerPositionHorizontal(500), 550, 500, 50}, TemporaryPasword, textFont, 50, 0x000000ff);
-
+        
         GuiSetStyle(DEFAULT, TEXT_SIZE, 25);
         newUser = GuiButton((Rectangle){centerPositionHorizontal(400), 700, 400, 50}, "Register");
 
@@ -92,8 +93,10 @@ public:
     }
 
     void SetTempPasswordText(string text)
-    {
+    {   
+        cout<<"Text Changed--"<<TemporaryPasword<<" : "<<text<<endl;
         strcpy(TemporaryPasword, text.c_str());
+        
     }
 };
 

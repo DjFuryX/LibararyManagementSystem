@@ -5,7 +5,6 @@
 #include <iostream>
 using namespace std;
 
-/// @brief Handles password creation and encryption
 class Password
 {
 private:
@@ -20,6 +19,7 @@ public:
     {
         username = "Notset";
         password = "Notset";
+        srand(time(NULL)); // Initialization, should only be called once outside of loop to get random seed
     };
 
     Password(string name)
@@ -61,7 +61,7 @@ public:
         string tempPassword; // empty string to store password
         int randomNumber;
 
-        srand(time(NULL)); // Initialization, should only be called once outside of loop to get random seed
+        
 
         for (int element = 0; element < tempPasswordlenght; element++) // for lenght of password
         {
