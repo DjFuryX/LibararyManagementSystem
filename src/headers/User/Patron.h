@@ -32,12 +32,6 @@ public:
         return libraryID;
     }
 
-    string GetUsername()
-    {
-
-        return GetName();
-    }
-
     // Setter methods
     void SetLibraryNumber(int libNumb) // will propblaby not be used id is genereated automatically
     {
@@ -47,22 +41,32 @@ public:
     // display patron details
     void Display()
     {
-        cout << "Patron Name: " << GetName() << endl;
+        cout << "Patron Name: " << GetLoginInfo()->GetUsername() << endl;
         cout << "Patron Library Number: " << libraryID << endl;
-        cout << "Patron PassWord: " << GetPassword() << endl;
+        cout << "Patron PassWord: " << GetLoginInfo()->GetPassword() << endl;
     }
 
     int GenerateLibraryID()
     {
-        // usese random generation function from Password class
-        return generatetandomNumber(5000, 7000); // new ID in range specified
+        // usese random generation function from LoginInfo class
+        return GetLoginInfo()->GenerateRandomNumber(5000, 7000); // new ID in range specified
+    }
+
+    bool Login(string username, string password)
+    {
+        // Login Function
+        if (username == GetLoginInfo()->GetUsername() && GetLoginInfo()->comparePassword(password))
+        {
+            return true;
+        }
+        return false;
     }
 };
 
 // Overrides How the objects of this class are stored as string
 ostream &operator<<(ostream &out, Patron c)
 {
-    out << c.GetLibraryNumber() << "|" << c.GetUsername() << "|" << c.GetPassword() << endl;
+    out << c.GetLibraryNumber() << "|" << c.GetLoginInfo()->GetUsername() << "|" << c.GetLoginInfo()->GetPassword() << endl;
     return out;
 }
 
@@ -81,8 +85,8 @@ std::istream &operator>>(std::istream &is, Patron &p)
 
     // use muttators to set vaules
     p.SetLibraryNumber(libraryNumber);
-    p.SetName(name);
-    p.SetPassword(password);
+    p.GetLoginInfo()->SetUsername(name);
+    p.GetLoginInfo()->SetPassword(password);
     // return stream;
     return is;
 }

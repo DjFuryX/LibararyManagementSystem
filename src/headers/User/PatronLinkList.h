@@ -131,7 +131,7 @@ public:
         return count; // return number of elements in list
     }
 
-    bool SearchForPatron(int librayNumber)
+    bool SearchByID(int librayNumber)
     {
         bool isFound = false;
 
@@ -147,6 +147,38 @@ public:
         }
 
         return isFound;
+    }
+
+    bool SearchByName(string patronName){
+        bool isFound = false;
+        PatronNode *curr = Head;   // point curr to the first element in the list.
+        while (curr != NULL) // while curr is pointing to a valid node
+        {
+            if (curr->GetData().GetLoginInfo()->GetUsername() == patronName) // if the curr node has the data we are searching for
+            {
+                isFound = true; // set the bool to true (element found)
+                break;          // jump out of loop
+            }
+            curr = curr->GetNextNode(); // point curr to IT'S next node
+        }
+    
+        return isFound;
+    }
+
+    Patron* GetPatron(string username){
+        PatronNode *curr = Head;   // point curr to the first element in the list.
+        while (curr != NULL) // while curr is pointing to a valid node
+        {
+            if (curr->GetDataPtr()->GetLoginInfo()->GetUsername() == username) // if the curr node has the data we are searching for
+            {
+                return curr->GetDataPtr();
+                break;          // jump out of loop
+            }
+            curr = curr->GetNextNode(); // point curr to IT'S next node
+        }
+    
+        return NULL;
+
     }
 
     void DisplayList()

@@ -11,10 +11,10 @@ private:
     Color LoginBoxColor;
     Rectangle loginBox;
 
-    bool usernameInput;
-    char userInput[128] = "Please enter name";
-    bool userPasswordInput;
-    char userPasword[128] = "Please enter Password";
+    bool usernameTextBox;
+    char nameInput[128] = "Please enter name";
+    bool passwordTextBox;
+    char PasswordInput[128] = "Please enter Password";
 
     bool backToLogin;
 
@@ -27,8 +27,8 @@ public:
         Scene::backgroundColor = LIGHTGRAY;
         loginBox = {400, 300, 600, 700};
         LoginBoxColor = DARKGRAY;
-        usernameInput = false;
-        userPasswordInput = false;
+        usernameTextBox = false;
+        passwordTextBox = false;
         backToLogin = false;
         newUser = false;
     }
@@ -47,9 +47,9 @@ public:
 
         GuiLabelFont((Rectangle){position - 200, 380, 1000, 50}, "Username", textFont, 25, 0x000000ff);
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);
-        if (GuiTextBox((Rectangle){centerPositionHorizontal(500), 420, 500, 50}, userInput, 128, usernameInput))
+        if (GuiTextBox((Rectangle){centerPositionHorizontal(500), 420, 500, 50}, nameInput, 128, usernameTextBox))
         {
-            buttonClear(usernameInput, userInput, (char *)"Please enter name");
+            buttonClear(usernameTextBox, nameInput, (char *)"Please enter name");
         };
        
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
@@ -87,14 +87,14 @@ public:
         return newUser;
     }
 
-    string GetUserName()
+    string GetUserNameInput()
     {
-        return userInput;
+        return nameInput;
     }
 
     void SetTempPasswordText(string text)
     {   
-        cout<<"Text Changed--"<<TemporaryPasword<<" : "<<text<<endl;
+        //cout<<"Text Changed--"<<TemporaryPasword<<" : "<<text<<endl;
         strcpy(TemporaryPasword, text.c_str());
         
     }

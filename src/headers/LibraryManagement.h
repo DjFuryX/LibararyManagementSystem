@@ -1,4 +1,4 @@
-//overal System manager handles input and flow of program
+// overal System manager handles input and flow of program
 #ifndef LIBRARYMANAGEMENT_H
 #define LIBRARYMANAGEMENT_H
 #include "User/PatronLinkList.h"
@@ -12,50 +12,59 @@ class LibraryManagement
 {
 private:
     /* data */
-    //list of patrons
+    // list of patrons
     PatronLinkList patronList;
 
-    //link list of books
+    // link list of books
     //---- BooKList bookList
-    //Binary search tree of books 
+    // Binary search tree of books
     BookBST bookList;
-    //stack of books //checkout system
-    //TO DO---- BookStack bookstack;
+    // stack of books //checkout system
+    // TO DO---- BookStack bookstack;
 
-    //Statistic object
-    //TO Do
+    // Statistic object
+    // TO Do
     Statistics statistics;
 
     User *user;
 
 public:
-    LibraryManagement(/* args */):patronList(),bookList(),statistics()
+    LibraryManagement(/* args */) : patronList(), bookList(), statistics()
     {
-
+        user = NULL;
     }
-    
-    PatronLinkList *GetPatronList(){
+
+    PatronLinkList *GetPatronList()
+    {
 
         return &patronList;
     }
 
-    void SetPatronList(PatronLinkList *plist){
+    void SetPatronList(PatronLinkList *plist)
+    {
 
         patronList = *plist;
     }
 
-
-    void SetUser(User *newUser){
+    void SetUser(User *newUser)
+    {
         user = newUser;
     }
 
-    ~LibraryManagement(){
-
+    User *GetUser()
+    {
+        return user;
     }
 
+    void Login(string username, string password)
+    {
 
+        // if not search patron list for username and call that login function
+    }
 
-
+    ~LibraryManagement()
+    {
+    }
 };
 
 #endif

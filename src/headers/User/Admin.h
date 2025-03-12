@@ -14,10 +14,6 @@ public:
     ~Admin(){
 
     };
-    
-    void AddBooks(){
-
-    }
 
 };
 

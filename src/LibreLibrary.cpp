@@ -17,7 +17,6 @@ int main()
 
     SetWindowIcon(icon);
     SetTargetFPS(60);
-
     SceneManager *scene= new SceneManager;// Creates a Scene Manager that shows the login screen
 
     while (!WindowShouldClose())

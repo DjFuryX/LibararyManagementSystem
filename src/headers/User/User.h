@@ -2,67 +2,42 @@
 #define USER_H
 #include <iostream>
 using namespace std;
-#include "src/headers/PasswordMangement/Password.h"
+#include "src/headers/PasswordMangement/LoginInfo.h"
 //user classs
 class User
 {
 private:
-    Password password;
+    LoginInfo loginInfo;
 
 public:
-    User(/* args */) : password() { // initialize (composition) of password using its default constructor
+    User(/* args */) : loginInfo() { // initialize (composition) of loginInfo using its default constructor
 
                        };
 
-    User(string username) : password(username) { // call primary constructor to create username
+    User(string username) : loginInfo(username) { // call primary constructor to create username
 
                             };
 
-    User(string username, string Password) : password(username, Password) // primary constructor for Admin only
+    User(string username, string LoginInfo) : loginInfo(username, LoginInfo) // primary constructor for Admin only
     {
     }
 
     // Accessors
-    string GetName()
+    LoginInfo *GetLoginInfo()
     {
-        return password.GetUsername();
-    }
-
-    string GetPassword()
-    {
-        return password.GetPassword();
-    }
-
-    Password *GetPasswordPtr()
-    {
-        return &password;
+        return &loginInfo;
     }
 
     // Mutators
-    void SetName(string name)
+    void SetLoginInfo(LoginInfo userPassword)
     {
-        password.SetUsername(name);
+       loginInfo = userPassword;
     }
 
-    void SetPassword(string userPassword)
-    {
-        password.SetPassword(userPassword);
-    }
+   virtual bool Login(string username, string userpassword)
+    { // Login Function
 
-    int generatetandomNumber(int min, int max)
-    {
-        return password.GenerateRandomNumber(min, max);
-    }
-
-
-    string GenerateTempPassword(){
-        return password.GenerateTemporayPassword();
-    }
-
-    bool Login(string username, string password)
-    { // Login Function to determine if user is a admin or Patron
-
-        if (username == GetName() && password == GetPassword())
+        if (username == loginInfo.GetUsername() && userpassword == loginInfo.GetPassword())
         {
             return true;
         }

@@ -11,11 +11,12 @@ private:
     Color LoginBoxColor;
     Rectangle loginBox;
 
-    bool usernameInput;
-    char userInput[128] = "Please enter name";
-    bool userPasswordInput;
-    char userPasword[128] = "Please enter Password";
-    bool registerPressed;
+    bool usernameTextBox;
+    char nameInput[128] = "Please enter name";
+    bool passwordTextBox;
+    char PasswordInput[128] = "Please enter Password";
+    bool registerBtn;
+    bool loginBtn;
 
 public:
     LoginScene()
@@ -23,9 +24,10 @@ public:
         Scene::backgroundColor = LIGHTGRAY;
         loginBox = {400, 300, 600, 700};
         LoginBoxColor = DARKGRAY;
-        usernameInput = false;
-        userPasswordInput = false;
-        registerPressed = false;
+        usernameTextBox = false;
+        passwordTextBox = false;
+        registerBtn = false;
+        loginBtn=false;
     }
 
     void Draw()
@@ -33,8 +35,8 @@ public:
         float position = centerPositionHorizontal(1000);
         ClearBackground(backgroundColor);
 
-        loginBox.x=centerPositionHorizontal(loginBox.width);
-        DrawRectangleRounded(loginBox, 0.2,0, Fade(LoginBoxColor, 0.2f));
+        loginBox.x = centerPositionHorizontal(loginBox.width);
+        DrawRectangleRounded(loginBox, 0.2, 0, Fade(LoginBoxColor, 0.2f));
 
         GuiLabelFont((Rectangle){position, 100, 1000, 50}, "Welcome to LIBRE", headingFont, 50, 0x686868ff);
         GuiLabelFont((Rectangle){position, 200, 1000, 50}, "A Comprehensive Library Management System", subheadingFont, 40, 0x000000ff);
@@ -42,39 +44,59 @@ public:
 
         GuiLabelFont((Rectangle){position - 200, 380, 1000, 50}, "Username", textFont, 25, 0x000000ff);
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);
-        if (GuiTextBox((Rectangle){centerPositionHorizontal(500), 420, 500, 50}, userInput, 128, usernameInput))
+        if (GuiTextBox((Rectangle){centerPositionHorizontal(500), 420, 500, 50}, nameInput, 128, usernameTextBox))
         {
-            buttonClear(usernameInput, userInput, (char *)"Please enter name");
+            buttonClear(usernameTextBox, nameInput, (char *)"Please enter name");
         };
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
         GuiLabelFont((Rectangle){position - 200, 500, 1000, 50}, "Password", textFont, 25, 0x000000ff);
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);
-        if (GuiTextBox((Rectangle){centerPositionHorizontal(500), 540, 500, 50}, userPasword, 128, userPasswordInput))
+        if (GuiTextBox((Rectangle){centerPositionHorizontal(500), 540, 500, 50}, PasswordInput, 128, passwordTextBox))
         {
-            buttonClear(userPasswordInput, userPasword, (char *)"Please enter Password");
+            buttonClear(passwordTextBox, PasswordInput, (char *)"Please enter Password");
         };
 
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
-        GuiButton((Rectangle){centerPositionHorizontal(400), 700, 400, 50}, "Login");
+        loginBtn = GuiButton((Rectangle){centerPositionHorizontal(400), 700, 400, 50}, "Login");
 
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
         GuiButton((Rectangle){centerPositionHorizontal(400), 800, 400, 50}, "Cancel");
 
-        registerPressed = (GuiLabelButton((Rectangle){position + 250, 850, 200, 50}, "New Then register"));
+        registerBtn = (GuiLabelButton((Rectangle){position + 250, 850, 200, 50}, "New Then register"));
 
         GuiLabelButton((Rectangle){position + 240, 900, 200, 50}, "Reset password");
     }
 
-    bool RegisterButton()
+
+    string GetNameInput(){
+
+        return nameInput;
+    }
+
+    string GetPasswordInput(){
+        
+        return PasswordInput;
+    }
+
+    bool RegisterBtnPressed()
     {
-        if (registerPressed==true){
-            registerPressed=false;
+        if (registerBtn == true)
+        {
+            registerBtn = false;
             return true;
         }
 
         return false;
     }
 
-
+    bool LoginBtnPressed()
+    {
+        if (loginBtn == true)
+        {
+            loginBtn = false;
+            return true;
+        }
+        return false;
+    }
 };
 #endif

@@ -89,12 +89,12 @@ public:
     void displayBookInfo()
     {
 
-        cout << "Title: " << title << "\n";
-        cout << "Author: " << author << "\n";
-        cout << "ISBN: " << ISBN << "\n";
+        cout << "Title: " << title << endl;
+        cout << "Author: " << author << endl;
+        cout << "ISBN: " << ISBN << endl;
         if (rentee != NULL)
         {
-            cout << "Book Rentee: " << rentee->GetUsername() << "\n";
+            cout << "Book Rentee: " << rentee->GetLoginInfo()->GetUsername() <<endl;
         }
     }
 

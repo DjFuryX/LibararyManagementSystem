@@ -66,6 +66,21 @@ public:
             strcpy(text, defaultText);
         }
     }
+    
+    bool ScreenPressed(){
+
+        Vector2 mousePoint = GetMousePosition();
+        Rectangle bounds ={0,0,(float)GetScreenHeight(),(float)GetScreenWidth()};
+
+        // Check button state
+        if (CheckCollisionPointRec(mousePoint, bounds) && (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) )
+        {
+            return true;
+        }
+        return false;
+    
+    }
+
 
     virtual void Update() {}
 

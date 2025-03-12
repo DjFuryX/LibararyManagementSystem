@@ -8,7 +8,7 @@ class PatronNode
 {
     // Class Attributes
 private:
-    Patron data;    // Data portion - Composition
+    Patron data;          // Data portion - Composition
     PatronNode *NextNode; // Link portion (dynamically declared)
 
 public:
@@ -49,6 +49,11 @@ public:
         return data;
     }
 
+    Patron *GetDataPtr()
+    {
+        return &data;
+    }
+
     PatronNode *GetNextNode()
     {
         return NextNode;
@@ -65,6 +70,5 @@ public:
         NextNode = nextNode;
     }
 };
-
 
 #endif
