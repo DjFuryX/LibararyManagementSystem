@@ -1,6 +1,6 @@
 // Node.h
-#ifndef Node_H
-#define Node_H
+#ifndef BOOKSTKNODE_H
+#define BOOKSTKNODE_H
 #include "Book.h"
 using namespace std;
 // Node object
