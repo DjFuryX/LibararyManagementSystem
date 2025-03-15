@@ -3,6 +3,7 @@
 #include "RegisterScene.h"
 #include "WelcomeScene.h"
 #include "PatronScene.h"
+#include "TileList.h"
 
 class SceneManager
 {
@@ -25,7 +26,9 @@ public:
         welcome = new WelcomeScene;
         patronScene = new PatronScene;
 
-        current = Login;
+        ///
+        current = patronScene;
+
         filemanager.ReadData(&library);
         library.GetPatronList()->DisplayList();
         ///
@@ -39,6 +42,10 @@ public:
 
     void Update()
     {
+        if (current == patronScene)
+        { // on regular user screen
+         
+        }
 
         if (current == Login)
         {                                    // On login screen
@@ -119,7 +126,7 @@ public:
 
             if (welcome->ScreenPressed())
             {
-                current=patronScene;
+                current = patronScene;
                 cout << "Screen has been pressed" << endl;
             }
         }

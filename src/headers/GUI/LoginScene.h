@@ -12,9 +12,9 @@ private:
     Rectangle loginBox;
 
     bool usernameTextBox;
-    char nameInput[128] = "Please enter name";
+    char nameInput[maxInputSize] = "Please enter name";
     bool passwordTextBox;
-    char PasswordInput[128] = "Please enter Password";
+    char PasswordInput[maxInputSize] = "Please enter Password";
     bool registerBtn;
     bool loginBtn;
 
@@ -44,14 +44,14 @@ public:
 
         GuiLabelFont((Rectangle){position - 200, 380, 1000, 50}, "Username", textFont, 25, 0x000000ff);
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);
-        if (GuiTextBox((Rectangle){centerPositionHorizontal(500), 420, 500, 50}, nameInput, 128, usernameTextBox))
+        if (GuiTextBox((Rectangle){centerPositionHorizontal(500), 420, 500, 50}, nameInput, maxInputSize,usernameTextBox))
         {
             buttonClear(usernameTextBox, nameInput, (char *)"Please enter name");
         };
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
         GuiLabelFont((Rectangle){position - 200, 500, 1000, 50}, "Password", textFont, 25, 0x000000ff);
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);
-        if (GuiTextBox((Rectangle){centerPositionHorizontal(500), 540, 500, 50}, PasswordInput, 128, passwordTextBox))
+        if (GuiTextBox((Rectangle){centerPositionHorizontal(500), 540, 500, 50}, PasswordInput, maxInputSize, passwordTextBox))
         {
             buttonClear(passwordTextBox, PasswordInput, (char *)"Please enter Password");
         };

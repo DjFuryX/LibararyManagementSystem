@@ -5,8 +5,11 @@
 #include <iostream>
 using namespace std;
 #include "raygui.h"
+#include <raymath.h>
 #include "src/headers/LibraryManagement.h"
 #include "src/headers/FileManagement/FileManager.h"
+
+#define maxInputSize 128
 
 class Scene
 {
@@ -15,7 +18,8 @@ protected:
     Font subheadingFont;
     Font textFont;
     Color backgroundColor;
-  
+    Rectangle bounds;
+
 public:
     Scene()
     {
@@ -36,7 +40,16 @@ public:
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
         // set background color
         backgroundColor = WHITE;
+        // screen clickable screen space
+        bounds = {0, 0, (float)GetScreenHeight(), (float)GetScreenWidth()};
+        // character limit for textbox input
 
+        // Load style properties provided
+       GuiSetStyle(TEXTBOX, BASE_COLOR_PRESSED,ColorToInt(WHITE));
+        GuiSetStyle(TEXTBOX, TEXT_COLOR_PRESSED,ColorToInt(BLACK));
+       // GuiSetStyle(TEXTBOX, TEXT_COLOR_NORMAL,ColorToInt(LIGHTGRAY));
+
+    
     }
 
     virtual void Draw()
@@ -66,24 +79,21 @@ public:
             strcpy(text, defaultText);
         }
     }
-    
-    bool ScreenPressed(){
+
+    bool ScreenPressed()
+    {
 
         Vector2 mousePoint = GetMousePosition();
-        Rectangle bounds ={0,0,(float)GetScreenHeight(),(float)GetScreenWidth()};
 
         // Check button state
-        if (CheckCollisionPointRec(mousePoint, bounds) && (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) )
+        if (CheckCollisionPointRec(mousePoint, bounds) && (IsMouseButtonDown(MOUSE_LEFT_BUTTON)))
         {
             return true;
         }
         return false;
-    
     }
 
-
     virtual void Update() {}
-
 };
 
 #endif

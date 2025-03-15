@@ -1,6 +1,6 @@
 
 #ifndef WELCOMESCENE_H
-#define WECLOMESCENE_H
+#define WELCOMESCENE_H
 #include "Scene.h"
 class WelcomeScene : public Scene
 {

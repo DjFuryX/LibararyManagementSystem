@@ -27,10 +27,10 @@ public:
      }
 
     // primary constructor leftnode
-    BookNode(Book data, BookNode *lefttNode,BookNode *rightNode) : Data(data) // initialize (composition) student using its copy constructor
+    BookNode(Book data, BookNode *lNode,BookNode *rNode) : Data(data) // initialize (composition) student using its copy constructor
     {
-        this->leftNode = leftNode;
-        this->rightNode = leftNode;
+        this->leftNode = lNode;
+        this->rightNode = rNode;
     }
 
     // primary constructor 3
