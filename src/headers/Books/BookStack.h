@@ -33,15 +33,17 @@ public:
     {
         if (isEmpty())
         {
-            //throw std::runtime_error("Stack is empty. Cannot pop."); //change
+            cout << "Stack is empty. Cannot pop." << endl;
+            return Book();
         }
 
-        BookStkNode *temp = top;
+        
+        BookStkNode *temp = top;  // stores the current top 
         Book poppedBook = temp->GetData();
-        top = top->GetNextNode();
+        top = top->GetNextNode();    // update the top pointer
         delete temp;
 
-        return poppedBook;
+        return poppedBook;  // return the book that was popped
     }
     
        /*  Book *searchByISBN(const int &isbn)
