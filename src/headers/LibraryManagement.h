@@ -20,7 +20,7 @@ private:
     // Binary search tree of books
     BookBST bookList;
     // stack of books //checkout system
-    // TO DO---- BookStack bookstack;
+    BookStack bookstack;
 
     // Statistic object
     // TO Do
