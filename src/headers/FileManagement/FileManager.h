@@ -43,6 +43,8 @@ public:
         }
     }
 
+    //To DO // add read and save for the statistics class and the book list
+
     void ReadData(LibraryManagement *library) // save Library information to sequential access file
     {
         // temporary patron object
