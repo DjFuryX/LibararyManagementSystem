@@ -29,7 +29,6 @@ public:
 
         for (int i = 0; i < 30; i++)
         {
-
             tilelist.insertByAuthor(Book(i + 5000, "Moby Dick", "Norman martin"));
         }
     }
@@ -42,14 +41,14 @@ public:
         tilelist.DrawList();
 
         DrawRectangleRec(sideBar, ORANGE);
-        DrawRectangleLinesEx(sideBar, 3, DARKGRAY); // Draw container border
-
+        DrawRectangleLinesEx(sideBar, 3, BLACK); // Draw container border
 
 
         DrawRectangleRec(topbar, RED);
-        DrawRectangleLinesEx(topbar, 3, DARKGRAY); // Draw container border
+        DrawRectangleLinesEx(topbar, 3, BLACK); // Draw container border
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);
-        if (GuiTextBoxRounded(searchBox, SearchInput, maxInputSize, SearchBoxPressed))
+        DrawRectangleRec(searchBox, WHITE);
+        if (GuiTextBox(searchBox, SearchInput, maxInputSize, SearchBoxPressed))
         {
             buttonClear(SearchBoxPressed, SearchInput, (char *)"Search..");
 

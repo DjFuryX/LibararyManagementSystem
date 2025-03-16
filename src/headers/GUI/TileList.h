@@ -19,6 +19,7 @@ private:
 
     Vector2 mousePoint;
     float mouseWheelSpeed;
+    int wheelMove;
     int rowCount;
     int coloumnCount;
     float offset;
@@ -28,28 +29,30 @@ private:
     float animationDuration; // Adjust duration as needed
 
     Texture2D bookTexture;
-    Image bookImage;
+ 
 
 public:
     // default constructor
     TileList() // Creates an empty list || 99% used
     {
-        bookImage = LoadImage("src/resources/images/Book.png");
-        bookTexture = LoadTextureFromImage(bookImage);
-
+    
         Head = NULL;
         LoadFont();
         panelScroll = 0;
         panel = {150, 100, (float)GetScreenWidth() - 150, (float)GetScreenHeight() - 100};
         mouseWheelSpeed = 50;
+        
+        wheelMove = 0;
         offset = 50;
         rowCount = 5;
+        coloumnCount = 0;
+        maxScroll = 0;
         minScroll = 0;
-        maxScroll = mouseWheelSpeed;
         targetScroll = 0;
         animationTime = 0;
-        // animationDuration = 0.00001f;
         animationDuration = 1;
+
+        bookTexture = LoadTexture("src/resources/images/Book.png");
     }
 
     // Accessors
@@ -310,18 +313,17 @@ public:
     void GetMouseScroll()
     {
         mousePoint = GetMousePosition();
+
         if (CheckCollisionPointRec(mousePoint, panel))
         {
-            float wheelMove = GetMouseWheelMove();
 
+            wheelMove = (int)GetMouseWheelMove();
+            wheelMove = Clamp(wheelMove, -1, 1);
             targetScroll += wheelMove * mouseWheelSpeed; // Vertical scroll
             animationTime = 0.0f;                        // Reset animation time
-           // cout<<"Target Scroll: "<<targetScroll;
-           // cout<<"Panel Scroll: "<<panelScroll<<endl;
         }
         animationTime += GetFrameTime(); // Increment animation time
         panelScroll = EaseExpoOut(animationTime, panelScroll, targetScroll - panelScroll, animationDuration);
-
         targetScroll = Clamp(targetScroll, -maxScroll, minScroll);
     }
 

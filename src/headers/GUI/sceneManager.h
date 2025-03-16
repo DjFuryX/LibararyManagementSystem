@@ -30,7 +30,7 @@ public:
         current = patronScene;
 
         filemanager.ReadData(&library);
-        library.GetPatronList()->DisplayList();
+    // library.GetPatronList()->DisplayList();
         ///
     }
 

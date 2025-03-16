@@ -45,8 +45,8 @@ public:
         // character limit for textbox input
 
         // Load style properties provided
-       GuiSetStyle(TEXTBOX, BASE_COLOR_PRESSED,ColorToInt(WHITE));
-        GuiSetStyle(TEXTBOX, TEXT_COLOR_PRESSED,ColorToInt(BLACK));
+       //GuiSetStyle(TEXTBOX, BASE_COLOR_PRESSED,ColorToInt(WHITE));
+       // GuiSetStyle(TEXTBOX, TEXT_COLOR_PRESSED,ColorToInt(BLACK));
        // GuiSetStyle(TEXTBOX, TEXT_COLOR_NORMAL,ColorToInt(LIGHTGRAY));
 
     

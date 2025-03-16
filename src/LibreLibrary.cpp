@@ -5,31 +5,28 @@
 #include "./headers/gui/SceneManager.h"
 int main()
 {
-    constexpr int screenWidth = 800;
-    constexpr int screenHeight = 600;
-    Image icon = LoadImage("src/resources/images/LibraryManagementSystemIcon.png");
+  constexpr int screenWidth = 800;
+  constexpr int screenHeight = 600;
+  Image icon = LoadImage("src/resources/images/Icon.png");
 
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE); // Window configuration flags
+  SetConfigFlags(FLAG_WINDOW_RESIZABLE); // Window configuration flags
 
-    InitWindow(screenWidth, screenHeight, "LIBRE");
-    MaximizeWindow();
-    SetWindowMinSize(GetScreenWidth(), GetScreenHeight());
+  InitWindow(screenWidth, screenHeight, "LIBRE");
+  SetWindowIcon(icon);
+  MaximizeWindow();
+  SetWindowMinSize(GetScreenWidth(), GetScreenHeight());
+  SetTargetFPS(60);
 
-    SetWindowIcon(icon);
-    //
-    SetTargetFPS(60);
-    SceneManager *scene = new SceneManager; // Creates a Scene Manager that shows the login screen
+  SceneManager *scene = new SceneManager; // Creates a Scene Manager that shows the login screen
 
-    while (!WindowShouldClose())
-    {
-        BeginDrawing();
+  while (!WindowShouldClose())
+  {
+    BeginDrawing();
+    scene->Draw();
+    scene->Update();
+    EndDrawing();
+  }
 
-        scene->Draw();
-        scene->Update();
-
-        EndDrawing();
-    }
-
-    UnloadImage(icon);
-    CloseWindow();
+  UnloadImage(icon);
+  CloseWindow();
 }

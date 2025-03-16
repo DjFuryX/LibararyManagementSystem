@@ -122,7 +122,6 @@ public:
         bookTile.y += scrollOffset;
         if (CheckCollisionPointRec(mousePoint, bookTile) && (IsMouseButtonDown(MOUSE_LEFT_BUTTON)))
         {
-            book.displayBookInfo();
             return true;
         }
         return false;
