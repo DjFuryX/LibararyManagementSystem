@@ -31,7 +31,7 @@ private:
 public:
     LibraryManagement(/* args */) : patronList(), bookList(), statistics()
     {
-        user = NULL;
+        user = new User;
     }
 
     PatronLinkList *GetPatronList()

@@ -21,7 +21,7 @@ public:
     // Primary
     Patron(string name) : User(name) // Create patron and set username  //no password set
     {
-        // TO do ensure Id number does not exist already
+        // TO do --- ensure Id number does not exist already
         libraryID = GenerateLibraryID();
         // libraryID = 0;
     }

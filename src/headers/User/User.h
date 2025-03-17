@@ -34,7 +34,7 @@ public:
        loginInfo = userPassword;
     }
 
-   virtual bool Login(string username, string userpassword)
+   virtual bool Login(string username, string userpassword)// registering for the first time
     { // Login Function
 
         if (username == loginInfo.GetUsername() && userpassword == loginInfo.GetPassword())
@@ -44,6 +44,10 @@ public:
 
         return false;
     }
+
+    virtual int GetLibraryNumber(){
+        return 0;
+    };
 
     ~User() {
 

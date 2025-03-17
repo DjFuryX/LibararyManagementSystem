@@ -9,8 +9,8 @@ private:
     Color subHeadingColor;
     Color textColor;
 
-    char message[128] = "Welcome";
-    char idString[128] = "0000";
+    char message[maxInputSize] = "Welcome";
+    char idString[maxInputSize] = "0000";
     string idmessage = "Library Number: ";
 
     int animFrames = 0;

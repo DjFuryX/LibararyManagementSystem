@@ -11,7 +11,7 @@ private:
     Rectangle bookTile;
     Color tileColor;
     Font textFont;
-    int textColor = 0x000000ff;
+    int textColor;
     float width;
     float height;
     float gap;
@@ -26,6 +26,7 @@ public:
         width = 300;
         height = 400;
         gap = 50;
+        textColor = 0x000000ff;
     }
 
     void SetTextFont(Font txtFont)
@@ -56,6 +57,7 @@ public:
         textFont = t.textFont;
         tileColor = t.tileColor;
         bookCover=t.bookCover;
+        textColor = t.textColor;
     }
 
     void SetBook(Book bk)
@@ -98,10 +100,8 @@ public:
         // cout<<"bookTile.y: "<<bookTile.y;
         //  cout<<" scroll: "<<scroll<<endl;
 
-        Vector2 position = {0, 0};
-
         // Draw the texture inside the rectangle
-        DrawTexturePro(bookCover, (Rectangle){0, 0, (float)bookCover.width, (float)bookCover.height}, bookTile, position, 0.0f, WHITE);
+        DrawTexturePro(bookCover, (Rectangle){0, 0, (float)bookCover.width, (float)bookCover.height}, bookTile, Vector2Zero(), 0.0f, WHITE);
         // DrawTextureRec(bookCover, bookTile, position, WHITE);
 
         // set text alignment and color

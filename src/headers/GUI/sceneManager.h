@@ -8,14 +8,19 @@
 class SceneManager
 {
 private:
+    //diffrent scenes
     LoginScene *Login;
     RegisterScene *Register;
     WelcomeScene *welcome;
     PatronScene *patronScene;
+
     Scene *current;
+
     FileManager filemanager;   // Filemanager to save patron list,statistiscs and book list
     LibraryManagement library; // Library Manager with all list and user classes
+   
     Patron TempUser;
+    //remove later 
     Patron *newLogin;
 
 public:
@@ -38,13 +43,18 @@ public:
     {
 
         current->Draw();
+
     }
 
     void Update()
     {
         if (current == patronScene)
         { // on regular user screen
-         
+            patronScene->SetName(library.GetUser()->GetLoginInfo()->GetUsername());//show name of current user
+            patronScene->SetID(library.GetUser()->GetLibraryNumber());//show id of current user
+
+
+
         }
 
         if (current == Login)
@@ -62,9 +72,10 @@ public:
 
                 // check if user is a new register
                 //  if username and password matches current user they are registering for the first time
-                if (TempUser.Login(username, password))
+                if (TempUser.Login(username, password))// acccepts temporary password
                 {
                     cout << "Login succesfull contine Registration" << endl;
+                    // Permanent password screen 
                 }
                 // if not a new user search patron list for user
                 else if (library.GetPatronList()->SearchByName(username))
@@ -73,7 +84,7 @@ public:
 
                     newLogin = library.GetPatronList()->GetPatron(username);
 
-                    if (newLogin != NULL)
+                    if (newLogin != NULL)//person was found in patron list
                     {
                         if (newLogin->Login(username, password))
                         {

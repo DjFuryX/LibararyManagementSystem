@@ -148,19 +148,7 @@ public:
         return temp;
     };
 
-    BookNode SearchByTitle()//TO Do
-    {
-        BookNode temp;
 
-        return temp;
-    }
-
-    BookNode SearchByAuthor()//TO Do
-    {
-        Book temp;
-
-        return temp;
-    }
     BookNode SortByTitle()//TO Do
     {
         Book temp;

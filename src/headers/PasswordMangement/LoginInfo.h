@@ -19,6 +19,7 @@ public:
     {
         username = "Notset";
         password = "Notset";
+        
         srand(time(NULL)); // Initialization, should only be called once to get random seed
     };
 
