@@ -332,6 +332,11 @@ public:
     {
         return (t == d) ? (b + c) : (c * (-powf(2.0f, -10.0f * t / d) + 1.0f) + b);
     }
+
+
+    ~TileList(){
+        UnloadTexture(bookTexture);
+    }
 };
 
 #endif

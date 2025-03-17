@@ -48,7 +48,7 @@ public:
         // set background color
         backgroundColor = WHITE;
         // screen clickable screen space
-        bounds = {0, 0, (float)GetScreenHeight(), (float)GetScreenWidth()};
+        bounds = {0, 0,(float)GetScreenWidth(), (float)GetScreenHeight()};
         // 
         nameBox={centerPositionHorizontal(500), 420, 500, 50};
         passwordBox = {centerPositionHorizontal(500), 540, 500, 50};
@@ -94,7 +94,6 @@ public:
     {
 
         Vector2 mousePoint = GetMousePosition();
-
         // Check button state
         if (CheckCollisionPointRec(mousePoint, bounds) && (IsMouseButtonDown(MOUSE_LEFT_BUTTON)))
         {
@@ -104,6 +103,10 @@ public:
     }
 
     virtual void Update() {}
+
+    ~Scene(){
+        UnloadTexture(backgroundTexture);
+    }
 };
 
 #endif

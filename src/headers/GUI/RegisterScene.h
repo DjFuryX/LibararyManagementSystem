@@ -6,6 +6,9 @@ class RegisterScene : public Scene
 {
 
 private:
+
+
+
     Color headingColor;
     Color subHeadingColor;
     Color textColor;
@@ -26,7 +29,6 @@ private:
 public:
     RegisterScene()
     {
-        Scene::backgroundColor = LIGHTGRAY;
         loginBox = {400, 300, 600, 700};
         tempPasswordBox={centerPositionHorizontal(500), 550, 500, 50};
         LoginBoxColor = DARKGRAY;

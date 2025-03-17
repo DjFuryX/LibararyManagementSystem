@@ -52,8 +52,7 @@ public:
         { // on regular user screen
             patronScene->SetName(library.GetUser()->GetLoginInfo()->GetUsername());//show name of current user
             patronScene->SetID(library.GetUser()->GetLibraryNumber());//show id of current user
-
-
+            patronScene->SetLibraryPtr(&library);
 
         }
 
@@ -136,7 +135,6 @@ public:
              SetClipboardText(Register->GetTempPasswordText());
             }
         }
-
         if (current == welcome)
         { // on welcome screen
 

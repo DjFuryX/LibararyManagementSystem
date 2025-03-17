@@ -20,6 +20,7 @@ private:
     int frameCounter = 0;
     Image imScarfyAnim;
     Texture2D texScarfyAnim;
+    Rectangle backgroundBox;
 
 public:
     WelcomeScene()
@@ -31,6 +32,8 @@ public:
         GenTextureMipmaps(&texScarfyAnim);
         // set texture filter to prevent blurry fonts
         SetTextureFilter(texScarfyAnim, TEXTURE_FILTER_TRILINEAR);
+        //
+        backgroundBox = {760, 400, 400, 400};
     }
 
     void Draw()
@@ -39,14 +42,15 @@ public:
         ClearBackground(backgroundColor);
         DrawTexture(backgroundTexture, 0, 0, WHITE);
 
-        GuiLabelFont((Rectangle){position, 100, 1000, 50}, "Welcome to LIBRE", headingFont, 50, 0x686868ff);
+        GuiLabelFont((Rectangle){position, 100, 1000, 50}, "Welcome to LIBRE", headingFont, 50, ColorToInt(WHITE));
         GuiLabelFont((Rectangle){position, 200, 1000, 50}, message, textFont, 50, 0x000000ff);
         GuiLabelFont((Rectangle){position, 300, 1000, 50}, idString, textFont, 50, 0x000000ff);
 
+        DrawRectangleRounded(backgroundBox,.2f,100,Fade(WHITE,0.7));
         DrawTexture(texScarfyAnim,832, 500, WHITE);
         DrawGIF();
-        GuiLabelFont((Rectangle){position, 750, 1000, 50}, "Press Anywhere to Continue", headingFont, 30, 0x686868ff);
-        GuiLabelFont((Rectangle){position, 1000, 1000, 50}, "A Comprehensive Library Management System", subheadingFont, 40, 0x000000ff);
+        GuiLabelFont((Rectangle){position, 750, 1000, 50}, "Press Anywhere to Continue", headingFont, 30, 0x686868ff);    
+        GuiLabelFont((Rectangle){position, 1000, 1000, 50}, "A Comprehensive Library Management System", subheadingFont, 40, ColorToInt(RAYWHITE));
     }
 
     void DrawGIF()
