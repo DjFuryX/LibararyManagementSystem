@@ -10,6 +10,7 @@ private:
     Color textColor;
     Color LoginBoxColor;
     Rectangle loginBox;
+ 
 
     bool usernameTextBox;
     char nameInput[maxInputSize] = "Please enter name";
@@ -21,7 +22,6 @@ private:
 public:
     LoginScene()
     {
-        Scene::backgroundColor = LIGHTGRAY;
         loginBox = {400, 300, 600, 700};
         LoginBoxColor = DARKGRAY;
         usernameTextBox = false;
@@ -34,15 +34,17 @@ public:
     {
         float position = centerPositionHorizontal(1000);
         ClearBackground(backgroundColor);
+        DrawTexture(backgroundTexture, 0, 0, WHITE);
 
         loginBox.x = centerPositionHorizontal(loginBox.width);
-        DrawRectangleRounded(loginBox, 0.2, 0, Fade(LoginBoxColor, 0.2f));
+        DrawRectangleRounded(loginBox, 0.2, 0, Fade(LoginBoxColor, 0.9f));
 
-        GuiLabelFont((Rectangle){position, 100, 1000, 50}, "Welcome to LIBRE", headingFont, 50, 0x686868ff);
-        GuiLabelFont((Rectangle){position, 200, 1000, 50}, "A Comprehensive Library Management System", subheadingFont, 40, 0x000000ff);
+        GuiLabelFont((Rectangle){position, 100, 1000, 50}, "Welcome to LIBRE", headingFont, 50, ColorToInt(WHITE));
+        GuiLabelFont((Rectangle){position, 200, 1000, 50}, "A Comprehensive Library Management System", subheadingFont, 40,ColorToInt(RAYWHITE));
         GuiLabelFont((Rectangle){position, 300, 1000, 50}, "Please Login to Your Account", textFont, 30, 0x000000ff);
 
         GuiLabelFont((Rectangle){position - 200, 380, 1000, 50}, "Username", textFont, 25, 0x000000ff);
+        DrawRectangleRec(nameBox,WHITE);
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);
         if (GuiTextBox((Rectangle){centerPositionHorizontal(500), 420, 500, 50}, nameInput, maxInputSize,usernameTextBox))
         {
@@ -50,8 +52,10 @@ public:
         };
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
         GuiLabelFont((Rectangle){position - 200, 500, 1000, 50}, "Password", textFont, 25, 0x000000ff);
+        
+        DrawRectangleRec(passwordBox,WHITE);
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);
-        if (GuiTextBox((Rectangle){centerPositionHorizontal(500), 540, 500, 50}, PasswordInput, maxInputSize, passwordTextBox))
+        if (GuiTextBox(passwordBox, PasswordInput, maxInputSize, passwordTextBox))
         {
             buttonClear(passwordTextBox, PasswordInput, (char *)"Please enter Password");
         };

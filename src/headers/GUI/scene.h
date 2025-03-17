@@ -18,16 +18,23 @@ protected:
     Font subheadingFont;
     Font textFont;
     Color backgroundColor;
+    Texture2D backgroundTexture;
     Rectangle bounds;
+
+    Rectangle nameBox;
+    Rectangle passwordBox;
 
 public:
     Scene()
     {
+
+        backgroundTexture = LoadTexture("src/resources/images/BookShelf.png");
         // load default font files
         headingFont = LoadFontEx("src/resources/fonts/Century-Gothic-Bold.ttf", 72, 0, 256);
         subheadingFont = LoadFontEx("src/resources/fonts/copperplate-gothic-light.ttf", 72, 0, 256);
         textFont = LoadFontEx("src/resources/fonts/Tahoma-Regular-font.ttf", 72, 0, 256);
-        // generate Mipmaps for higher quality fonts
+        // generate Mipmaps for higher quality texture
+
         GenTextureMipmaps(&headingFont.texture);
         GenTextureMipmaps(&subheadingFont.texture);
         GenTextureMipmaps(&textFont.texture);
@@ -42,9 +49,12 @@ public:
         backgroundColor = WHITE;
         // screen clickable screen space
         bounds = {0, 0, (float)GetScreenHeight(), (float)GetScreenWidth()};
-        // character limit for textbox input
+        // 
+        nameBox={centerPositionHorizontal(500), 420, 500, 50};
+        passwordBox = {centerPositionHorizontal(500), 540, 500, 50};
 
         // Load style properties provided
+        GuiSetStyle(TEXTBOX, BASE_COLOR_NORMAL, ColorToInt(LIGHTGRAY));
         GuiSetStyle(TEXTBOX, BASE_COLOR_PRESSED, ColorToInt(WHITE));
         GuiSetStyle(TEXTBOX, TEXT_COLOR_FOCUSED, ColorToInt(LIGHTGRAY));
         GuiSetStyle(TEXTBOX, TEXT_COLOR_PRESSED, ColorToInt(BLACK));
@@ -54,6 +64,7 @@ public:
     virtual void Draw()
     {
         ClearBackground(backgroundColor);
+        DrawTexture(backgroundTexture, 0, 0, WHITE);
     }
 
     float centerPositionHorizontal(float lenght)

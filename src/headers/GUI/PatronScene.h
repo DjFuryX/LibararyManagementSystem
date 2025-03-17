@@ -56,7 +56,7 @@ public:
         SetTextureFilter(checkoutBtnTexture, TEXTURE_FILTER_TRILINEAR);
 
         topbar = {0, 0, (float)GetScreenWidth(), 100};
-        sideBar = {0, 0, 150, (float)GetScreenHeight()};
+        sideBar = {0, 100, 150, (float)GetScreenHeight()};
 
         homeBtnBox = {sideBar.x + 5, topbar.y + 100, sideBar.width - 10, topbar.height};
         browseBtnBox = {sideBar.x + 5, homeBtnBox.height + 120, sideBar.width - 10, topbar.height};
@@ -89,7 +89,7 @@ public:
 
         tilelist.DrawList();
 
-        DrawRectangleRec(sideBar, ORANGE);
+        DrawRectangleRec(sideBar, Fade(ORANGE, 0.6f));
         DrawRectangleLinesEx(sideBar, 3, BLACK); // Draw container border
 
         DrawRectangleRec(homeBtnBox, YELLOW);
@@ -105,7 +105,7 @@ public:
         GuiLabelFont(userNameBox, userNameText, textFont, 25, ColorToInt(WHITE));
         GuiLabelFont(userIDBox, userIdText, textFont, 25, ColorToInt(RED));
 
-        DrawRectangleRec(topbar, RED);
+        DrawRectangleRec(topbar, Fade(RED, 0.9f));
         DrawRectangleLinesEx(topbar, 3, BLACK); // Draw container border
 
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);

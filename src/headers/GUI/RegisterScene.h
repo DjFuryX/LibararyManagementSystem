@@ -4,6 +4,7 @@
 
 class RegisterScene : public Scene
 {
+
 private:
     Color headingColor;
     Color subHeadingColor;
@@ -15,48 +16,58 @@ private:
     char nameInput[maxInputSize] = "Please enter name";
     bool passwordTextBox;
     char PasswordInput[maxInputSize] = "Please enter Password";
-
     bool backToLogin;
-
     bool newUser;
-    char TemporaryPasword[maxInputSize] = "-- -- --";
+
+    char tempPasword[maxInputSize] = "-- -- --";
+    Rectangle tempPasswordBox;
+    bool tempPassPressed;
 
 public:
     RegisterScene()
     {
         Scene::backgroundColor = LIGHTGRAY;
         loginBox = {400, 300, 600, 700};
+        tempPasswordBox={centerPositionHorizontal(500), 550, 500, 50};
         LoginBoxColor = DARKGRAY;
         usernameTextBox = false;
         passwordTextBox = false;
         backToLogin = false;
         newUser = false;
+        tempPassPressed=false;
     }
 
     void Draw()
     {
         float position = centerPositionHorizontal(1000);
         ClearBackground(backgroundColor);
+        DrawTexture(backgroundTexture, 0, 0, WHITE);
 
         loginBox.x = centerPositionHorizontal(loginBox.width);
-        DrawRectangleRounded(loginBox, 0.2, 0, Fade(LoginBoxColor, 0.2f));
+        DrawRectangleRounded(loginBox, 0.2, 0, Fade(LoginBoxColor, 0.9f));
 
-        GuiLabelFont((Rectangle){position, 100, 1000, 50}, "Welcome to LIBRE", headingFont, 50, 0x686868ff);
-        GuiLabelFont((Rectangle){position, 200, 1000, 50}, "A Comprehensive Library Management System", subheadingFont, 40, 0x000000ff);
+        GuiLabelFont((Rectangle){position, 100, 1000, 50}, "Welcome to LIBRE", headingFont, 50, ColorToInt(WHITE));
+        GuiLabelFont((Rectangle){position, 200, 1000, 50}, "A Comprehensive Library Management System", subheadingFont, 40,ColorToInt(RAYWHITE));
         GuiLabelFont((Rectangle){position, 300, 1000, 50}, "Registration", textFont, 30, 0x000000ff);
 
         GuiLabelFont((Rectangle){position - 200, 380, 1000, 50}, "Username", textFont, 25, 0x000000ff);
+        DrawRectangleRec(nameBox,WHITE);
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);
-        if (GuiTextBox((Rectangle){centerPositionHorizontal(500), 420, 500, 50}, nameInput, maxInputSize, usernameTextBox))
+        if (GuiTextBox(nameBox, nameInput, maxInputSize, usernameTextBox))
         {
             buttonClear(usernameTextBox, nameInput, (char *)"Please enter name");
         };
        
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
+
+
         GuiLabelFont((Rectangle){centerPositionHorizontal(500), 500, 500, 50}, "Temporary Password", textFont, 30, 0x000000ff);
-        
+      
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
-        GuiLabelFont((Rectangle){centerPositionHorizontal(500), 550, 500, 50}, TemporaryPasword, textFont, 50, 0x000000ff);
+        //GuiLabelFont((Rectangle){centerPositionHorizontal(500), 550, 500, 50}, tempPasword, textFont, 50, 0x000000ff);
+        DrawRectangleRec(tempPasswordBox,WHITE);
+
+       tempPassPressed = GuiTextBox(tempPasswordBox, tempPasword, maxInputSize, false);
         
         GuiSetStyle(DEFAULT, TEXT_SIZE, 25);
         newUser = GuiButton((Rectangle){centerPositionHorizontal(400), 700, 400, 50}, "Register");
@@ -87,6 +98,23 @@ public:
         return newUser;
     }
 
+    bool CopyTempPassword()
+    {
+        if (tempPassPressed == true)
+        {
+            tempPassPressed = false;
+            return true;
+        }
+        return tempPassPressed;
+    }
+
+
+    char *GetTempPasswordText(){
+
+        return tempPasword;
+    }
+
+
     string GetUserNameInput()
     {
         return nameInput;
@@ -94,8 +122,8 @@ public:
 
     void SetTempPasswordText(string text)
     {   
-        //cout<<"Text Changed--"<<TemporaryPasword<<" : "<<text<<endl;
-        strcpy(TemporaryPasword, text.c_str());
+        //cout<<"Text Changed--"<<tempPasword<<" : "<<text<<endl;
+        strcpy(tempPasword, text.c_str());
         
     }
 };

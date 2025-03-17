@@ -32,7 +32,7 @@ public:
         patronScene = new PatronScene;
 
         ///
-        current = patronScene;
+        current = Login;
 
         filemanager.ReadData(&library);
     // library.GetPatronList()->DisplayList();
@@ -129,6 +129,11 @@ public:
                 TempUser.GetLoginInfo()->SetPassword(temp);
 
                 Register->SetTempPasswordText(temp);
+            }
+
+            if(Register->CopyTempPassword()){
+
+             SetClipboardText(Register->GetTempPasswordText());
             }
         }
 

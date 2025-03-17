@@ -37,6 +37,7 @@ public:
     {
         float position = centerPositionHorizontal(1000);
         ClearBackground(backgroundColor);
+        DrawTexture(backgroundTexture, 0, 0, WHITE);
 
         GuiLabelFont((Rectangle){position, 100, 1000, 50}, "Welcome to LIBRE", headingFont, 50, 0x686868ff);
         GuiLabelFont((Rectangle){position, 200, 1000, 50}, message, textFont, 50, 0x000000ff);
