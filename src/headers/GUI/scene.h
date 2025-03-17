@@ -45,11 +45,10 @@ public:
         // character limit for textbox input
 
         // Load style properties provided
-       //GuiSetStyle(TEXTBOX, BASE_COLOR_PRESSED,ColorToInt(WHITE));
-       // GuiSetStyle(TEXTBOX, TEXT_COLOR_PRESSED,ColorToInt(BLACK));
-       // GuiSetStyle(TEXTBOX, TEXT_COLOR_NORMAL,ColorToInt(LIGHTGRAY));
-
-    
+        GuiSetStyle(TEXTBOX, BASE_COLOR_PRESSED, ColorToInt(WHITE));
+        GuiSetStyle(TEXTBOX, TEXT_COLOR_FOCUSED, ColorToInt(LIGHTGRAY));
+        GuiSetStyle(TEXTBOX, TEXT_COLOR_PRESSED, ColorToInt(BLACK));
+        // GuiSetStyle(TEXTBOX, TEXT_COLOR_NORMAL,ColorToInt(LIGHTGRAY));
     }
 
     virtual void Draw()
