@@ -1,6 +1,6 @@
 
-#ifndef PASSWORD_H
-#define PASSWORD_H
+#ifndef LOGININFO_H
+#define LOGININFO_H
 #include "sha256/SHA256.h"
 #include <iostream>
 using namespace std;

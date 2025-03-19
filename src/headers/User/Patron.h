@@ -70,9 +70,9 @@ ostream &operator<<(ostream &out, Patron c)
     return out;
 }
 
-std::istream &operator>>(std::istream &is, Patron &p)
+// Overrides How the objects of this class is read from a file
+istream &operator>>(istream &is, Patron &p)
 {
-
     // tempororary varaibles to hold class atributes
     int libraryNumber = 0;
     string name, password;
@@ -82,7 +82,6 @@ std::istream &operator>>(std::istream &is, Patron &p)
     is >> libraryNumber >> delim; // read patron id
     getline(is, name, '|');       // read patron name
     getline(is, password);        // read patron password should already be hashed
-
     // use muttators to set vaules
     p.SetLibraryNumber(libraryNumber);
     p.GetLoginInfo()->SetUsername(name);

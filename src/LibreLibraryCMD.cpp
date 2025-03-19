@@ -25,9 +25,27 @@ int main()
 
   LibraryManagement *library = new LibraryManagement;
 
-  filemanager->ReadData(library);
+ 
+  
 
-  library->GetPatronList()->DisplayList();
+ Book book1("Tom Sawyer","Mark Twain",40002302);
+ Book book2("Huckleberry Finn","Mark Twain",50005401);
+
+
+
+ //library->GetBookBST()->InsertBook(book1);
+ //library->GetBookBST()->InsertBook(book2);
+
+//filemanager->SaveData(*library);
+
+filemanager->ReadData(library);
+
+ 
+
+library->GetBookBST()->DisplayInorder();
+library->GetPatronList()->DisplayList();
+
+
 
   mainMenu(user);
 

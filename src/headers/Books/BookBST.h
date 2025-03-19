@@ -10,7 +10,7 @@ private:
 public:
     // constructor
     //  default constructor
-    BookBST() // Creates an empty list || 99% used
+    BookBST() // Creates an empty tree
     {
         rootNode = NULL;
     }
@@ -96,6 +96,8 @@ public:
         }
     }
 
+
+
     void InsertBook(Book book)
     {
         // rootNode = PointerInsert(rootNode, book);
@@ -106,6 +108,9 @@ public:
     {
         inorder(rootNode);
     }
+
+
+
     // Function to perform inorder traversal on the tree
     void inorder(BookNode *root)
     {
@@ -115,7 +120,7 @@ public:
         }
         inorder(root->GetLeftNode());
         cout << "-------------------------------------------------------" << endl;
-        root->GetData().displayBookInfo();
+        root->GetData().Display();
         cout << "-------------------------------------------------------" << endl;
         inorder(root->GetRightNode());
     }
@@ -140,13 +145,38 @@ public:
         return true;
     }
 
-    BookNode SearchByISBN()//TO Do
+    Book* SearchByISBN(int ISBN){
+
+        
+      return Search(rootNode,ISBN);
+
+    }
+
+    Book* Search(BookNode *root,int bookId)
     {
 
-        BookNode temp;
+        if (root == NULL)
+        {
+            return NULL;
+        }
 
-        return temp;
-    };
+        if(root->GetData().getISBN() == bookId){
+
+            return root->GetDataPtr();
+        }
+
+         // if the given key is less than the root node, recur for the left subtree
+         if ( bookId < root->GetData().getISBN())
+         {
+            Search(root->GetLeftNode(),bookId);
+         }
+
+         // if the given key is more than the root node, recur for the right subtree
+         else
+         {
+            Search(root->GetLeftNode(),bookId);
+         }
+    }
 
 
     BookNode SortByTitle()//TO Do

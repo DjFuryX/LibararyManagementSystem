@@ -54,6 +54,11 @@ public:
         return Data;
     }
 
+    Book* GetDataPtr(){
+        
+        return &Data;
+    }
+
      BookNode  *GetLeftNode()
     {
         return leftNode;

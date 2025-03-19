@@ -40,6 +40,10 @@ public:
         return &patronList;
     }
 
+    BookBST *GetBookBST(){
+        return &bookList;
+    }
+
     void SetPatronList(PatronLinkList *plist)
     {
 
@@ -54,12 +58,6 @@ public:
     User *GetUser()
     {
         return user;
-    }
-
-    void Login(string username, string password)
-    {
-
-        // if not search patron list for username and call that login function
     }
 
     ~LibraryManagement()

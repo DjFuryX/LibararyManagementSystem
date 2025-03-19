@@ -9,7 +9,7 @@ class SceneManager
 {
 private:
     //diffrent scenes
-    LoginScene *Login;
+    LoginScene *loginScene;
     RegisterScene *Register;
     WelcomeScene *welcome;
     PatronScene *patronScene;
@@ -26,13 +26,13 @@ private:
 public:
     SceneManager()
     {
-        Login = new LoginScene;
+        loginScene = new LoginScene;
         Register = new RegisterScene;
         welcome = new WelcomeScene;
         patronScene = new PatronScene;
 
-        ///
-        current = Login;
+        //first scene that is shown 
+        current = patronScene;
 
         filemanager.ReadData(&library);
     // library.GetPatronList()->DisplayList();
@@ -54,20 +54,26 @@ public:
             patronScene->SetID(library.GetUser()->GetLibraryNumber());//show id of current user
             patronScene->SetLibraryPtr(&library);
 
+            if(patronScene->LogoutBtnPressed()){
+
+               // loginScene = new LoginScene(); to clear stuff user alreafy entered
+                current = loginScene;
+            }
+
         }
 
-        if (current == Login)
+        if (current == loginScene)
         {                                    // On login screen
-            if (Login->RegisterBtnPressed()) // new register button pressed
+            if (loginScene->RegisterBtnPressed()) // new register button pressed
             {
                 current = Register;
                 // cout << "Register Pressed" << endl;
             }
 
-            if (Login->LoginBtnPressed())
-            { // Login button pressed
-                string username = Login->GetNameInput();
-                string password = Login->GetPasswordInput();
+            if (loginScene->LoginBtnPressed())
+            { // loginScene button pressed
+                string username = loginScene->GetNameInput();
+                string password = loginScene->GetPasswordInput();
 
                 // check if user is a new register
                 //  if username and password matches current user they are registering for the first time
@@ -112,7 +118,7 @@ public:
 
             if (Register->LoginButton())
             {
-                current = Login;
+                current = loginScene;
                 // cout << "back to Login Pressed" << endl;
             }
 

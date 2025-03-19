@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-#include"src/headers/User/Patron.h"
+#include "src/headers/User/Patron.h"
 
 class Book
 {
@@ -13,6 +13,8 @@ private:
     string author;
     int ISBN;
     Patron *rentee;
+
+    int renteeID;// only for assinging rentee pointer when reading from file
 
 public:
     // Constructor
@@ -80,13 +82,16 @@ public:
     {
         ISBN = nISBN;
     }
-    void Addrentee(Patron *barrower)
+    void SetRenteeID(int id){
+        renteeID=id;
+    }
+    void Setrentee(Patron *barrower)
     {
         rentee = barrower;
     }
 
     // display book details
-    void displayBookInfo()
+    void Display()
     {
 
         cout << "Title: " << title << endl;
@@ -94,11 +99,60 @@ public:
         cout << "ISBN: " << ISBN << endl;
         if (rentee != NULL)
         {
-            cout << "Book Rentee: " << rentee->GetLoginInfo()->GetUsername() <<endl;
+            cout << "Book Rentee: " << rentee->GetLoginInfo()->GetUsername() << endl;
         }
     }
 
     ~Book() {}
 };
+
+// Overrides How the objects of this class are stored as string
+ostream &operator<<(ostream &out, Book c)
+{
+    out << c.getISBN() << "|" << c.getTitle() << "|" << c.getAuthor();
+
+    if (c.getRentee() != NULL)
+    {
+
+        out << "|" << c.getRentee()->GetLibraryNumber();
+    }
+    else
+    {
+        out << "|" << "0000";
+    }
+
+    out << endl;
+
+    return out;
+}
+
+// Overrides How the objects of the book class is read from a file
+istream &operator>>(istream &is, Book &b)
+{
+
+    // tempororary varaibles to hold class atributes
+    int ISBN=0,renteeID=0;
+    string title, author;
+    char delim;
+
+    // Read input values separated by '|'
+    is >> ISBN >> delim; // read book ISBN
+    getline(is, title, '|');       // read book Title
+    getline(is, author,'|');        // read book author
+    is>>renteeID;
+    is.get();// ensure empty values are not read
+    // use muttators to set vaules
+    b.setISBN(ISBN);
+    b.setTitle(title);
+    b.setAuthor(author);
+    b.SetRenteeID(renteeID);
+    b.Setrentee(NULL);// TO DO set to null for now should change later
+
+    
+    // return stream;
+    return is;
+}
+
+
 
 #endif

@@ -30,11 +30,6 @@ public:
         Top = NULL; // set the next node to null
     }
 
-    /*// primary constructor 3
-    BookStkNode(int Bookid) : data(Bookid) // initialize (composition) student using its primary constructor
-    {
-        Top = NULL; // set the next node to null
-    }*/
 
     // copy constructor
     BookStkNode(BookStkNode *node)
