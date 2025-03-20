@@ -4,18 +4,13 @@
 #include <iostream>
 using namespace std;
 
-#include "src/headers/User/Patron.h"
-
 class Book
 {
 private:
     string title;
     string author;
     int ISBN;
-    Patron *rentee;
-
-    int renteeID;// only for assinging rentee pointer when reading from file
-
+    int renteeID;
 public:
     // Constructor
     Book()
@@ -23,7 +18,7 @@ public:
         title = "NotSet";
         author = "NotSet";
         ISBN = 0;
-        rentee = NULL;
+        renteeID = 0;
     }
 
     Book(string nTitle, string nAuthor, int nISBN)
@@ -31,7 +26,7 @@ public:
         title = nTitle;
         author = nAuthor;
         ISBN = nISBN;
-        rentee = NULL;
+        renteeID = 0;
     }
 
     Book(int nISBN, string nTitle, string nAuthor)
@@ -39,7 +34,7 @@ public:
         title = nTitle;
         author = nAuthor;
         ISBN = nISBN;
-        rentee = NULL;
+        renteeID = 0;
     }
 
     Book(const Book &newBook)
@@ -47,7 +42,7 @@ public:
         title = newBook.title;
         author = newBook.author;
         ISBN = newBook.ISBN;
-        rentee = newBook.rentee;
+        renteeID = newBook.renteeID;
     }
 
     // Getters
@@ -63,9 +58,9 @@ public:
     {
         return ISBN;
     }
-    Patron *getRentee()
+    int getRenteeID()
     {
-        return rentee;
+        return renteeID;
     }
 
     // Setter methods
@@ -85,9 +80,9 @@ public:
     void SetRenteeID(int id){
         renteeID=id;
     }
-    void Setrentee(Patron *barrower)
+    void SetrenteeID(int patronId)
     {
-        rentee = barrower;
+        renteeID = patronId;
     }
 
     // display book details
@@ -97,10 +92,8 @@ public:
         cout << "Title: " << title << endl;
         cout << "Author: " << author << endl;
         cout << "ISBN: " << ISBN << endl;
-        if (rentee != NULL)
-        {
-            cout << "Book Rentee: " << rentee->GetLoginInfo()->GetUsername() << endl;
-        }
+        cout << "Book Rentee ID: " <<renteeID<< endl;
+        
     }
 
     ~Book() {}
@@ -109,19 +102,7 @@ public:
 // Overrides How the objects of this class are stored as string
 ostream &operator<<(ostream &out, Book c)
 {
-    out << c.getISBN() << "|" << c.getTitle() << "|" << c.getAuthor();
-
-    if (c.getRentee() != NULL)
-    {
-
-        out << "|" << c.getRentee()->GetLibraryNumber();
-    }
-    else
-    {
-        out << "|" << "0000";
-    }
-
-    out << endl;
+    out << c.getISBN() << "|" << c.getTitle() << "|" << c.getAuthor()<< "|" << c.getRenteeID()<< endl;
 
     return out;
 }
@@ -145,10 +126,7 @@ istream &operator>>(istream &is, Book &b)
     b.setISBN(ISBN);
     b.setTitle(title);
     b.setAuthor(author);
-    b.SetRenteeID(renteeID);
-    b.Setrentee(NULL);// TO DO set to null for now should change later
-
-    
+    b.SetRenteeID(renteeID);   
     // return stream;
     return is;
 }

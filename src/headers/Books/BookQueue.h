@@ -29,7 +29,7 @@ public:
         }
         else
         {
-            rear->next = newNode;
+            rear->SetNextNode(newNode);
             rear = newNode;
         }
     }
@@ -44,7 +44,7 @@ public:
         else
         {
             BookQueueNode *temp = front;
-            front = front->next;
+            front = front->GetNextNode();
             delete temp;
             if (front == nullptr)
             {
@@ -60,7 +60,7 @@ public:
         {
             throw std::runtime_error("Queue is empty");
         }
-        return front->book;
+        return front->GetData();
     }
 
     // Display all books in the queue
@@ -75,8 +75,8 @@ public:
             BookQueueNode *temp = front;
             while (temp != nullptr)
             {
-                temp->book.Display();
-                temp = temp->next;
+                temp->GetData().Display();
+                temp = temp->GetNextNode();
             }
         }
     }

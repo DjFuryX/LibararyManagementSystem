@@ -1,18 +1,34 @@
-#ifndef BookNodeQ.h
-#define BookNodeQ .h
+#ifndef BookQueueNode_h
+#define BookQueueNode_h
 
 #include "Book.h"
 
 class BookQueueNode
 {
-public:
+private:
     Book book;
     BookQueueNode *next;
-    BookQueueNode *prev;
+public:
+    BookQueueNode(Book newbook)
+    {
+        book =newbook;
+        next = NULL;
+    }
 
-    BookQueueNode(Book book){
-        next= NULL;
+    void SetNextNode(BookQueueNode *node){
+        next=node;
+    }
+    void SetData(Book newBook){
+        book=newBook;
+    }
+    BookQueueNode *GetNextNode(){
 
+        return next;
+    }
+
+    Book GetData(){
+
+        return book;
     }
 };
-#endif   // BookNodeQ.h
+#endif //  BookNodeQ.h

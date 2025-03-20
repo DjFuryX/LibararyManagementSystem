@@ -25,27 +25,25 @@ int main()
 
   LibraryManagement *library = new LibraryManagement;
 
- 
-  
+  BookQueue queue;
 
- Book book1("Tom Sawyer","Mark Twain",40002302);
- Book book2("Huckleberry Finn","Mark Twain",50005401);
+  Book book1("Tom Sawyer", "Mark Twain", 40002302);
+  Book book2("Huckleberry Finn", "Mark Twain", 50005401);
 
+  queue.enqueue(book1);
+  queue.enqueue(book2);
 
+  queue.displayQueue();
 
- //library->GetBookBST()->InsertBook(book1);
- //library->GetBookBST()->InsertBook(book2);
+  // library->GetBookBST()->InsertBook(book1);
+  // library->GetBookBST()->InsertBook(book2);
 
-//filemanager->SaveData(*library);
+  // filemanager->SaveData(*library);
 
-filemanager->ReadData(library);
+  filemanager->ReadData(library);
 
- 
-
-library->GetBookBST()->DisplayInorder();
-library->GetPatronList()->DisplayList();
-
-
+  library->GetBookBST()->DisplayInorder();
+  library->GetPatronList()->DisplayList();
 
   mainMenu(user);
 

@@ -4,6 +4,7 @@
 #include "WelcomeScene.h"
 #include "PatronScene.h"
 #include "TileList.h"
+#include "PopUp.h"
 
 class SceneManager
 {
@@ -13,6 +14,7 @@ private:
     RegisterScene *Register;
     WelcomeScene *welcome;
     PatronScene *patronScene;
+    PopUp *message;
 
     Scene *current;
 
@@ -30,9 +32,11 @@ public:
         Register = new RegisterScene;
         welcome = new WelcomeScene;
         patronScene = new PatronScene;
+        message = new PopUp;
+        
 
         //first scene that is shown 
-        current = patronScene;
+        current = welcome;
 
         filemanager.ReadData(&library);
     // library.GetPatronList()->DisplayList();
@@ -43,6 +47,7 @@ public:
     {
 
         current->Draw();
+        message->Draw();
 
     }
 
@@ -56,7 +61,7 @@ public:
 
             if(patronScene->LogoutBtnPressed()){
 
-               // loginScene = new LoginScene(); to clear stuff user alreafy entered
+               // loginScene = new LoginScene(); to clear stuff user already entered
                 current = loginScene;
             }
 

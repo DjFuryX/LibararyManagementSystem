@@ -327,7 +327,7 @@ public:
         targetScroll = Clamp(targetScroll, -maxScroll, minScroll);
     }
 
-    // Easing function
+    // Easing function for smooth scrolling
     float EaseExpoOut(float t, float b, float c, float d)
     {
         return (t == d) ? (b + c) : (c * (-powf(2.0f, -10.0f * t / d) + 1.0f) + b);

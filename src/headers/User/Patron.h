@@ -3,12 +3,14 @@
 #define PATRON_H
 
 #include "User.h"
+#include "src/headers/Books/BookQueue.h"
 
 class Patron : public User
 {
 private:
     int libraryID; // Used as the Patron Library Card Number
     // queue of book checked out
+    BookQueue queue;
     // TO DO  BookQueue bookqueue
 
 public:

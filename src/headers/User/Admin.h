@@ -1,5 +1,9 @@
 // Admin class with features such as add and update book
 // password and username should be "Admin"
+
+#ifndef ADMIN_H
+#define ADMIN_H
+
 #include "User.h"
 
 class Admin:public User
@@ -16,4 +20,6 @@ public:
     };
 
 };
+
+#endif
 

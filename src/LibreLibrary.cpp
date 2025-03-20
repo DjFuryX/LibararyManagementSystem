@@ -28,7 +28,6 @@ int main()
   {
     BeginDrawing();
     scene->Draw();
-    
     scene->Update();
     EndDrawing();
   }
