@@ -7,6 +7,7 @@
 #include "Statistics/Statistics.h"
 #include "User/Admin.h"
 #include "User/Patron.h"
+#include "Books/BookQueue.h"
 
 class LibraryManagement
 {

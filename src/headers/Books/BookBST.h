@@ -174,7 +174,7 @@ public:
          // if the given key is more than the root node, recur for the right subtree
          else
          {
-            Search(root->GetLeftNode(),bookId);
+            Search(root->GetRightNode(),bookId);
          }
     }
 
