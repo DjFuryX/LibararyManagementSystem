@@ -59,20 +59,12 @@ public:
         return &Data;
     }
 
-     BookNode  *GetLeftNode()
-    {
-        return leftNode;
-    }
 
-    BookNode *GetRightNode(){
-        return rightNode;
-    }
-
-    BookNode*& GetLeftNodeRef(){
+    BookNode *&GetLeftNode() {
         return leftNode;
     };  // Return by reference to modify the actual node pointer
 
-    BookNode*& GetRightNodeRef(){
+    BookNode *&GetRightNode(){
         return rightNode;
     };  // Return by reference to modify the actual node pointer
 

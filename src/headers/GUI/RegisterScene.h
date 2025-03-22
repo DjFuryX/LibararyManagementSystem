@@ -26,7 +26,7 @@ public:
         DrawTexture(backgroundTexture, 0, 0, WHITE);
 
         loginBox.x = centerPositionHorizontal(loginBox.width);
-        DrawRectangleRounded(loginBox, 0.2, 0, Fade(LoginBoxColor, 0.9f));
+        DrawRectangleRounded(loginBox, 0.2, 16, Fade(LoginBoxColor, 0.9f));
 
         GuiLabelFont((Rectangle){position, 100, 1000, 50}, "Welcome to LIBRE", headingFont, 50, ColorToInt(WHITE));
         GuiLabelFont((Rectangle){position, 200, 1000, 50}, "A Comprehensive Library Management System", subheadingFont, 40,ColorToInt(RAYWHITE));

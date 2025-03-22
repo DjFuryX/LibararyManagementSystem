@@ -22,52 +22,26 @@ public:
     }
 
     // Accessors
-    BookNode *GetRoot()
+    BookNode *GetRoot ()
     {
         return rootNode;
     }
+
+    BookNode *&GetRootNode ()
+    {
+        return rootNode;
+    }
+
+    
 
     // Mutator
     void SetRoot(BookNode *root)
     {
         rootNode = root;
     }
-
-    // Recursive function to insert a key into a BST by pointer
-    BookNode *PointerInsert(BookNode *root, Book book)
-    {
-        // if the root is null, create a new node and return it
-        if (root == NULL)
-        {
-            if (!IsFull())
-            {
-                return new BookNode(book);
-            }
-
-            else // if memory was not allocated successfully
-            {
-                cerr << "Error! List is full (Out of Memory), can NOT add a new node" << endl;
-            }
-
-            return NULL;
-        }
-
-        // if the given key is less than the root node, recur for the left subtree
-        if (book.getISBN() < root->GetData().getISBN())
-        {
-            root->SetleftNode(PointerInsert(root->GetLeftNode(), book));
-        }
-        // if the given key is more than the root node, recur for the right subtree
-        else
-        {
-            root->SetRightNode(PointerInsert(root->GetRightNode(), book));
-        }
-
-        return root;
-    }
-
+ 
     // Recursive function to insert a key into a BST by reference
-    void ReferenceInsert(BookNode *&root, Book book)
+    void InsertByISBN(BookNode *&root, Book book)
     {
         // if the root is null, create a new node and return it
         if (root == NULL)
@@ -87,29 +61,55 @@ public:
         // if the given key is less than the root node, recur for the left subtree
         if (book.getISBN() < root->GetData().getISBN())
         {
-            ReferenceInsert(root->GetLeftNodeRef(), book);
+            InsertByISBN(root->GetLeftNode(), book);
         }
         // if the given key is more than the root node, recur for the right subtree
         else
         {
-            ReferenceInsert(root->GetRightNodeRef(), book);
+            InsertByISBN(root->GetRightNode(), book);
         }
     }
 
 
+    // Recursive function to insert a key into a BST by reference
+    void InsertByTitle(BookNode *&root, Book book)
+    {
+        // if the root is null, create a new node and return it
+        if (root == NULL)
+        {
+            if (!IsFull())
+            {
+                root = new BookNode(book);
+                return;
+            }
+
+            else // if memory was not allocated successfully
+            {
+                cerr << "Error! List is full (Out of Memory), can NOT add a new node" << endl;
+            }
+        }
+
+        // if the given key is less than the root node, recur for the left subtree
+        if (book.getAuthor() < root->GetData().getAuthor())
+        {
+            InsertByTitle(root->GetLeftNode(), book);
+        }
+        // if the given key is more than the root node, recur for the right subtree
+        else
+        {
+            InsertByTitle(root->GetRightNode(), book);
+        }
+    }
 
     void InsertBook(Book book)
     {
-        // rootNode = PointerInsert(rootNode, book);
-        ReferenceInsert(rootNode, book);
+        InsertByISBN(rootNode, book);
     }
 
     void DisplayInorder()
     {
         inorder(rootNode);
     }
-
-
 
     // Function to perform inorder traversal on the tree
     void inorder(BookNode *root)
@@ -145,14 +145,13 @@ public:
         return true;
     }
 
-    Book* SearchByISBN(int ISBN){
+    Book *SearchByISBN(int ISBN)
+    {
 
-        
-      return Search(rootNode,ISBN);
-
+        return Search(rootNode, ISBN);
     }
 
-    Book* Search(BookNode *root,int bookId)
+    Book *Search(BookNode *root, int bookId)
     {
 
         if (root == NULL)
@@ -160,34 +159,52 @@ public:
             return NULL;
         }
 
-        if(root->GetData().getISBN() == bookId){
+        if (root->GetData().getISBN() == bookId)
+        {
 
             return root->GetDataPtr();
         }
 
-         // if the given key is less than the root node, recur for the left subtree
-         if ( bookId < root->GetData().getISBN())
-         {
-            Search(root->GetLeftNode(),bookId);
-         }
+        // if the given key is less than the root node, recur for the left subtree
+        if (bookId < root->GetData().getISBN())
+        {
+            Search(root->GetLeftNode(), bookId);
+        }
 
-         // if the given key is more than the root node, recur for the right subtree
-         else
-         {
-            Search(root->GetRightNode(),bookId);
-         }
+        // if the given key is more than the root node, recur for the right subtree
+        else
+        {
+            Search(root->GetRightNode(), bookId);
+        }
     }
 
-
-    BookNode SortByTitle()//TO Do
+    void SortByTitle() // TO Do
     {
-        Book temp;
 
-        return temp;
+        BookBST *temp = new BookBST;
+
+        SortAndAdd(rootNode, temp);
+        //DisplayInorder();
+        cout<<"---------------------------------"<<endl;
+        temp->inorder(temp->GetRoot());
+
+        rootNode = temp->GetRoot();
     }
 
-    //returns poiinter to node where book was found
-    BookNode*  SortByAuthor()
+    void SortAndAdd(BookNode *root, BookBST *sortedBSt)
+    {
+        if (root == NULL)
+        {
+            return;
+        }
+        // PostOrder Traversal
+        SortAndAdd(root->GetLeftNode(), sortedBSt);
+        SortAndAdd(root->GetRightNode(), sortedBSt);
+        sortedBSt->InsertByTitle(sortedBSt->GetRootNode(), root->GetData()); 
+    }
+
+    // returns poiinter to node where book was found
+    BookNode *SortByAuthor()
     {
         BookNode *temp;
 

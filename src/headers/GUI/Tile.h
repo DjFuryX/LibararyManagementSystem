@@ -9,6 +9,7 @@ class Tile
 private:
     Book book;
     Rectangle bookTile;
+    Rectangle checkBox;
     Color tileColor;
     Font textFont;
     int textColor;
@@ -16,9 +17,25 @@ private:
     float height;
     float gap;
     Texture2D bookCover;
+    Texture2D checker;
+
+    bool selected;
 
 public:
     Tile() : book()
+    {
+        // create a default tile
+        bookTile = {0, 0, width, height};
+        checkBox = {0, 0, 100, 100};
+        tileColor = RED;
+        width = 300;
+        height = 400;
+        gap = 50;
+        textColor = 0x000000ff;
+        selected = false;
+    }
+
+    Tile(Book bk) : book(bk)
     {
         // create a default tile
         bookTile = {0, 0, width, height};
@@ -27,6 +44,22 @@ public:
         height = 400;
         gap = 50;
         textColor = 0x000000ff;
+        selected = false;
+    }
+
+    Tile(Book bk, Font fn, Texture2D bkTexture, Texture2D bkCheck) : book(bk)
+    {
+        // create a default tile
+        bookTile = {0, 0, width, height};
+        tileColor = RED;
+        width = 300;
+        height = 400;
+        gap = 50;
+        textColor = 0x000000ff;
+        textFont = fn;
+        bookCover = bkTexture;
+        checker = bkCheck;
+        selected = false;
     }
 
     void SetTextFont(Font txtFont)
@@ -48,16 +81,23 @@ public:
         width = 300;
         height = 400;
         gap = 50;
+        selected = false;
     }
 
-    Tile(Tile const &t)//inlcude all parameters to avoid errors
+    Tile(const Tile &t)
     {
         book = t.book;
         bookTile = t.bookTile;
         textFont = t.textFont;
         tileColor = t.tileColor;
-        bookCover=t.bookCover;
+        bookCover = t.bookCover;
+        checker = t.checker;
+        checkBox = t.checkBox;
         textColor = t.textColor;
+        selected = t.selected;
+        width = t.width;
+        height = t.height;
+        gap = t.gap;
     }
 
     void SetBook(Book bk)
@@ -101,7 +141,21 @@ public:
         //  cout<<" scroll: "<<scroll<<endl;
 
         // Draw the texture inside the rectangle
-        DrawTexturePro(bookCover, (Rectangle){0, 0, (float)bookCover.width, (float)bookCover.height}, bookTile, Vector2Zero(), 0.0f, WHITE);
+        if (selected)
+        {
+
+            DrawTexturePro(bookCover, (Rectangle){0, 0, (float)bookCover.width, (float)bookCover.height}, bookTile, Vector2Zero(), 0.0f, Fade(YELLOW,0.95));
+           
+            DrawTexturePro(checker, (Rectangle){0, 0, (float)checker.width, (float)checker.height},
+                           (Rectangle){bookTile.x+220, bookTile.y+320, 100, 100}, Vector2Zero(), 0.0f, WHITE);
+                           
+        }
+        else
+        {
+            DrawTexturePro(bookCover, (Rectangle){0, 0, (float)bookCover.width, (float)bookCover.height}, bookTile, Vector2Zero(), 0.0f, WHITE);
+        }
+        // cout<<"Is Box Selected: "<<selected<<endl;
+
         // DrawTextureRec(bookCover, bookTile, position, WHITE);
 
         // set text alignment and color
@@ -120,8 +174,10 @@ public:
 
         Vector2 mousePoint = GetMousePosition();
         bookTile.y += scrollOffset;
-        if (CheckCollisionPointRec(mousePoint, bookTile) && (IsMouseButtonDown(MOUSE_LEFT_BUTTON)))
+        if (CheckCollisionPointRec(mousePoint, bookTile) && (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)))
         {
+
+            selected = !selected;
             return true;
         }
         return false;

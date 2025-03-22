@@ -2,9 +2,10 @@
 #ifndef PATRONSCENE_H
 #define PATRONSCENE_H
 
-#include "Scene.h"
+#include "PopUp.h"
 #include "TileList.h"
 #include "src/headers/LibraryManagement.h"
+
 class PatronScene : public Scene
 {
 private:
@@ -27,7 +28,10 @@ private:
 
     Rectangle sortBtnBox;
     Texture2D sortBtnTexture;
+    Texture2D sortBtnTexture1;
+    Texture2D sortBtnTexture2;
     bool sort;
+    bool sortPressed;
 
     Rectangle nameBox;
 
@@ -61,7 +65,8 @@ private:
         // load default textures
         background = LoadTexture("src/resources/images/LibraryAisle.jpg");
         undoBtntexture = LoadTexture("src/resources/images/undo2.png");
-        sortBtnTexture = LoadTexture("src/resources/images/sort1.png");
+        sortBtnTexture1 = LoadTexture("src/resources/images/sort1.png");
+        sortBtnTexture2 = LoadTexture("src/resources/images/sort2.png");
         addToCartBtnTexture = LoadTexture("src/resources/images/checkout1.png");
         logoutBtntexture = LoadTexture("src/resources/images/logout1.png");
         librarybtntexture = LoadTexture("src/resources/images/library1.png");
@@ -91,7 +96,7 @@ private:
 
         topbar = {0, 0, (float)GetScreenWidth(), 100};
         sideBar = {0, 100, 150, (float)GetScreenHeight()};
-        libraryBtnBox = {sideBar.x + 5, topbar.y + 100, sideBar.width - 10, topbar.height};
+        libraryBtnBox = {sideBar.x + 5, topbar.y + 105, sideBar.width - 10, topbar.height};
         myBooksBtnBox = {sideBar.x + 5, libraryBtnBox.height + 120, sideBar.width - 10, topbar.height};
         cartBtnBox = {sideBar.x + 5, myBooksBtnBox.height + 240, sideBar.width - 10, topbar.height};
 
@@ -102,9 +107,22 @@ private:
         searchBox = {topbar.x + 1450, topbar.y + 10, topbar.width - 1480, topbar.height - 20};
         nameBox = {topbar.x + 10, topbar.y + 10, 200, topbar.height - 20};
 
-        addToCartBtnBox = {topbar.x + 400, topbar.y + 25, 250, topbar.height - 50};
-        undoBtnBox = {addToCartBtnBox.x + addToCartBtnBox.width + 40, topbar.y + 25, addToCartBtnBox.width, topbar.height - 50};
-        sortBtnBox = {undoBtnBox.x + undoBtnBox.width + 200, topbar.y + 25, undoBtnBox.width, topbar.height - 50};
+        addToCartBtnBox = {topbar.x + 400, topbar.y + 5, 250, topbar.height - 10};
+        undoBtnBox = {addToCartBtnBox.x + addToCartBtnBox.width + 40, topbar.y + 5, addToCartBtnBox.width, topbar.height - 10};
+        sortBtnBox = {undoBtnBox.x + undoBtnBox.width + 200, topbar.y + 5, undoBtnBox.width, topbar.height - 10};
+    }
+
+    // Function to perform inorder traversal on the tree
+    void inorder(BookNode *root)
+    {
+        if (root == NULL)
+        {
+            return;
+        }
+
+        inorder(root->GetLeftNode());
+        tilelist.InsertAtBack(root->GetData());
+        inorder(root->GetRightNode());
     }
 
 public:
@@ -120,22 +138,31 @@ public:
         logOutBtn = false;
         undo = false;
         sort = false;
-
-        // testing should remove later
-        for (int i = 0; i < 30; i++)
-        {
-            tilelist.insertByAuthor(Book(i + 5000, "Moby Dick", "Norman martin"));
-        }
+        sortPressed = false;
+        // add books to gui
     }
 
     void Draw()
     {
+        GuiSetStyle(DEFAULT, TEXT_COLOR_FOCUSED, ColorToInt(BLACK));
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
         ClearBackground(WHITE);
         DrawTexture(background, 0, 0, WHITE);
 
         tilelist.DrawList();
         DrawControls();
+        GuiSetStyle(DEFAULT, TEXT_COLOR_FOCUSED, DEFAULT);
+    }
+
+    void Update()
+    {
+
+        if (isButtonPressed(sortBtnBox))
+        {
+            library->GetBookBST()->SortByTitle();
+            tilelist.Clear();
+            inorder(library->GetBookBST()->GetRoot());
+        }
     }
 
     void DrawControls()
@@ -146,21 +173,25 @@ public:
 
         // DrawRectangleRec(libraryBtnBox, YELLOW);
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
+        isHovered(libraryBtnBox);
         libraryBtn = (GuiLabelButton((Rectangle){libraryBtnBox.x + 30, libraryBtnBox.y + 25, libraryBtnBox.width - 10, libraryBtnBox.height - 40}, "Library"));
         DrawTexturePro(librarybtntexture, (Rectangle){0, 0, (float)librarybtntexture.width, (float)librarybtntexture.height},
                        (Rectangle){libraryBtnBox.x, libraryBtnBox.y + 25, libraryBtnBox.width - 90, libraryBtnBox.height - 50}, Vector2Zero(), 0.0f, WHITE);
 
         // DrawRectangleRec(myBooksBtnBox, YELLOW);
+        isHovered(myBooksBtnBox);
         myBooksBtn = (GuiLabelButton((Rectangle){myBooksBtnBox.x + 25, myBooksBtnBox.y + 25, myBooksBtnBox.width - 10, myBooksBtnBox.height - 40}, "My Books"));
         DrawTexturePro(mybooksBtntexture, (Rectangle){0, 0, (float)mybooksBtntexture.width, (float)mybooksBtntexture.height},
                        (Rectangle){myBooksBtnBox.x - 5, myBooksBtnBox.y + 25, myBooksBtnBox.width - 90, myBooksBtnBox.height - 50}, Vector2Zero(), 0.0f, WHITE);
 
         // DrawRectangleRec(cartBtnBox, Fade(PINK, 05));
+        isHovered(cartBtnBox);
         cartBtn = (GuiLabelButton((Rectangle){cartBtnBox.x + 20, cartBtnBox.y + 25, cartBtnBox.width - 10, cartBtnBox.height - 50}, "Cart"));
         DrawTexturePro(cartBtntexture, (Rectangle){0, 0, (float)cartBtntexture.width, (float)cartBtntexture.height},
                        (Rectangle){cartBtnBox.x + 10, cartBtnBox.y + 25, cartBtnBox.width - 100, cartBtnBox.height - 60}, Vector2Zero(), 0.0f, WHITE);
 
         // DrawRectangleRec(logoutBtnBox, YELLOW);
+        isHovered(logoutBtnBox);
         logOutBtn = (GuiLabelButton((Rectangle){logoutBtnBox.x + 30, logoutBtnBox.y + 25, logoutBtnBox.width - 10, logoutBtnBox.height - 50}, "Logout"));
         DrawTexturePro(logoutBtntexture, (Rectangle){0, 0, (float)logoutBtntexture.width, (float)logoutBtntexture.height},
                        (Rectangle){logoutBtnBox.x, logoutBtnBox.y + 25, logoutBtnBox.width - 90, logoutBtnBox.height - 50}, Vector2Zero(), 0.0f, WHITE);
@@ -176,22 +207,26 @@ public:
 
         GuiSetStyle(DEFAULT, TEXT_COLOR_NORMAL, ColorToInt(BLACK));
         // DrawRectangleRec(addToCartBtnBox, WHITE);
+        isHovered(addToCartBtnBox);
         // DrawRectangleRec((Rectangle){addToCartBtnBox.x + 80, addToCartBtnBox.y, addToCartBtnBox.width -10, addToCartBtnBox.height }, WHITE);
-        addTocart = (GuiLabelButton((Rectangle){addToCartBtnBox.x + 60, addToCartBtnBox.y + 10, addToCartBtnBox.width, addToCartBtnBox.height}, "Add To Cart"));
+        addTocart = (GuiLabelButton((Rectangle){addToCartBtnBox.x + 60, addToCartBtnBox.y, addToCartBtnBox.width, addToCartBtnBox.height}, "Add To Cart"));
 
         DrawTexturePro(addToCartBtnTexture, (Rectangle){0, 0, (float)addToCartBtnTexture.width, (float)addToCartBtnTexture.height},
-                       (Rectangle){addToCartBtnBox.x, addToCartBtnBox.y, 50, topbar.height - 50}, Vector2Zero(), 0.0f, WHITE);
+                       (Rectangle){addToCartBtnBox.x, addToCartBtnBox.y + 5, 50, topbar.height - 50}, Vector2Zero(), 0.0f, WHITE);
 
         // DrawRectangleRec(undoBtnBox, WHITE);
-        undo = (GuiLabelButton((Rectangle){undoBtnBox.x + 60, undoBtnBox.y + 10, undoBtnBox.width, undoBtnBox.height}, "Undo Add To Cart"));
+        isHovered(undoBtnBox);
+        undo = (GuiLabelButton((Rectangle){undoBtnBox.x + 60, undoBtnBox.y, undoBtnBox.width, undoBtnBox.height}, "Undo Add To Cart"));
         DrawTexturePro(undoBtntexture, (Rectangle){0, 0, (float)undoBtntexture.width, (float)undoBtntexture.height},
-                       (Rectangle){undoBtnBox.x, undoBtnBox.y + 10, 50, topbar.height - 60}, Vector2Zero(), 0.0f, WHITE);
-
+                       (Rectangle){undoBtnBox.x, undoBtnBox.y + 15, 50, topbar.height - 60}, Vector2Zero(), 0.0f, WHITE);
         // DrawRectangleRec(sortBtnBox, WHITE);
-        sort = (GuiLabelButton((Rectangle){sortBtnBox.x + 60, sortBtnBox.y + 10, sortBtnBox.width, sortBtnBox.height}, "Sort By ISBN"));
+        isHovered(sortBtnBox);
+        GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_MIDDLE);
+        GuiToggle((Rectangle){sortBtnBox.x, sortBtnBox.y, sortBtnBox.width, sortBtnBox.height}, "Sort By Title", &sort);
+        sort ? (sortBtnTexture = sortBtnTexture1) : (sortBtnTexture = sortBtnTexture2);
         DrawTexturePro(sortBtnTexture, (Rectangle){0, 0, (float)sortBtnTexture.width, (float)sortBtnTexture.height},
-                       (Rectangle){sortBtnBox.x, sortBtnBox.y, 50, topbar.height - 50}, Vector2Zero(), 0.0f, WHITE);
-
+                       (Rectangle){sortBtnBox.x, sortBtnBox.y + 15, 50, topbar.height - 50}, Vector2Zero(), 0.0f, WHITE);
+        GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);
         GuiLabelFont(nameBox, "LIBRE LIBRARY", headingFont, 30, ColorToInt(WHITE));
         GuiSetStyle(DEFAULT, TEXT_SIZE, 25);
         GuiSetStyle(DEFAULT, TEXT_COLOR_NORMAL, ColorToInt(RED));
@@ -222,10 +257,10 @@ public:
         return &tilelist;
     }
 
-    void SetLibraryPtr(LibraryManagement *libraryManagement)
+    void PopulateBookGrid(LibraryManagement *libraryManagement)
     {
-
         library = libraryManagement;
+        inorder(library->GetBookBST()->GetRoot());
     }
 
     bool LogoutBtnPressed()

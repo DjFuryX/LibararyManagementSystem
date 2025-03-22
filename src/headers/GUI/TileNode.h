@@ -8,7 +8,7 @@ class TileNode
 {
     // Class Attributes
 private:
-    Tile data; // Data portion - Composition
+    Tile data;          // Data portion - Composition
     TileNode *NextNode; // Link portion (dynamically declared)
 
 public:
@@ -18,11 +18,22 @@ public:
         NextNode = NULL;
     }
 
-    TileNode(float x, float y, float width, float height):data( x, y, width,height){
+    TileNode(Book book) : data(book)
+    {
+        NextNode = NULL;
+    }
+    TileNode(Book book, Font font, Texture2D bookTexture, Texture2D checker) : data(book,font,bookTexture,checker)
+    {
         NextNode = NULL;
     }
 
-    TileNode(float x, float y, float width, float height,TileNode *nextNode):data( x, y, width,height){
+    TileNode(float x, float y, float width, float height) : data(x, y, width, height)
+    {
+        NextNode = NULL;
+    }
+
+    TileNode(float x, float y, float width, float height, TileNode *nextNode) : data(x, y, width, height)
+    {
         NextNode = nextNode;
     }
 
@@ -47,7 +58,7 @@ public:
 
     // Accessors
     Tile GetData()
-    {  
+    {
         return data;
     }
 

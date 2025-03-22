@@ -10,7 +10,7 @@ class TileList
     // Class attribues
 private:
     TileNode *Head; // Head should point to the first element in list
-    Font textFont;
+   
     // Define the scroll panel bounds and content
     float panelScroll;
     float minScroll;
@@ -29,19 +29,78 @@ private:
     float animationDuration; // Adjust duration as needed
 
     Texture2D bookTexture;
- 
+    Texture2D checkerTexture;
+    Font textFont;
+    void ClearList(TileNode *node)
+    {
+
+        if (!IsEmpty())
+        {
+
+            if (node == NULL) // while curr is pointing to a valid node; go through list
+            {
+                return;
+            }
+
+            ClearList(node->GetNextNode());
+
+            if (node == Head)
+            {
+                Head = NULL;
+                return;
+            }
+
+            delete node; // deallocate memory for curr
+        }
+        else
+        {
+            cerr << "The list is empty; there is nothing to delete!" << endl;
+        }
+    }
+
+    void LoadTexures()
+    {
+        // load default font files
+        textFont = LoadFontEx("src/resources/fonts/Tahoma-Regular-font.ttf", 72, 0, 256);
+        //load book textures
+        bookTexture = LoadTexture("src/resources/images/Book.png");
+        checkerTexture = LoadTexture("src/resources/images/check.png");
+        // generate Mipmaps for higher quality fonts
+        GenTextureMipmaps(&textFont.texture);
+        GenTextureMipmaps(&checkerTexture);
+        // set texture filter to prevent blurry fonts
+        SetTextureFilter(textFont.texture, TEXTURE_FILTER_TRILINEAR);
+        SetTextureFilter(checkerTexture, TEXTURE_FILTER_TRILINEAR);
+    }
+
+    void GetMouseScroll()
+    {
+        mousePoint = GetMousePosition();
+
+        if (CheckCollisionPointRec(mousePoint, panel))
+        {
+
+            wheelMove = (int)GetMouseWheelMove();
+            wheelMove = Clamp(wheelMove, -1, 1);
+            targetScroll += wheelMove * mouseWheelSpeed; // Vertical scroll
+            animationTime = 0.0f;                        // Reset animation time
+        }
+        animationTime += GetFrameTime(); // Increment animation time
+        panelScroll = EaseExpoOut(animationTime, panelScroll, targetScroll - panelScroll, animationDuration);
+        targetScroll = Clamp(targetScroll, -maxScroll, minScroll);
+    }
 
 public:
     // default constructor
     TileList() // Creates an empty list || 99% used
     {
-    
+
         Head = NULL;
-        LoadFont();
+        LoadTexures();
         panelScroll = 0;
         panel = {150, 100, (float)GetScreenWidth() - 150, (float)GetScreenHeight() - 100};
         mouseWheelSpeed = 50;
-        
+
         wheelMove = 0;
         offset = 50;
         rowCount = 5;
@@ -51,8 +110,6 @@ public:
         targetScroll = 0;
         animationTime = 0;
         animationDuration = 1;
-
-        bookTexture = LoadTexture("src/resources/images/Book.png");
     }
 
     // Accessors
@@ -67,58 +124,25 @@ public:
         Head = head;
     }
 
-    void insertByAuthor(Book bookToInsert)
+    void InsertAtBack(Book bookToInsert)
     {
-
-        TileNode *temp;                      // declare temp as a pointer to the memory address of a node
-        temp = new TileNode;                 // calls default constructor and attempts to reserve memory for temp
-        TileNode *curr = Head, *prev = NULL; // point curr to the first element in the list.
-        bool nodeAdded = false;
-
+        TileNode *temp = new TileNode(bookToInsert,textFont,bookTexture,checkerTexture); // initialize temp1 using the primary constructor 3 | Reserve Memory Space
+     
         if (temp != NULL) // if memory was allocated successfully
         {
-            temp->GetDataPtr()->SetBook(bookToInsert); // set the data of the new node
-            temp->SetNextNode(NULL);                   // set the link portion to point to NULL
-
-            temp->GetDataPtr()->SetTextFont(textFont);
-            temp->GetDataPtr()->SetBookTexture(bookTexture);
-
             if (Head == NULL) // if the list is empty
             {
-                Head = temp;
+                Head = temp; // set head to point to the new node to be added to list
             }
             else // if the list was not empty
             {
-                while (curr != NULL) // while curr is pointing to a valid node; go through list
+                TileNode *temp2 = Head;              // initialize temp node to point to first element in list
+                while (temp2->GetNextNode() != NULL) // while we are not at the last node in the list
                 {
-
-                    if (curr->GetData().GetBook().getTitle() >= temp->GetData().GetBook().getTitle()) // if the curr node has age younger than the next in the list
-                    {
-                        if (curr == Head) // if curr is pointing to head (if we are inserting at the first node in list)
-                        {
-                            temp->SetNextNode(Head); // points temps next node to head
-                            Head = temp;             // makes temp the new first node in the list
-                        }
-                        else
-                        {
-                            temp->SetNextNode(curr); // set temp node to point to curr node
-                            prev->SetNextNode(temp); // prev node points to the current node
-                            // prev ---/temp/----curr
-                        }
-                        nodeAdded = true; // if a node was added to the list
-                        break;            // jump out of loop
-                    }
-                    prev = curr;
-                    curr = curr->GetNextNode(); // point curr to IT's next ndoe
+                    temp2 = temp2->GetNextNode(); // move the current node (temp2) to IT'S next node
                 }
-                if (!nodeAdded) // if a node was not added
-                {
-                    prev->SetNextNode(temp); // add node to end of list
-
-                    // prev ---/temp/----curr(NULL)
-                }
+                temp2->SetNextNode(temp); // set the link portion (NextNode) of the last node to point to the new node we are trying to add to the list
             }
-
             CaculateTilePosition();
         }
         else // if memory was not allocated successfully
@@ -176,7 +200,8 @@ public:
     void DrawList()
     {
         GetMouseScroll();
-
+        GetBookHovered();
+        
         TileNode *curr = Head; // point curr to the first element in the list.
         while (curr != NULL)   // while curr is pointing to a valid node
         {
@@ -186,7 +211,7 @@ public:
         }
 
         GetBookPressed();
-        GetBookHovered();
+       
     }
 
     Book *GetBookPressed()
@@ -196,7 +221,7 @@ public:
         TileNode *curr = Head; // point curr to the first element in the list.
         while (curr != NULL)   // while curr is pointing to a valid node
         {
-            if (curr->GetData().isPressed(panelScroll))
+            if (curr->GetDataPtr()->isPressed(panelScroll))
             {
                 book = curr->GetDataPtr()->GetBookPtr();
             }
@@ -300,31 +325,9 @@ public:
         return dataToReturn;
     }
 
-    void LoadFont()
+    void Clear()
     {
-        // load default font files
-        textFont = LoadFontEx("src/resources/fonts/Tahoma-Regular-font.ttf", 72, 0, 256);
-        // generate Mipmaps for higher quality fonts
-        GenTextureMipmaps(&textFont.texture);
-        // set texture filter to prevent blurry fonts
-        SetTextureFilter(textFont.texture, TEXTURE_FILTER_TRILINEAR);
-    }
-
-    void GetMouseScroll()
-    {
-        mousePoint = GetMousePosition();
-
-        if (CheckCollisionPointRec(mousePoint, panel))
-        {
-
-            wheelMove = (int)GetMouseWheelMove();
-            wheelMove = Clamp(wheelMove, -1, 1);
-            targetScroll += wheelMove * mouseWheelSpeed; // Vertical scroll
-            animationTime = 0.0f;                        // Reset animation time
-        }
-        animationTime += GetFrameTime(); // Increment animation time
-        panelScroll = EaseExpoOut(animationTime, panelScroll, targetScroll - panelScroll, animationDuration);
-        targetScroll = Clamp(targetScroll, -maxScroll, minScroll);
+        ClearList(GetHead());
     }
 
     // Easing function for smooth scrolling
@@ -333,8 +336,8 @@ public:
         return (t == d) ? (b + c) : (c * (-powf(2.0f, -10.0f * t / d) + 1.0f) + b);
     }
 
-
-    ~TileList(){
+    ~TileList()
+    {
         UnloadTexture(bookTexture);
     }
 };

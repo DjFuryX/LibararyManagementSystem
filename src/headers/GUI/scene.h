@@ -21,7 +21,6 @@ protected:
     Color backgroundColor;
     Texture2D backgroundTexture;
     Rectangle bounds;
-
     Rectangle nameBox;
     Rectangle passwordBox;
 
@@ -60,6 +59,15 @@ public:
         GuiSetStyle(TEXTBOX, TEXT_COLOR_FOCUSED, ColorToInt(LIGHTGRAY));
         GuiSetStyle(TEXTBOX, TEXT_COLOR_PRESSED, ColorToInt(BLACK));
         // GuiSetStyle(TEXTBOX, TEXT_COLOR_NORMAL,ColorToInt(LIGHTGRAY));
+
+        // set toggle to appear transparent
+        GuiSetStyle(TOGGLE, BASE_COLOR_NORMAL, ColorToInt(Fade(BLACK, 0)));
+        GuiSetStyle(TOGGLE, TEXT_COLOR_PRESSED, ColorToInt(BLACK));
+        GuiSetStyle(TOGGLE, BASE_COLOR_PRESSED, ColorToInt(Fade(BLACK, 0)));
+        GuiSetStyle(TOGGLE, BASE_COLOR_FOCUSED, ColorToInt(Fade(BLACK, 0)));
+        GuiSetStyle(TOGGLE, BORDER_COLOR_NORMAL, ColorToInt(Fade(BLACK, 0)));
+        GuiSetStyle(TOGGLE, BORDER_COLOR_PRESSED, ColorToInt(Fade(BLACK, 0)));
+        GuiSetStyle(TOGGLE, BORDER_COLOR_FOCUSED, ColorToInt(Fade(BLACK, 0)));
     }
 
     virtual void Draw()
@@ -91,21 +99,40 @@ public:
         }
     }
 
-    bool ScreenPressed()
+    bool isButtonPressed(Rectangle bounds)
     {
-
         Vector2 mousePoint = GetMousePosition();
-        // Check button state
-        if (CheckCollisionPointRec(mousePoint, bounds) && (IsMouseButtonDown(MOUSE_LEFT_BUTTON)))
+
+        if (CheckCollisionPointRec(mousePoint, bounds) && (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)))
         {
             return true;
         }
         return false;
     }
 
- 
+    bool isHovered(Rectangle bounds)
+    {
+        Vector2 mousePoint = GetMousePosition();
 
-    virtual void Update() {}
+        if (CheckCollisionPointRec(mousePoint, bounds))
+        {
+            DrawRectangleRounded(bounds, .2, 2, WHITE); // Draw container border
+            return true;
+        }
+        return false;
+    }
+
+    bool ScreenPressed()
+    {
+
+        Vector2 mousePoint = GetMousePosition();
+        // Check button state
+        if (CheckCollisionPointRec(mousePoint, bounds) && (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)))
+        {
+            return true;
+        }
+        return false;
+    }
 
     ~Scene()
     {

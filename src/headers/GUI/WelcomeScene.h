@@ -46,7 +46,7 @@ public:
         GuiLabelFont((Rectangle){position, 200, 1000, 50}, message, textFont, 50, 0x000000ff);
         GuiLabelFont((Rectangle){position, 300, 1000, 50}, idString, textFont, 50, 0x000000ff);
 
-        DrawRectangleRounded(backgroundBox, .2f, 100, Fade(WHITE, 0.7));
+        DrawRectangleRounded(backgroundBox, .2f, 16, Fade(WHITE, 0.7));
         DrawTexture(texScarfyAnim, 832, 500, WHITE);
         DrawGIF();
         GuiLabelFont((Rectangle){position, 750, 1000, 50}, "Press Anywhere to Continue", headingFont, 30, 0x686868ff);

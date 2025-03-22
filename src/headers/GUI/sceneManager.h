@@ -45,7 +45,7 @@ public:
         admin = new Admin;
 
         // first scene that is shown
-        current = patronLogin;
+        current = welcome;
 
         filemanager.ReadData(&library);
         // library.GetPatronList()->DisplayList();
@@ -63,10 +63,8 @@ public:
     { // on  user operations screen
         if (current == patronScene)
         {
-            patronScene->SetName(library.GetUser()->GetLoginInfo()->GetUsername()); // show name of current user
-            patronScene->SetID(library.GetUser()->GetLibraryNumber());              // show id of current user
-            patronScene->SetLibraryPtr(&library);
-
+            patronScene->Update();
+            
             if (patronScene->LogoutBtnPressed())
             {
                 patronLogin = new LoginScene(); //to clear stuff user already entered
@@ -108,7 +106,6 @@ public:
             {                                                      // patronLogin button pressed
                 string username = patronLogin->GetNameInput();     // store username entered
                 string password = patronLogin->GetPasswordInput(); // store password entered
-
                 // check if user is a new register
                 //  if username and password matches current user they are registering for the first time
                 if (newRegister.User::Login(username, password)) // only base can acccept temporary password
@@ -290,6 +287,9 @@ public:
                 }
                 else
                 {
+                    patronScene->SetName(library.GetUser()->GetLoginInfo()->GetUsername()); // show name of current user
+                    patronScene->SetID(library.GetUser()->GetLibraryNumber());              // show id of current user
+                    patronScene->PopulateBookGrid(&library);
                     current = patronScene;
                 }
             }
