@@ -10,7 +10,7 @@ class Patron : public User
 private:
     int libraryID; // Used as the Patron Library Card Number
     // queue of book checked out
-    BookQueue queue;
+    BookQueue *queue;
     // TO DO  BookQueue bookqueue
 
 public:
@@ -18,14 +18,16 @@ public:
     Patron() : User() // initialize base class using its default constructor
     {
         libraryID = 0;
+        queue = NULL;
     }
 
     // Primary
     Patron(string name) : User(name) // Create patron and set username  //no password set
     {
         // TO do --- ensure Id number does not exist already
-        libraryID = GenerateLibraryID();
+        libraryID = 0;
         // libraryID = 0;
+        queue = NULL;
     }
 
     // Getters
@@ -38,6 +40,18 @@ public:
     void SetLibraryNumber(int libNumb) // will propblaby not be used id is genereated automatically
     {
         libraryID = libNumb;
+    }
+    
+    void CheckinBook(Book book){
+
+        queue->enqueue(book);
+
+    }
+
+    void CheckOutBook(){
+
+        queue->dequeue();
+        //can add function to deque specific book
     }
 
     // display patron details

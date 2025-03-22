@@ -7,6 +7,39 @@
 using namespace std;
 class FileManager
 {
+private:
+    // Preorder Traversal
+    void SavePreOrder(BookNode *node, ofstream &outfile)
+    {
+        if (node == NULL)
+        {
+            return;
+        }
+        // Visit Node
+        outfile << node->GetData(); //  the data for that node
+        // Traverse left subtree
+        SavePreOrder(node->GetLeftNode(), outfile);
+
+        // Traverse right subtree
+        SavePreOrder(node->GetRightNode(), outfile);
+    }
+
+    // Preorder Traversal
+    void ReadPreOrder(BookNode *node, ofstream &outfile)
+    {
+        if (node == NULL)
+        {
+            return;
+        }
+        // Visit Node
+        outfile << node->GetData(); //  the data for that node
+        // Traverse left subtree
+        SavePreOrder(node->GetLeftNode(), outfile);
+
+        // Traverse right subtree
+        SavePreOrder(node->GetRightNode(), outfile);
+    }
+
 public:
     FileManager(/* args */) {};
     ~FileManager() {};
@@ -84,7 +117,7 @@ public:
                 {
 
                     readfile >> newPatron; // assign info from file to temporary patron
-                
+
                     library->GetPatronList()->InsertByLibaryNumber(newPatron); // add patron to library
 
                     readfile.peek(); // ensure the end of the file is not passed
@@ -119,7 +152,7 @@ public:
 
                     library->GetBookBST()->InsertBook(newBook); // add book to library
 
-                      // To DO Add function here to search patron list and assign rentee 
+                    // To DO Add function here to search patron list and assign rentee
 
                     readfile.peek(); // ensure the end of the file is not passed
                 }
@@ -136,39 +169,4 @@ public:
             cerr << e.what() << endl;
         }
     }
-
-    // Preorder Traversal
-    void SavePreOrder(BookNode *node, ofstream &outfile)
-    {
-        if (node == NULL)
-        {
-            return;
-        }
-        // Visit Node
-        outfile << node->GetData(); //  the data for that node
-        // Traverse left subtree
-        SavePreOrder(node->GetLeftNode(), outfile);
-
-        // Traverse right subtree
-        SavePreOrder(node->GetRightNode(), outfile);
-    }
-
-    // Preorder Traversal
-    void ReadPreOrder(BookNode *node, ofstream &outfile)
-    {
-        if (node == NULL)
-        {
-            return;
-        }
-        // Visit Node
-        outfile << node->GetData(); //  the data for that node
-        // Traverse left subtree
-        SavePreOrder(node->GetLeftNode(), outfile);
-
-        // Traverse right subtree
-        SavePreOrder(node->GetRightNode(), outfile);
-    }
 };
-
-
-

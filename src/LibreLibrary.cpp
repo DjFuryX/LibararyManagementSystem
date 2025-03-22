@@ -32,6 +32,8 @@ int main()
     EndDrawing();
   }
 
+  delete scene;
+
   UnloadImage(icon);
   CloseWindow();
 }

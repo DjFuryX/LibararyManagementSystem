@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 #include "src/headers/PasswordMangement/LoginInfo.h"
-//user classs
+// user classs
 class User
 {
 private:
@@ -18,7 +18,7 @@ public:
 
                             };
 
-    User(string username, string LoginInfo) : loginInfo(username, LoginInfo) // primary constructor for Admin only
+    User(string username, string password) : loginInfo(username, password) // primary constructor for Admin only
     {
     }
 
@@ -31,11 +31,11 @@ public:
     // Mutators
     void SetLoginInfo(LoginInfo userPassword)
     {
-       loginInfo = userPassword;
+        loginInfo = userPassword;
     }
 
-   virtual bool Login(string username, string userpassword)// registering for the first time
-    { // Login Function
+    virtual bool Login(string username, string userpassword) // registering for the first time
+    {                                                        // Login Function
 
         if (username == loginInfo.GetUsername() && userpassword == loginInfo.GetPassword())
         {
@@ -45,7 +45,8 @@ public:
         return false;
     }
 
-    virtual int GetLibraryNumber(){
+    virtual int GetLibraryNumber()
+    {
         return 0;
     };
 

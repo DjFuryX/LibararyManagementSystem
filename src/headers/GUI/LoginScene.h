@@ -4,13 +4,12 @@
 #include "Scene.h"
 class LoginScene : public Scene
 {
-private:
+protected:
     Color headingColor;
     Color subHeadingColor;
     Color textColor;
     Color LoginBoxColor;
     Rectangle loginBox;
- 
 
     bool usernameTextBox;
     char nameInput[maxInputSize] = "Please enter name";
@@ -18,6 +17,9 @@ private:
     char PasswordInput[maxInputSize] = "Please enter Password";
     bool registerBtn;
     bool loginBtn;
+    bool adminBtn;
+    bool resetBtn;
+    bool cancelBtn;
 
 public:
     LoginScene()
@@ -27,7 +29,10 @@ public:
         usernameTextBox = false;
         passwordTextBox = false;
         registerBtn = false;
-        loginBtn=false;
+        loginBtn = false;
+        adminBtn = false;
+        resetBtn = false;
+        cancelBtn = false;
     }
 
     void Draw()
@@ -40,20 +45,20 @@ public:
         DrawRectangleRounded(loginBox, 0.2, 0, Fade(LoginBoxColor, 0.9f));
 
         GuiLabelFont((Rectangle){position, 100, 1000, 50}, "Welcome to LIBRE", headingFont, 50, ColorToInt(WHITE));
-        GuiLabelFont((Rectangle){position, 200, 1000, 50}, "A Comprehensive Library Management System", subheadingFont, 40,ColorToInt(RAYWHITE));
+        GuiLabelFont((Rectangle){position, 200, 1000, 50}, "A Comprehensive Library Management System", subheadingFont, 40, ColorToInt(RAYWHITE));
         GuiLabelFont((Rectangle){position, 300, 1000, 50}, "Please Login to Your Account", textFont, 30, 0x000000ff);
 
         GuiLabelFont((Rectangle){position - 200, 380, 1000, 50}, "Username", textFont, 25, 0x000000ff);
-        DrawRectangleRec(nameBox,WHITE);
+        DrawRectangleRec(nameBox, WHITE);
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);
-        if (GuiTextBox((Rectangle){centerPositionHorizontal(500), 420, 500, 50}, nameInput, maxInputSize,usernameTextBox))
+        if (GuiTextBox((Rectangle){centerPositionHorizontal(500), 420, 500, 50}, nameInput, maxInputSize, usernameTextBox))
         {
             buttonClear(usernameTextBox, nameInput, (char *)"Please enter name");
         };
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
         GuiLabelFont((Rectangle){position - 200, 500, 1000, 50}, "Password", textFont, 25, 0x000000ff);
-        
-        DrawRectangleRec(passwordBox,WHITE);
+
+        DrawRectangleRec(passwordBox, WHITE);
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);
         if (GuiTextBox(passwordBox, PasswordInput, maxInputSize, passwordTextBox))
         {
@@ -64,22 +69,34 @@ public:
         loginBtn = GuiButton((Rectangle){centerPositionHorizontal(400), 700, 400, 50}, "Login");
 
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
-        GuiButton((Rectangle){centerPositionHorizontal(400), 800, 400, 50}, "Cancel");
+        cancelBtn = GuiButton((Rectangle){centerPositionHorizontal(400), 800, 400, 50}, "Cancel");
 
         registerBtn = (GuiLabelButton((Rectangle){position + 250, 850, 200, 50}, "New Then register"));
 
-        GuiLabelButton((Rectangle){position + 240, 900, 200, 50}, "Reset password");
+        resetBtn = GuiLabelButton((Rectangle){position + 240, 900, 200, 50}, "Reset password");
+
+        adminBtn = GuiLabelButton((Rectangle){position + 600, 900, 200, 50}, "Admin Login");
+        GuiLabelButton((Rectangle){position + 600, 900, 200, 50}, "__________");
     }
 
-
-    string GetNameInput(){
+    string GetNameInput()
+    {
 
         return nameInput;
     }
 
-    string GetPasswordInput(){
-        
+    string GetPasswordInput()
+    {
         return PasswordInput;
+    }
+
+    void SetUsernameText(string text)
+    {
+        strcpy(nameInput, text.c_str());
+    }
+    void SetPasswordText(string text)
+    {
+        strcpy(PasswordInput, text.c_str());
     }
 
     bool RegisterBtnPressed()
@@ -89,8 +106,22 @@ public:
             registerBtn = false;
             return true;
         }
+        return false;
+    }
+    bool ResetBtnPressed()
+    {
+        if (resetBtn == true)
+        {
+            resetBtn = false;
+            return true;
+        }
 
         return false;
+    }
+    // if the password input box is pressed
+    bool passwordBoxpressed()
+    {
+        return passwordTextBox;
     }
 
     bool LoginBtnPressed()
@@ -98,6 +129,26 @@ public:
         if (loginBtn == true)
         {
             loginBtn = false;
+            return true;
+        }
+        return false;
+    }
+
+    bool adminBtnpresed()
+    {
+        if (adminBtn == true)
+        {
+            adminBtn = false;
+            return true;
+        }
+        return false;
+    }
+
+    bool cancelBtnPressed()
+    {
+        if (cancelBtn == true)
+        {
+            cancelBtn = false;
             return true;
         }
         return false;

@@ -6,6 +6,7 @@
 using namespace std;
 #include "raygui.h"
 #include <raymath.h>
+
 #include "src/headers/LibraryManagement.h"
 #include "src/headers/FileManagement/FileManager.h"
 
@@ -48,9 +49,9 @@ public:
         // set background color
         backgroundColor = WHITE;
         // screen clickable screen space
-        bounds = {0, 0,(float)GetScreenWidth(), (float)GetScreenHeight()};
-        // 
-        nameBox={centerPositionHorizontal(500), 420, 500, 50};
+        bounds = {0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()};
+        //
+        nameBox = {centerPositionHorizontal(500), 420, 500, 50};
         passwordBox = {centerPositionHorizontal(500), 540, 500, 50};
 
         // Load style properties provided
@@ -102,9 +103,12 @@ public:
         return false;
     }
 
+ 
+
     virtual void Update() {}
 
-    ~Scene(){
+    ~Scene()
+    {
         UnloadTexture(backgroundTexture);
     }
 };

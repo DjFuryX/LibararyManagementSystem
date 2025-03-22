@@ -1,42 +1,22 @@
 #ifndef REGISTERSCENE_H
 #define REGISTERSCENE_H
-#include "Scene.h"
 
-class RegisterScene : public Scene
+#include "LoginScene.h"
+
+class RegisterScene : public LoginScene
 {
 
 private:
-
-
-
-    Color headingColor;
-    Color subHeadingColor;
-    Color textColor;
-    Color LoginBoxColor;
-    Rectangle loginBox;
-
-    bool usernameTextBox;
-    char nameInput[maxInputSize] = "Please enter name";
-    bool passwordTextBox;
-    char PasswordInput[maxInputSize] = "Please enter Password";
-    bool backToLogin;
-    bool newUser;
 
     char tempPasword[maxInputSize] = "-- -- --";
     Rectangle tempPasswordBox;
     bool tempPassPressed;
 
 public:
-    RegisterScene()
+    RegisterScene():LoginScene()
     {
-        loginBox = {400, 300, 600, 700};
-        tempPasswordBox={centerPositionHorizontal(500), 550, 500, 50};
-        LoginBoxColor = DARKGRAY;
-        usernameTextBox = false;
-        passwordTextBox = false;
-        backToLogin = false;
-        newUser = false;
         tempPassPressed=false;
+        tempPasswordBox={centerPositionHorizontal(500), 550, 500, 50};
     }
 
     void Draw()
@@ -66,39 +46,20 @@ public:
         GuiLabelFont((Rectangle){centerPositionHorizontal(500), 500, 500, 50}, "Temporary Password", textFont, 30, 0x000000ff);
       
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
-        //GuiLabelFont((Rectangle){centerPositionHorizontal(500), 550, 500, 50}, tempPasword, textFont, 50, 0x000000ff);
+        GuiLabelFont((Rectangle){centerPositionHorizontal(500), 550, 500, 50}, tempPasword, textFont, 50, 0x000000ff);
         DrawRectangleRec(tempPasswordBox,WHITE);
 
-       tempPassPressed = GuiTextBox(tempPasswordBox, tempPasword, maxInputSize, false);
+        tempPassPressed = GuiTextBox(tempPasswordBox, tempPasword, maxInputSize, false);
         
         GuiSetStyle(DEFAULT, TEXT_SIZE, 25);
-        newUser = GuiButton((Rectangle){centerPositionHorizontal(400), 700, 400, 50}, "Register");
+        registerBtn = GuiButton((Rectangle){centerPositionHorizontal(400), 700, 400, 50}, "Register");
 
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
         GuiButton((Rectangle){centerPositionHorizontal(400), 800, 400, 50}, "Cancel");
 
-        backToLogin = GuiLabelButton((Rectangle){position + 250, 850, 200, 50}, "Back to Login");
+        loginBtn = GuiLabelButton((Rectangle){position + 250, 850, 200, 50}, "Back to Login");
     }
 
-    bool LoginButton()
-    {
-        if (backToLogin == true)
-        {
-            backToLogin = false;
-            return true;
-        }
-        return backToLogin;
-    }
-
-    bool RegisterButton()
-    {
-        if (newUser == true)
-        {
-            newUser = false;
-            return true;
-        }
-        return newUser;
-    }
 
     bool CopyTempPassword()
     {
@@ -111,7 +72,7 @@ public:
     }
 
 
-    char *GetTempPasswordText(){
+    string GetTempPasswordText(){
 
         return tempPasword;
     }
@@ -126,6 +87,7 @@ public:
     {   
         //cout<<"Text Changed--"<<tempPasword<<" : "<<text<<endl;
         strcpy(tempPasword, text.c_str());
+
         
     }
 };
