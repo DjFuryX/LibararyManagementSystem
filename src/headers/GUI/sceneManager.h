@@ -45,7 +45,7 @@ public:
         admin = new Admin;
 
         // first scene that is shown
-        current = welcome;
+        current = patronLogin;
 
         filemanager.ReadData(&library);
         // library.GetPatronList()->DisplayList();
