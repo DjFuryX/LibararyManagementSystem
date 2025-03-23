@@ -41,11 +41,10 @@ public:
         message = new PopUp;
         adminLogin = new AdminLoginScene;
         reset = new ResetScene;
-
         admin = new Admin;
 
         // first scene that is shown
-        current = patronScene;
+        current = patronLogin;
 
         filemanager.ReadData(&library);
         // library.GetPatronList()->DisplayList();
