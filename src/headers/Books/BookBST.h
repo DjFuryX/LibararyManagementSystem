@@ -22,24 +22,22 @@ public:
     }
 
     // Accessors
-    BookNode *GetRoot ()
+    BookNode *GetRoot()
     {
         return rootNode;
     }
 
-    BookNode *&GetRootNode ()
+    BookNode *&GetRootNode()
     {
         return rootNode;
     }
-
-    
 
     // Mutator
     void SetRoot(BookNode *root)
     {
         rootNode = root;
     }
- 
+
     // Recursive function to insert a key into a BST by reference
     void InsertByISBN(BookNode *&root, Book book)
     {
@@ -69,7 +67,6 @@ public:
             InsertByISBN(root->GetRightNode(), book);
         }
     }
-
 
     // Recursive function to insert a key into a BST by reference
     void InsertByTitle(BookNode *&root, Book book)
@@ -145,48 +142,41 @@ public:
         return true;
     }
 
-    Book *SearchByISBN(int ISBN)
+    Book *SearchByTitle(string title)
     {
 
-        return Search(rootNode, ISBN);
+        Book *temp = NULL;
+
+        search(rootNode, title, temp);
+
+        return temp;
     }
 
-    Book *Search(BookNode *root, int bookId)
+    // function to search a key in a BST
+    void search(BookNode *&root, string key, Book *&book)
     {
 
-        if (root == NULL)
+        // Base Cases: root is null or key
+        // is present at root
+        if (root == NULL ||   strcasecmp( root->GetDataPtr()->getTitle().c_str(),key.c_str())==0)
         {
-            return NULL;
+            if (root != NULL)
+            {
+                book = root->GetDataPtr();
+            }
+            return;
         }
-
-        if (root->GetData().getISBN() == bookId)
-        {
-
-            return root->GetDataPtr();
-        }
-
-        // if the given key is less than the root node, recur for the left subtree
-        if (bookId < root->GetData().getISBN())
-        {
-            Search(root->GetLeftNode(), bookId);
-        }
-
-        // if the given key is more than the root node, recur for the right subtree
-        else
-        {
-            Search(root->GetRightNode(), bookId);
-        }
+        cout << root->GetDataPtr()->getTitle() << " : " << key << endl;
+        // can change to travers tree optimally if its sortered fisrt
+        search(root->GetLeftNode(), key, book);
+        search(root->GetRightNode(), key, book);
     }
 
     void SortByTitle() // TO Do
     {
-
         BookBST *temp = new BookBST;
 
         SortAndAdd(rootNode, temp);
-        //DisplayInorder();
-        cout<<"---------------------------------"<<endl;
-        temp->inorder(temp->GetRoot());
 
         rootNode = temp->GetRoot();
     }
@@ -197,17 +187,11 @@ public:
         {
             return;
         }
+
         // PostOrder Traversal
         SortAndAdd(root->GetLeftNode(), sortedBSt);
         SortAndAdd(root->GetRightNode(), sortedBSt);
-        sortedBSt->InsertByTitle(sortedBSt->GetRootNode(), root->GetData()); 
-    }
 
-    // returns poiinter to node where book was found
-    BookNode *SortByAuthor()
-    {
-        BookNode *temp;
-
-        return temp;
+        sortedBSt->InsertByTitle(sortedBSt->GetRootNode(), root->GetData());
     }
 };

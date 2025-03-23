@@ -45,6 +45,13 @@ public:
         renteeID = newBook.renteeID;
     }
 
+    Book (Book *book){
+        title = book->title;
+        author = book->author;
+        ISBN = book->ISBN;
+        renteeID = book->renteeID;
+    }
+
     // Getters
     string getTitle()
     {

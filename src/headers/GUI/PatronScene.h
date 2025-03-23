@@ -10,13 +10,20 @@ class PatronScene : public Scene
 {
 private:
     LibraryManagement *library;
+    PopUp message;
 
     bool SearchBoxPressed;
     char SearchInput[maxInputSize] = "Search..";
+    char SearchInputDefault[maxInputSize] = "Search..";
 
     Rectangle topbar;
     Rectangle sideBar;
+
     Rectangle searchBox;
+    Rectangle searchTextBox;
+    Rectangle searchBtnBox;
+    Texture2D searchIcon;
+    bool search;
 
     Rectangle undoBtnBox;
     Texture2D undoBtntexture;
@@ -72,6 +79,8 @@ private:
         librarybtntexture = LoadTexture("src/resources/images/library1.png");
         mybooksBtntexture = LoadTexture("src/resources/images/mybook2.png");
         cartBtntexture = LoadTexture("src/resources/images/cart2.png");
+        searchIcon = LoadTexture("src/resources/images/search1.png");
+
         // generate higher quilty textures
         GenTextureMipmaps(&undoBtntexture);
         GenTextureMipmaps(&sortBtnTexture);
@@ -80,6 +89,7 @@ private:
         GenTextureMipmaps(&mybooksBtntexture);
         GenTextureMipmaps(&cartBtntexture);
         GenTextureMipmaps(&librarybtntexture);
+        GenTextureMipmaps(&searchIcon);
 
         // set texture filter to prevent blurry textures
         SetTextureFilter(undoBtntexture, TEXTURE_FILTER_TRILINEAR);
@@ -89,6 +99,7 @@ private:
         SetTextureFilter(librarybtntexture, TEXTURE_FILTER_TRILINEAR);
         SetTextureFilter(mybooksBtntexture, TEXTURE_FILTER_TRILINEAR);
         SetTextureFilter(cartBtntexture, TEXTURE_FILTER_TRILINEAR);
+        SetTextureFilter(searchIcon, TEXTURE_FILTER_TRILINEAR);
     }
 
     void SetRectangles()
@@ -104,15 +115,19 @@ private:
         userIDBox = {sideBar.x + 5, libraryBtnBox.height + 750, sideBar.width - 10, topbar.height};
         logoutBtnBox = {sideBar.x + 5, libraryBtnBox.height + 850, sideBar.width - 10, topbar.height};
 
-        searchBox = {topbar.x + 1450, topbar.y + 10, topbar.width - 1480, topbar.height - 20};
+        searchTextBox = {topbar.x + 1450, topbar.y + 10, topbar.width - 1480, topbar.height - 20};
+        searchBtnBox = {searchTextBox.x - 80, searchTextBox.y, 75, topbar.height - 20};
+
+        searchBox = {1370, 10, 520, 80};
+
         nameBox = {topbar.x + 10, topbar.y + 10, 200, topbar.height - 20};
 
         addToCartBtnBox = {topbar.x + 400, topbar.y + 5, 250, topbar.height - 10};
         undoBtnBox = {addToCartBtnBox.x + addToCartBtnBox.width + 40, topbar.y + 5, addToCartBtnBox.width, topbar.height - 10};
-        sortBtnBox = {undoBtnBox.x + undoBtnBox.width + 200, topbar.y + 5, undoBtnBox.width, topbar.height - 10};
+        sortBtnBox = {undoBtnBox.x + undoBtnBox.width + 100, topbar.y + 5, undoBtnBox.width, topbar.height - 10};
     }
 
-    // Function to perform inorder traversal on the tree
+    // Function to travese Binary search tree in Post Order and add to GUI List
     void inorder(BookNode *root)
     {
         if (root == NULL)
@@ -121,8 +136,8 @@ private:
         }
 
         inorder(root->GetLeftNode());
-        tilelist.InsertAtBack(root->GetData());
         inorder(root->GetRightNode());
+        tilelist.InsertAtBack(root->GetData());
     }
 
 public:
@@ -157,11 +172,40 @@ public:
     void Update()
     {
 
-        if (isButtonPressed(sortBtnBox))
+        if (isButtonPressed(sortBtnBox)) // sort books
         {
             library->GetBookBST()->SortByTitle();
             tilelist.Clear();
             inorder(library->GetBookBST()->GetRoot());
+            library->GetBookBST()->DisplayInorder();
+        }
+
+        if ((IsMouseOver(searchTextBox) && (IsKeyPressed(KEY_ENTER))) || isButtonPressed(searchBtnBox))
+        { // search books
+
+            if (IsSearchEmpty())
+            {
+
+                inorder(library->GetBookBST()->GetRoot());
+            }
+            else
+            {
+                Book *temp = NULL;
+                temp = library->GetBookBST()->SearchByTitle(SearchInput);
+
+
+                if (temp != NULL)
+                {
+
+                    tilelist.Clear();
+                    tilelist.InsertAtBack(temp);
+                    message.ShowPopUp(2, "Book Found", GREEN);
+                }
+                else
+                {
+                    message.ShowPopUp(2, "Book Not Found", RED);
+                }
+            }
         }
     }
 
@@ -203,7 +247,7 @@ public:
         DrawRectangleLinesEx(topbar, 3, BLACK); // Draw container border
 
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);
-        DrawRectangleRec(searchBox, WHITE);
+        DrawRectangleRec(searchTextBox, WHITE);
 
         GuiSetStyle(DEFAULT, TEXT_COLOR_NORMAL, ColorToInt(BLACK));
         // DrawRectangleRec(addToCartBtnBox, WHITE);
@@ -222,19 +266,34 @@ public:
         // DrawRectangleRec(sortBtnBox, WHITE);
         isHovered(sortBtnBox);
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_MIDDLE);
+
         GuiToggle((Rectangle){sortBtnBox.x, sortBtnBox.y, sortBtnBox.width, sortBtnBox.height}, "Sort By Title", &sort);
         sort ? (sortBtnTexture = sortBtnTexture1) : (sortBtnTexture = sortBtnTexture2);
         DrawTexturePro(sortBtnTexture, (Rectangle){0, 0, (float)sortBtnTexture.width, (float)sortBtnTexture.height},
                        (Rectangle){sortBtnBox.x, sortBtnBox.y + 15, 50, topbar.height - 50}, Vector2Zero(), 0.0f, WHITE);
+
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);
         GuiLabelFont(nameBox, "LIBRE LIBRARY", headingFont, 30, ColorToInt(WHITE));
         GuiSetStyle(DEFAULT, TEXT_SIZE, 25);
         GuiSetStyle(DEFAULT, TEXT_COLOR_NORMAL, ColorToInt(RED));
 
-        if (GuiTextBox(searchBox, SearchInput, maxInputSize, SearchBoxPressed))
+        isHovered(searchBox);
+        DrawTexturePro(searchIcon, (Rectangle){0, 0, (float)searchIcon.width, (float)searchIcon.height},
+
+                       (Rectangle){searchBtnBox.x + 15, searchBtnBox.y + 12, searchBtnBox.width - 25, searchBtnBox.height - 30}, Vector2Zero(), 0.0f, WHITE);
+
+        if (GuiTextBox(searchTextBox, SearchInput, maxInputSize, SearchBoxPressed))
         {
-            buttonClear(SearchBoxPressed, SearchInput, (char *)"Search..");
+            buttonClear(SearchBoxPressed, SearchInput, SearchInputDefault);
         };
+
+        message.Draw();
+    }
+
+    bool IsSearchEmpty()
+    {
+
+        return strcmp(SearchInput, SearchInputDefault) == 0;
     }
 
     void SetName(string name)

@@ -110,6 +110,16 @@ public:
         return false;
     }
 
+    bool IsMouseOver(Rectangle bounds){
+        Vector2 mousePoint = GetMousePosition();
+
+        if (CheckCollisionPointRec(mousePoint, bounds))
+        {
+            return true;
+        }
+        return false;
+    }
+
     bool isHovered(Rectangle bounds)
     {
         Vector2 mousePoint = GetMousePosition();

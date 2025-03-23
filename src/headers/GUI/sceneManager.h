@@ -45,7 +45,7 @@ public:
         admin = new Admin;
 
         // first scene that is shown
-        current = patronLogin;
+        current = welcome;
 
         filemanager.ReadData(&library);
         // library.GetPatronList()->DisplayList();
@@ -258,7 +258,9 @@ public:
                         }
 
                         library.GetPatronList()->InsertByLibaryNumber(newRegister);
+
                         message->ShowPopUp(2, "Register Succesfully", GREEN);
+
                         patronLogin = new LoginScene;//to clear stuff user already entered
                         current = patronLogin;
                     }

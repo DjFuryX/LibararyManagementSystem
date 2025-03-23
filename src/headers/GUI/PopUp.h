@@ -61,7 +61,7 @@ public:
             timeMilliSeconds = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - startTime).count();
             opacity = Lerp(0, 1, timeMilliSeconds * 0.002);
 
-            cout << "Program has been running for " << timeSeconds << " seconds |" << " duration: " << duration << endl;
+           // cout << "Program has been running for " << timeSeconds << " seconds |" << " duration: " << duration << endl;
             DrawRectangleRounded(messageBox, 0.2, 16, Fade(boxColor, opacity));
             GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
             GuiLabelFont(messageBox, message.c_str(), headingFont, 24, ColorToInt(Fade(textColor, opacity)));
