@@ -18,7 +18,6 @@ private:
     float gap;
     Texture2D bookCover;
     Texture2D checker;
-
     bool selected;
 
 public:
