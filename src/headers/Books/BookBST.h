@@ -166,8 +166,8 @@ public:
             }
             return;
         }
-        cout << root->GetDataPtr()->getTitle() << " : " << key << endl;
-        // can change to travers tree optimally if its sortered fisrt
+        //cout << root->GetDataPtr()->getTitle() << " : " << key << endl;
+        // can change to traverse tree optimally if its sortered fisrt
         search(root->GetLeftNode(), key, book);
         search(root->GetRightNode(), key, book);
     }

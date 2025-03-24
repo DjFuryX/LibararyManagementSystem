@@ -89,6 +89,7 @@ public:
     void buttonClear(bool &state, char *text, char *defaultText)
     {
         state = !state;
+        
         if (state && strcmp(text, defaultText) == 0)
         {
             strcpy(text, "");

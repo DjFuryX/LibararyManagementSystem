@@ -9,7 +9,6 @@ class Tile
 private:
     Book book;
     Rectangle bookTile;
-    Rectangle checkBox;
     Color tileColor;
     Font textFont;
     int textColor;
@@ -25,7 +24,6 @@ public:
     {
         // create a default tile
         bookTile = {0, 0, width, height};
-        checkBox = {0, 0, 100, 100};
         tileColor = RED;
         width = 300;
         height = 400;
@@ -73,6 +71,10 @@ public:
         bookCover = texture;
     }
 
+    void SetSelectState(bool isSelected){
+        selected = isSelected;
+    }
+
     Tile(float x, float y, float width, float height)
     {
         bookTile = {x, y, width, height};
@@ -91,7 +93,6 @@ public:
         tileColor = t.tileColor;
         bookCover = t.bookCover;
         checker = t.checker;
-        checkBox = t.checkBox;
         textColor = t.textColor;
         selected = t.selected;
         width = t.width;
@@ -111,14 +112,28 @@ public:
     }
 
     Book *GetBookPtr()
+
     {
         return &book;
     }
+
+
+    bool IsSelected(){
+    
+        
+        return selected;
+    }
+    
 
     float GetHeight()
     {
 
         return height;
+    }
+
+    Rectangle GetTileRec(){
+
+        return bookTile;
     }
 
     float GetGap()
@@ -166,6 +181,8 @@ public:
         GuiLabelFont((Rectangle){bookTile.x, bookTile.y - 100, bookTile.width, bookTile.height}, book.getTitle().c_str(), textFont, 25, textColor);
         GuiLabelFont((Rectangle){bookTile.x, bookTile.y, bookTile.width, bookTile.height}, book.getAuthor().c_str(), textFont, 25, textColor);
         GuiLabelFont((Rectangle){bookTile.x, bookTile.y + 100, bookTile.width, bookTile.height}, to_string(book.getISBN()).c_str(), textFont, 25, textColor);
+        //GuiLabelFont((Rectangle){bookTile.x, bookTile.y + 120, bookTile.width, bookTile.height}, to_string(bookTile.y).c_str(), textFont, 25,ColorToInt(RED));
+     
     }
 
     bool isPressed(float scrollOffset)

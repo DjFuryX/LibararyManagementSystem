@@ -5,8 +5,8 @@
 #include "./headers/GUI/SceneManager.h"
 int main()
 {
-  constexpr int screenWidth = 1920;
-  constexpr int screenHeight = 1080;
+  constexpr int screenWidth = 800;
+  constexpr int screenHeight = 600;
 
   Image icon = LoadImage("src/resources/images/Icon.png");
 
@@ -20,7 +20,7 @@ int main()
 
   MaximizeWindow(); // makes window fullscreeen
 
-  SetWindowMinSize(screenWidth, screenHeight); // fix window size
+  SetWindowMinSize(GetScreenWidth(), GetScreenHeight()); // fix window size
 
   SetTargetFPS(60); // set fps of window
 

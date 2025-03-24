@@ -10,11 +10,12 @@ class TileList
     // Class attribues
 private:
     TileNode *Head; // Head should point to the first element in list
-   
+
     // Define the scroll panel bounds and content
     float panelScroll;
-    float minScroll;
-    float maxScroll;
+    float topBound;
+    float bottomBound;
+    float absoluteDistance;
     Rectangle panel;
 
     Vector2 mousePoint;
@@ -26,12 +27,13 @@ private:
 
     float targetScroll;
     float animationTime;
-    float animationDuration; // Adjust duration as needed
+    float animationDuration;
 
     Texture2D bookTexture;
     Texture2D checkerTexture;
     Font textFont;
-    void ClearList(TileNode *node)
+
+    void ClearList(TileNode *node, BookBST *&selectedList)
     {
 
         if (!IsEmpty())
@@ -42,7 +44,14 @@ private:
                 return;
             }
 
-            ClearList(node->GetNextNode());
+            if (node->GetData().IsSelected())
+            {
+
+                selectedList->InsertByTitle(selectedList->GetRootNode(), node->GetData().GetBook());
+                //selectedList->InsertBook(node->GetData().GetBook());
+            }
+
+            ClearList(node->GetNextNode(), selectedList);
 
             if (node == Head)
             {
@@ -62,7 +71,7 @@ private:
     {
         // load default font files
         textFont = LoadFontEx("src/resources/fonts/Tahoma-Regular-font.ttf", 72, 0, 256);
-        //load book textures
+        // load book textures
         bookTexture = LoadTexture("src/resources/images/Book.png");
         checkerTexture = LoadTexture("src/resources/images/check.png");
         // generate Mipmaps for higher quality fonts
@@ -76,18 +85,35 @@ private:
     void GetMouseScroll()
     {
         mousePoint = GetMousePosition();
+        //  cout<<"Position"<<mousePoint.x<<" : "<<mousePoint.y<<endl;
 
         if (CheckCollisionPointRec(mousePoint, panel))
         {
-
             wheelMove = (int)GetMouseWheelMove();
             wheelMove = Clamp(wheelMove, -1, 1);
-            targetScroll += wheelMove * mouseWheelSpeed; // Vertical scroll
-            animationTime = 0.0f;                        // Reset animation time
+
+            targetScroll = wheelMove * mouseWheelSpeed; // Vertical scroll
+
+            absoluteDistance += targetScroll;
+            animationTime = 0.0f; // Reset animation time
         }
+
         animationTime += GetFrameTime(); // Increment animation time
+
+        if (absoluteDistance > topBound)
+        {
+            targetScroll = 0;
+            absoluteDistance = topBound;
+        }
+
+        if (absoluteDistance < bottomBound)
+        {
+            targetScroll = 0;
+            absoluteDistance = bottomBound;
+        }
+
         panelScroll = EaseExpoOut(animationTime, panelScroll, targetScroll - panelScroll, animationDuration);
-        targetScroll = Clamp(targetScroll, -maxScroll, minScroll);
+        // cout << targetScroll << " : " << panelScroll << " : " << absoluteDistance<<" : "<<bottomBound<< endl;
     }
 
 public:
@@ -99,14 +125,14 @@ public:
         LoadTexures();
         panelScroll = 0;
         panel = {150, 100, (float)GetScreenWidth() - 150, (float)GetScreenHeight() - 100};
-        mouseWheelSpeed = 50;
-
+        mouseWheelSpeed = 100;
+        absoluteDistance = 0;
         wheelMove = 0;
         offset = 50;
         rowCount = 5;
         coloumnCount = 0;
-        maxScroll = 0;
-        minScroll = 0;
+        bottomBound = 0;
+        topBound = 0;
         targetScroll = 0;
         animationTime = 0;
         animationDuration = 1;
@@ -126,8 +152,8 @@ public:
 
     void InsertAtBack(Book bookToInsert)
     {
-        TileNode *temp = new TileNode(bookToInsert,textFont,bookTexture,checkerTexture); // initialize temp1 using the primary constructor 3 | Reserve Memory Space
-     
+        TileNode *temp = new TileNode(bookToInsert, textFont, bookTexture, checkerTexture); // initialize temp1 using the primary constructor 3 | Reserve Memory Space
+
         if (temp != NULL) // if memory was allocated successfully
         {
             if (Head == NULL) // if the list is empty
@@ -143,12 +169,39 @@ public:
                 }
                 temp2->SetNextNode(temp); // set the link portion (NextNode) of the last node to point to the new node we are trying to add to the list
             }
-            CaculateTilePosition();
         }
         else // if memory was not allocated successfully
         {
             cerr << "Error! List is full (Out of Memory), can NOT add a new node" << endl;
         }
+        CaculateTilePosition();
+    }
+
+    void InsertAtBack(Book bookToInsert, bool selected)
+    {
+        TileNode *temp = new TileNode(bookToInsert, textFont, bookTexture, checkerTexture); // initialize temp1 using the primary constructor 3 | Reserve Memory Space
+        temp->GetDataPtr()->SetSelectState(selected);
+        if (temp != NULL) // if memory was allocated successfully
+        {
+            if (Head == NULL) // if the list is empty
+            {
+                Head = temp; // set head to point to the new node to be added to list
+            }
+            else // if the list was not empty
+            {
+                TileNode *temp2 = Head;              // initialize temp node to point to first element in list
+                while (temp2->GetNextNode() != NULL) // while we are not at the last node in the list
+                {
+                    temp2 = temp2->GetNextNode(); // move the current node (temp2) to IT'S next node
+                }
+                temp2->SetNextNode(temp); // set the link portion (NextNode) of the last node to point to the new node we are trying to add to the list
+            }
+        }
+        else // if memory was not allocated successfully
+        {
+            cerr << "Error! List is full (Out of Memory), can NOT add a new node" << endl;
+        }
+        CaculateTilePosition();
     }
 
     int CountNodes()
@@ -201,17 +254,17 @@ public:
     {
         GetMouseScroll();
         GetBookHovered();
-        
+
         TileNode *curr = Head; // point curr to the first element in the list.
         while (curr != NULL)   // while curr is pointing to a valid node
         {
+
             curr->GetData().Draw(panelScroll);
 
             curr = curr->GetNextNode(); // point curr to IT'S next node
         }
 
         GetBookPressed();
-       
     }
 
     Book *GetBookPressed()
@@ -251,20 +304,20 @@ public:
 
         TileNode *curr = Head; // point curr to the first element in the list.
         int coloum = 0;
+        bottomBound = 0;
+        coloumnCount = 0;
 
         while (curr != NULL) // while curr is pointing to a valid node
         {
             for (int row = 0; row < rowCount && curr != NULL; row++)
             {
-
                 curr->GetDataPtr()->SetPosition(panel.x, panel.y, row, coloum, offset);
-
                 curr = curr->GetNextNode(); // point curr to IT'S next node
             }
             coloum++;
-            // cout << "Coloum" << coloum << "Coloum*mousespeed" << coloum * mouseWheelSpeed << endl;
-            maxScroll = (coloum * (400 + 50)) - 900;
         }
+        coloumnCount = coloum - 2;
+        bottomBound = -(coloumnCount * 450);
     }
 
     bool IsEmpty()
@@ -325,9 +378,13 @@ public:
         return dataToReturn;
     }
 
-    void Clear()
+    BookBST *Clear()
     {
-        ClearList(GetHead());
+        BookBST *SelectedBooks = new BookBST;
+
+        ClearList(GetHead(), SelectedBooks);
+
+        return SelectedBooks;
     }
 
     // Easing function for smooth scrolling
@@ -339,6 +396,7 @@ public:
     ~TileList()
     {
         UnloadTexture(bookTexture);
+        UnloadTexture(checkerTexture);
     }
 };
 

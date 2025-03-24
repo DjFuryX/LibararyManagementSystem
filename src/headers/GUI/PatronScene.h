@@ -66,6 +66,8 @@ private:
     Texture2D background;
     TileList tilelist;
 
+    BookBST *selectedBooks;
+
     void SetTextures()
     {
 
@@ -137,7 +139,15 @@ private:
 
         inorder(root->GetLeftNode());
         inorder(root->GetRightNode());
-        tilelist.InsertAtBack(root->GetData());
+
+        if (selectedBooks->SearchByTitle(root->GetData().getTitle()) != NULL)
+        {
+            tilelist.InsertAtBack(root->GetData(), true);
+        }
+        else
+        {
+            tilelist.InsertAtBack(root->GetData());
+        }
     }
 
 public:
@@ -154,17 +164,20 @@ public:
         undo = false;
         sort = false;
         sortPressed = false;
+        selectedBooks = new BookBST;
         // add books to gui
     }
 
     void Draw()
     {
-        GuiSetStyle(DEFAULT, TEXT_COLOR_FOCUSED, ColorToInt(BLACK));
-        GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
+
         ClearBackground(WHITE);
         DrawTexture(background, 0, 0, WHITE);
 
         tilelist.DrawList();
+        GuiSetStyle(DEFAULT, TEXT_COLOR_FOCUSED, ColorToInt(BLACK));
+        GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
+        GuiSetStyle(DEFAULT, TEXT_COLOR_NORMAL, ColorToInt(BLACK));
         DrawControls();
         GuiSetStyle(DEFAULT, TEXT_COLOR_FOCUSED, DEFAULT);
     }
@@ -175,30 +188,52 @@ public:
         if (isButtonPressed(sortBtnBox)) // sort books
         {
             library->GetBookBST()->SortByTitle();
-            tilelist.Clear();
+            selectedBooks = tilelist.Clear();
             inorder(library->GetBookBST()->GetRoot());
-            library->GetBookBST()->DisplayInorder();
         }
 
-        if ((IsMouseOver(searchTextBox) && (IsKeyPressed(KEY_ENTER))) || isButtonPressed(searchBtnBox))
+    
+
+        if (isButtonPressed(searchBtnBox))
         { // search books
 
             if (IsSearchEmpty())
             {
+                BookBST *temp = new BookBST;
+                Book tempBook;
+
+                temp = selectedBooks;
+
+                if(!tilelist.GetHead()->GetData().IsSelected()){
+
+                    tempBook = tilelist.GetHead()->GetData().GetBook();
+                }
+
+                selectedBooks = tilelist.Clear();
+                
+                addBackBooks(temp->GetRoot(),tempBook);
 
                 inorder(library->GetBookBST()->GetRoot());
-            }
-            else
-            {
-                Book *temp = NULL;
-                temp = library->GetBookBST()->SearchByTitle(SearchInput);
 
+                selectedBooks = new BookBST;
+            }
+            else if (selectedBooks->IsEmpty())
+            {
+                Book *temp = library->GetBookBST()->SearchByTitle(SearchInput);
 
                 if (temp != NULL)
                 {
 
-                    tilelist.Clear();
-                    tilelist.InsertAtBack(temp);
+                    selectedBooks = tilelist.Clear();
+
+                    if (selectedBooks->SearchByTitle(SearchInput) != NULL)
+                    {
+                        tilelist.InsertAtBack(temp, true);
+                    }
+                    else
+                    {
+                        tilelist.InsertAtBack(temp);
+                    }
                     message.ShowPopUp(2, "Book Found", GREEN);
                 }
                 else
@@ -206,6 +241,21 @@ public:
                     message.ShowPopUp(2, "Book Not Found", RED);
                 }
             }
+        }
+    }
+
+    void addBackBooks(BookNode *root,Book book)
+    {
+        if (root == NULL)
+        {
+            return;
+        }
+        addBackBooks(root->GetLeftNode(),book);
+        addBackBooks(root->GetRightNode(),book);
+        
+        if(root->GetData().getISBN() != book.getISBN()){
+
+            selectedBooks->InsertBook(root->GetData());
         }
     }
 

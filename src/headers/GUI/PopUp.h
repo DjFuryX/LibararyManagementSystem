@@ -79,6 +79,7 @@ public:
             GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
             GuiLabelFont(messageBox, message.c_str(), headingFont, 24, ColorToInt(Fade(textColor, Lerp(opacity, 0, timeMilliSeconds * 0.00065))));
         }
+        
     }
 
     ~PopUp() {}

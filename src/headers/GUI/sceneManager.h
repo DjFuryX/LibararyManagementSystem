@@ -44,7 +44,7 @@ public:
         admin = new Admin;
 
         // first scene that is shown
-        current = patronLogin;
+        current = welcome;
 
         filemanager.ReadData(&library);
         // library.GetPatronList()->DisplayList();
@@ -63,10 +63,10 @@ public:
         if (current == patronScene)
         {
             patronScene->Update();
-            
+
             if (patronScene->LogoutBtnPressed())
             {
-                patronLogin = new LoginScene(); //to clear stuff user already entered
+                patronLogin = new LoginScene(); // to clear stuff user already entered
                 current = patronLogin;
                 message->ShowPopUp(2, "Logout Successfull", WHITE);
             }
@@ -81,13 +81,13 @@ public:
 
             if (patronLogin->adminBtnpresed())
             {
-                adminLogin = new AdminLoginScene;//to clear stuff user already entered
+                adminLogin = new AdminLoginScene; // to clear stuff user already entered
                 current = adminLogin;
             }
 
             if (patronLogin->ResetBtnPressed())
             {
-                reset = new ResetScene;//to clear stuff user already entered
+                reset = new ResetScene; // to clear stuff user already entered
                 current = reset;
             }
 
@@ -152,7 +152,7 @@ public:
 
             if (adminLogin->patronBtnpressed())
             {
-                patronLogin = new LoginScene;//to clear stuff user already entered
+                patronLogin = new LoginScene; // to clear stuff user already entered
                 current = patronLogin;
             }
 
@@ -242,7 +242,7 @@ public:
                         library.GetPatronList()->GetPatron(username)->GetLoginInfo()->HashPassword();
 
                         message->ShowPopUp(2, "Reset Successfull", GREEN);
-                        patronLogin = new LoginScene;//to clear stuff user already entered
+                        patronLogin = new LoginScene; // to clear stuff user already entered
                         current = patronLogin;
                     }
                     else if (newRegister.GetLoginInfo()->GetUsername() == username)
@@ -260,7 +260,7 @@ public:
 
                         message->ShowPopUp(2, "Register Succesfully", GREEN);
 
-                        patronLogin = new LoginScene;//to clear stuff user already entered
+                        patronLogin = new LoginScene; // to clear stuff user already entered
                         current = patronLogin;
                     }
                     else
@@ -272,7 +272,7 @@ public:
 
             if (reset->patronBtnpressed())
             {
-                patronLogin = new LoginScene;//to clear stuff user already entered
+                patronLogin = new LoginScene; // to clear stuff user already entered
                 current = patronLogin;
             }
         }
@@ -291,6 +291,7 @@ public:
                     patronScene->SetName(library.GetUser()->GetLoginInfo()->GetUsername()); // show name of current user
                     patronScene->SetID(library.GetUser()->GetLibraryNumber());              // show id of current user
                     patronScene->PopulateBookGrid(&library);
+
                     current = patronScene;
                 }
             }
