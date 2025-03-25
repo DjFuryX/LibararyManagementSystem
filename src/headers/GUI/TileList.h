@@ -258,9 +258,7 @@ public:
         TileNode *curr = Head; // point curr to the first element in the list.
         while (curr != NULL)   // while curr is pointing to a valid node
         {
-
             curr->GetData().Draw(panelScroll);
-
             curr = curr->GetNextNode(); // point curr to IT'S next node
         }
 

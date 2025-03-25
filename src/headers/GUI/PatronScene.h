@@ -16,7 +16,7 @@ private:
     char SearchInput[maxInputSize] = "Search..";
     char SearchInputDefault[maxInputSize] = "Search..";
 
-    char stackCount[maxInputSize]="";
+    char stackCount[maxInputSize] = "";
 
     Rectangle topbar;
     Rectangle sideBar;
@@ -35,6 +35,7 @@ private:
 
     Rectangle addToCartBtnBox;
     Texture2D addToCartBtnIcon;
+    Texture2D returnBtnIcon;
     bool addTocart;
 
     Rectangle sortBtnBox;
@@ -42,7 +43,6 @@ private:
     Texture2D sortBtnIcon1;
     Texture2D sortBtnIcon2;
     bool sort;
-    bool sortPressed;
 
     Rectangle nameBox;
 
@@ -54,9 +54,9 @@ private:
     bool myBooksBtn;
     Texture2D mybooksBtnIcon;
 
-    Rectangle checkOutBtnBox;
-    bool checkoutBtn;
-    Texture2D checkOutBtntIcon;
+    Rectangle confirmBtnBox;
+    bool confirmBtn;
+    Texture2D confirmBtntIcon;
 
     Rectangle logoutBtnBox;
     Texture2D logoutBtnIcon;
@@ -67,13 +67,15 @@ private:
     char userNameText[maxInputSize];
     char userIdText[maxInputSize];
 
+    bool stackOptions;
+
     Texture2D background;
-   
-    TileList tilelist;
- 
+
+    TileList libraryList;
+    TileList CheckoutList;
 
     BookBST *selectedBooks;
-    
+
     void SetTextures()
     {
 
@@ -82,11 +84,12 @@ private:
         undoBtnIcon = LoadTexture("src/resources/images/undo1.png");
         sortBtnIcon1 = LoadTexture("src/resources/images/sort1.png");
         sortBtnIcon2 = LoadTexture("src/resources/images/sort2.png");
-        addToCartBtnIcon = LoadTexture("src/resources/images/checkout2.png");
+        addToCartBtnIcon = LoadTexture("src/resources/images/checkout.png");
+        returnBtnIcon = LoadTexture("src/resources/images/return.png");
         logoutBtnIcon = LoadTexture("src/resources/images/logout2.png");
         librarybtnIcon = LoadTexture("src/resources/images/library2.png");
         mybooksBtnIcon = LoadTexture("src/resources/images/mybook1.png");
-        checkOutBtntIcon = LoadTexture("src/resources/images/cart1.png");
+        confirmBtntIcon = LoadTexture("src/resources/images/cart1.png");
         searchIcon = LoadTexture("src/resources/images/search1.png");
         searchCancel = LoadTexture("src/resources/images/cancel.png");
 
@@ -98,10 +101,11 @@ private:
         GenTextureMipmaps(&addToCartBtnIcon);
         GenTextureMipmaps(&logoutBtnIcon);
         GenTextureMipmaps(&mybooksBtnIcon);
-        GenTextureMipmaps(&checkOutBtntIcon);
+        GenTextureMipmaps(&confirmBtntIcon);
         GenTextureMipmaps(&librarybtnIcon);
         GenTextureMipmaps(&searchIcon);
         GenTextureMipmaps(&searchCancel);
+        GenTextureMipmaps(&returnBtnIcon);
 
         // set texture filter to prevent blurry textures
         SetTextureFilter(undoBtnIcon, TEXTURE_FILTER_TRILINEAR);
@@ -110,9 +114,10 @@ private:
         SetTextureFilter(logoutBtnIcon, TEXTURE_FILTER_TRILINEAR);
         SetTextureFilter(librarybtnIcon, TEXTURE_FILTER_TRILINEAR);
         SetTextureFilter(mybooksBtnIcon, TEXTURE_FILTER_TRILINEAR);
-        SetTextureFilter(checkOutBtntIcon, TEXTURE_FILTER_TRILINEAR);
+        SetTextureFilter(confirmBtntIcon, TEXTURE_FILTER_TRILINEAR);
         SetTextureFilter(searchIcon, TEXTURE_FILTER_TRILINEAR);
         SetTextureFilter(searchCancel, TEXTURE_FILTER_TRILINEAR);
+        SetTextureFilter(returnBtnIcon, TEXTURE_FILTER_BILINEAR);
     }
 
     void SetRectangles()
@@ -122,10 +127,12 @@ private:
         sideBar = {0, 100, 150, (float)GetScreenHeight()};
         libraryBtnBox = {sideBar.x + 5, topbar.y + 105, sideBar.width - 10, topbar.height};
         myBooksBtnBox = {sideBar.x + 5, libraryBtnBox.height + 120, sideBar.width - 10, topbar.height};
-        checkOutBtnBox = {sideBar.x + 5, myBooksBtnBox.height + 240, sideBar.width - 10, topbar.height};
+        confirmBtnBox = {sideBar.x + 5, myBooksBtnBox.height + 240, sideBar.width - 10, topbar.height};
 
-        userNameBox = {sideBar.x + 5, libraryBtnBox.height + 650, sideBar.width - 10, topbar.height};
-        userIDBox = {sideBar.x + 5, libraryBtnBox.height + 750, sideBar.width - 10, topbar.height};
+        nameBox = {topbar.x + 10, topbar.y + 10, 200, 20};
+        userNameBox = {topbar.x + 10, topbar.y + 40, 100, 20};
+        userIDBox = {topbar.x + 10, topbar.y + 60, 100, 20};
+
         logoutBtnBox = {sideBar.x + 5, libraryBtnBox.height + 850, sideBar.width - 10, topbar.height};
 
         searchTextBox = {topbar.x + 1400, topbar.y + 10, topbar.width - 1480, topbar.height - 20};
@@ -133,31 +140,49 @@ private:
         searchCancelBox = {searchTextBox.x + 450, topbar.y + 25, 50, 50};
         searchBox = {1320, 10, 590, 80};
 
-        nameBox = {topbar.x + 10, topbar.y + 10, 200, topbar.height - 20};
-
         addToCartBtnBox = {topbar.x + 400, topbar.y + 5, 250, topbar.height - 10};
         undoBtnBox = {addToCartBtnBox.x + addToCartBtnBox.width + 40, topbar.y + 5, addToCartBtnBox.width, topbar.height - 10};
         sortBtnBox = {undoBtnBox.x + undoBtnBox.width + 100, topbar.y + 5, undoBtnBox.width, topbar.height - 10};
     }
 
-    // Function to travese Binary search tree in Post Order and add to GUI List
-    void inorder(BookNode *root) // TO Do Rename to post Order
+    void AddToLibraryList(BookNode *root) // TO Do Rename to post Order
     {
         if (root == NULL)
         {
             return;
         }
 
-        inorder(root->GetLeftNode());
-        inorder(root->GetRightNode());
+        AddToLibraryList(root->GetLeftNode());
+        AddToLibraryList(root->GetRightNode());
 
         if (selectedBooks->SearchByTitle(root->GetData().getTitle()) != NULL)
         {
-            tilelist.InsertAtBack(root->GetData(), true);
+            libraryList.InsertAtBack(root->GetData(), true);
         }
         else
         {
-            tilelist.InsertAtBack(root->GetData());
+            libraryList.InsertAtBack(root->GetData());
+        }
+    }
+
+    void PopulateCheckoutList() // TO Do Rename to post Order
+    {
+        BookQueue *tempQueue = new BookQueue;
+
+        BookQueue *userQueue = library->GetUser()->GetUserQueue();
+
+        CheckoutList.Clear();
+
+        while (userQueue->GetFront() != NULL)
+        {
+
+            tempQueue->Enqueue(userQueue->Dequeue());
+
+            CheckoutList.InsertAtBack(tempQueue->GetRearBook());
+        }
+        while (tempQueue->GetFront() != NULL)
+        {
+            userQueue->Enqueue(tempQueue->Dequeue());
         }
     }
 
@@ -204,11 +229,11 @@ public:
         SearchBoxPressed = false;
         search = false;
         libraryBtn = true;
-        checkoutBtn = false;
+        confirmBtn = false;
         logOutBtn = false;
         undo = false;
         sort = false;
-        sortPressed = false;
+        stackOptions = true;
         selectedBooks = new BookBST;
         // add books to gui
     }
@@ -219,21 +244,22 @@ public:
         ClearBackground(WHITE);
         DrawTexture(background, 0, 0, WHITE);
 
-        tilelist.DrawList();
+        stackOptions ? (libraryList.DrawList()) : (CheckoutList.DrawList());
+
         GuiSetStyle(DEFAULT, TEXT_COLOR_FOCUSED, ColorToInt(BLACK));
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
         GuiSetStyle(DEFAULT, TEXT_COLOR_NORMAL, ColorToInt(BLACK));
         DrawControls();
-        GuiSetStyle(DEFAULT, TEXT_COLOR_FOCUSED, DEFAULT);
+        GuiSetStyle(DEFAULT, TEXT_COLOR_FOCUSED, ColorToInt(SKYBLUE));
     }
 
     void Update()
     {
 
-        if (isButtonPressed(addToCartBtnBox))
+        if (isButtonPressed(addToCartBtnBox) && stackOptions)
         { // add to cart is pressed
 
-            TileNode *curr = tilelist.GetHead(); // point curr to the first element in the list.
+            TileNode *curr = libraryList.GetHead(); // point curr to the first element in the list.
 
             while (curr != NULL) // while curr is pointing to a valid node
             {
@@ -251,7 +277,8 @@ public:
             SetStackCount();
         }
 
-        if(isButtonPressed(checkOutBtnBox)){
+        if (isButtonPressed(confirmBtnBox) && stackOptions)
+        {
 
             Book temp;
             while (library->GetBookStack()->GetTop() != NULL)
@@ -260,48 +287,16 @@ public:
 
                 library->GetUser()->CheckinBook(temp);
             }
-
-             // update stack count
-             SetStackCount();
+            // update stack count
+            SetStackCount();
         }
 
-        if (isButtonPressed(myBooksBtnBox)){
-           
-        
-                BookQueue *tempQueue = new BookQueue;
-
-                BookQueue *userQueue = library->GetUser()->GetUserQueue();
-
-                tilelist.Clear();
-        
-                while (userQueue->GetFront() != NULL)
-                {
-        
-                    tempQueue->Enqueue(userQueue->Dequeue());
-        
-                    tilelist.InsertAtBack(tempQueue->GetRearBook());
-                }
-                while (tempQueue->GetFront() != NULL)
-                {
-        
-                   userQueue->Enqueue(tempQueue->Dequeue());
-                }
-            
-        }
-
-        if(isButtonPressed(libraryBtnBox)){
-            tilelist.Clear();
-            inorder(library->GetBookBST()->GetRoot());
-        }
-
-
-        if (isButtonPressed(undoBtnBox))
+        if (isButtonPressed(addToCartBtnBox) && !stackOptions)
         {
 
-            Book temp = library->GetBookStack()->pop();
-            updateBookRentee(library->GetBookBST()->GetRoot(), temp.getISBN(), 0);
+            Book temp = library->GetUser()->GetUserQueue()->Dequeue();
 
-            TileNode *curr = tilelist.GetHead(); // point curr to the first element in the list.
+            TileNode *curr = CheckoutList.GetHead(); // point curr to the first element in the list.
 
             while (curr != NULL) // while curr is pointing to a valid node
             {
@@ -311,8 +306,43 @@ public:
                 }
                 curr = curr->GetNextNode(); // point curr to IT'S next node
             }
-             // update stack count
-             SetStackCount();
+
+            CheckoutList.DeleteANode(temp.getISBN());
+            CheckoutList.CaculateTilePosition();
+        }
+
+        if (isButtonPressed(myBooksBtnBox) && stackOptions)
+        {
+            PopulateCheckoutList();
+            stackOptions = false;
+        }
+
+        if (isButtonPressed(libraryBtnBox))
+        {
+            libraryList.Clear();
+            AddToLibraryList(library->GetBookBST()->GetRoot());
+
+            stackOptions = true;
+        }
+
+        if (isButtonPressed(undoBtnBox) && stackOptions)
+        {
+
+            Book temp = library->GetBookStack()->pop();
+            updateBookRentee(library->GetBookBST()->GetRoot(), temp.getISBN(), 0);
+
+            TileNode *curr = libraryList.GetHead(); // point curr to the first element in the list.
+
+            while (curr != NULL) // while curr is pointing to a valid node
+            {
+                if (curr->GetDataPtr()->GetBook().getISBN() == temp.getISBN())
+                {
+                    curr->GetDataPtr()->GetBookPtr()->SetRenteeID(0);
+                }
+                curr = curr->GetNextNode(); // point curr to IT'S next node
+            }
+            // update stack count
+            SetStackCount();
         }
 
         if (isButtonPressed(sortBtnBox) && !search) // sort books
@@ -320,8 +350,8 @@ public:
             sort ? (sortBtnIcon = sortBtnIcon1) : (sortBtnIcon = sortBtnIcon2);
 
             library->GetBookBST()->SortByTitle();
-            selectedBooks = tilelist.Clear();
-            inorder(library->GetBookBST()->GetRoot());
+            selectedBooks = libraryList.Clear();
+            AddToLibraryList(library->GetBookBST()->GetRoot());
 
             selectedBooks = new BookBST;
         }
@@ -342,15 +372,15 @@ public:
                 {
                     search = true;
 
-                    selectedBooks = tilelist.Clear();
+                    selectedBooks = libraryList.Clear();
 
                     if (selectedBooks->SearchByTitle(SearchInput) != NULL)
                     {
-                        tilelist.InsertAtBack(temp, true);
+                        libraryList.InsertAtBack(temp, true);
                     }
                     else
                     {
-                        tilelist.InsertAtBack(temp);
+                        libraryList.InsertAtBack(temp);
                     }
                     message.ShowPopUp(2, "Book Found", GREEN);
                 }
@@ -371,23 +401,23 @@ public:
 
             temp = selectedBooks;
 
-            if (!tilelist.GetHead()->GetData().IsSelected())
+            if (!libraryList.GetHead()->GetData().IsSelected())
             {
 
-                tempBook = tilelist.GetHead()->GetData().GetBook();
+                tempBook = libraryList.GetHead()->GetData().GetBook();
             }
 
-            selectedBooks = tilelist.Clear();
+            selectedBooks = libraryList.Clear();
 
             addBackBooks(temp->GetRoot(), tempBook);
 
-            inorder(library->GetBookBST()->GetRoot());
+            AddToLibraryList(library->GetBookBST()->GetRoot());
 
             selectedBooks = new BookBST;
         }
 
         if (isButtonPressed(logoutBtnBox))
-        { // if logout btn pressed 
+        { // if logout btn pressed
 
             // clear book stack
             Book temp;
@@ -407,6 +437,9 @@ public:
 
         // DrawRectangleRec(libraryBtnBox, YELLOW);
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
+        GuiSetFont(textFont);
+        GuiSetStyle(DEFAULT, TEXT_SIZE, 25);
+
         isHovered(libraryBtnBox);
         libraryBtn = (GuiLabelButton((Rectangle){libraryBtnBox.x + 30, libraryBtnBox.y + 25, libraryBtnBox.width - 10, libraryBtnBox.height - 40}, "Library"));
         DrawTexturePro(librarybtnIcon, (Rectangle){0, 0, (float)librarybtnIcon.width, (float)librarybtnIcon.height},
@@ -418,45 +451,52 @@ public:
         DrawTexturePro(mybooksBtnIcon, (Rectangle){0, 0, (float)mybooksBtnIcon.width, (float)mybooksBtnIcon.height},
                        (Rectangle){myBooksBtnBox.x - 5, myBooksBtnBox.y + 25, myBooksBtnBox.width - 90, myBooksBtnBox.height - 50}, Vector2Zero(), 0.0f, WHITE);
 
-        // DrawRectangleRec(checkOutBtnBox, Fade(PINK, 05));
-        isHovered(checkOutBtnBox);
-        checkoutBtn = (GuiLabelButton((Rectangle){checkOutBtnBox.x + 20, checkOutBtnBox.y + 25, checkOutBtnBox.width - 10, checkOutBtnBox.height - 50}, "Checkout"));
-        DrawTexturePro(checkOutBtntIcon, (Rectangle){0, 0, (float)checkOutBtntIcon.width, (float)checkOutBtntIcon.height},
-                       (Rectangle){checkOutBtnBox.x, checkOutBtnBox.y + 25, 40, 40}, Vector2Zero(), 0.0f, WHITE);
-
         // DrawRectangleRec(logoutBtnBox, YELLOW);
         isHovered(logoutBtnBox);
         logOutBtn = (GuiLabelButton((Rectangle){logoutBtnBox.x + 30, logoutBtnBox.y + 25, logoutBtnBox.width - 10, logoutBtnBox.height - 50}, "Logout"));
         DrawTexturePro(logoutBtnIcon, (Rectangle){0, 0, (float)logoutBtnIcon.width, (float)logoutBtnIcon.height},
                        (Rectangle){logoutBtnBox.x, logoutBtnBox.y + 25, logoutBtnBox.width - 90, logoutBtnBox.height - 50}, Vector2Zero(), 0.0f, WHITE);
-
-        GuiLabelFont(userNameBox, userNameText, textFont, 25, ColorToInt(WHITE));
-        GuiLabelFont(userIDBox, userIdText, textFont, 25, ColorToInt(RED));
-
         DrawRectangleRec(topbar, Fade(RED, 0.9f));
         DrawRectangleLinesEx(topbar, 3, BLACK); // Draw container border
 
-        GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);
         DrawRectangleRec(searchTextBox, WHITE);
-
         GuiSetStyle(DEFAULT, TEXT_COLOR_NORMAL, ColorToInt(BLACK));
-        // DrawRectangleRec(addToCartBtnBox, WHITE);
-        isHovered(addToCartBtnBox);
-        // DrawRectangleRec((Rectangle){addToCartBtnBox.x + 80, addToCartBtnBox.y, addToCartBtnBox.width -10, addToCartBtnBox.height }, WHITE);
-        addTocart = (GuiLabelButton((Rectangle){addToCartBtnBox.x + 60, addToCartBtnBox.y, addToCartBtnBox.width, addToCartBtnBox.height}, "Add To Cart"));
 
-        DrawTexturePro(addToCartBtnIcon, (Rectangle){0, 0, (float)addToCartBtnIcon.width, (float)addToCartBtnIcon.height},
-                       (Rectangle){addToCartBtnBox.x, addToCartBtnBox.y + 15, 50, topbar.height - 50}, Vector2Zero(), 0.0f, WHITE);
+        if (stackOptions)
+        { // DrawRectangleRec(confirmBtnBox, Fade(PINK, 05));
+            isHovered(confirmBtnBox);
+            confirmBtn = (GuiLabelButton((Rectangle){confirmBtnBox.x + 20, confirmBtnBox.y + 25, confirmBtnBox.width - 10, confirmBtnBox.height - 50}, "Confirm"));
+            DrawTexturePro(confirmBtntIcon, (Rectangle){0, 0, (float)confirmBtntIcon.width, (float)confirmBtntIcon.height},
+                           (Rectangle){confirmBtnBox.x, confirmBtnBox.y + 25, 40, 40}, Vector2Zero(), 0.0f, WHITE);
 
-        // DrawRectangleRec(undoBtnBox, WHITE);
-        isHovered(undoBtnBox);
-        undo = (GuiLabelButton((Rectangle){undoBtnBox.x + 60, undoBtnBox.y, undoBtnBox.width, undoBtnBox.height}, "Undo Add To Cart"));
-        DrawTexturePro(undoBtnIcon, (Rectangle){0, 0, (float)undoBtnIcon.width, (float)undoBtnIcon.height},
-        (Rectangle){undoBtnBox.x, undoBtnBox.y + 20, 50, topbar.height - 60}, Vector2Zero(), 0.0f, WHITE);
-        
-        
-        GuiLabel((Rectangle){undoBtnBox.x+238, undoBtnBox.y + 10, 50, topbar.height - 60},stackCount);
-       
+            GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);
+            // DrawRectangleRec(addToCartBtnBox, WHITE);
+            isHovered(addToCartBtnBox);
+            // DrawRectangleRec((Rectangle){addToCartBtnBox.x + 80, addToCartBtnBox.y, addToCartBtnBox.width -10, addToCartBtnBox.height }, WHITE);
+            addTocart = (GuiLabelButton((Rectangle){addToCartBtnBox.x + 60, addToCartBtnBox.y, addToCartBtnBox.width, addToCartBtnBox.height}, "Checkout"));
+
+            DrawTexturePro(addToCartBtnIcon, (Rectangle){0, 0, (float)addToCartBtnIcon.width, (float)addToCartBtnIcon.height},
+                           (Rectangle){addToCartBtnBox.x, addToCartBtnBox.y + 15, 50, topbar.height - 50}, Vector2Zero(), 0.0f, WHITE);
+
+            // DrawRectangleRec(undoBtnBox, WHITE);
+            isHovered(undoBtnBox);
+            undo = (GuiLabelButton((Rectangle){undoBtnBox.x + 60, undoBtnBox.y, undoBtnBox.width, undoBtnBox.height}, "Undo Checkout"));
+            DrawTexturePro(undoBtnIcon, (Rectangle){0, 0, (float)undoBtnIcon.width, (float)undoBtnIcon.height},
+                           (Rectangle){undoBtnBox.x, undoBtnBox.y + 20, 50, topbar.height - 60}, Vector2Zero(), 0.0f, WHITE);
+            GuiLabel((Rectangle){undoBtnBox.x + 210, undoBtnBox.y + 10, 50, topbar.height - 60}, stackCount);
+        }
+        else
+        {
+
+            GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);
+            // DrawRectangleRec(addToCartBtnBox, WHITE);
+            isHovered(addToCartBtnBox);
+            // DrawRectangleRec((Rectangle){addToCartBtnBox.x + 80, addToCartBtnBox.y, addToCartBtnBox.width -10, addToCartBtnBox.height }, WHITE);
+            addTocart = (GuiLabelButton((Rectangle){addToCartBtnBox.x + 60, addToCartBtnBox.y, addToCartBtnBox.width, addToCartBtnBox.height}, "Check In Book"));
+            DrawTexturePro(returnBtnIcon, (Rectangle){0, 0, (float)returnBtnIcon.width, (float)returnBtnIcon.height},
+                           (Rectangle){addToCartBtnBox.x, addToCartBtnBox.y + 15, 50, topbar.height - 50}, Vector2Zero(), 0.0f, WHITE);
+        }
+
         // DrawRectangleRec(sortBtnBox, WHITE);
         isHovered(sortBtnBox);
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_MIDDLE);
@@ -467,9 +507,11 @@ public:
 
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);
         GuiLabelFont(nameBox, "LIBRE LIBRARY", headingFont, 30, ColorToInt(WHITE));
-        GuiSetStyle(DEFAULT, TEXT_SIZE, 25);
-        GuiSetStyle(DEFAULT, TEXT_COLOR_NORMAL, ColorToInt(RED));
 
+        GuiLabelFont(userNameBox, userNameText, textFont, 25, ColorToInt(BLACK));
+        GuiLabelFont(userIDBox, userIdText, textFont, 25, ColorToInt(BLACK));
+
+        GuiSetStyle(DEFAULT, TEXT_COLOR_NORMAL, ColorToInt(RED));
         isHovered(searchBox);
         DrawTexturePro(searchIcon, (Rectangle){0, 0, (float)searchIcon.width, (float)searchIcon.height},
                        (Rectangle){searchBtnBox.x + 15, searchBtnBox.y + 12, searchBtnBox.width - 25, searchBtnBox.height - 30}, Vector2Zero(), 0.0f, WHITE);
@@ -491,10 +533,11 @@ public:
         return strcmp(SearchInput, SearchInputDefault) == 0;
     }
 
-    void SetStackCount(){
+    void SetStackCount()
+    {
         int count = library->GetBookStack()->GetTotalBooks();
 
-        (count==0)?( strcpy(stackCount,"")):( strcpy(stackCount, to_string(count).c_str()));
+        (count == 0) ? (strcpy(stackCount, "")) : (strcpy(stackCount, to_string(count).c_str()));
     }
 
     void SetName(string name)
@@ -514,13 +557,14 @@ public:
 
     TileList *GetTileList()
     {
-        return &tilelist;
+        return &libraryList;
     }
 
     void PopulateBookGrid(LibraryManagement *libraryManagement)
     {
         library = libraryManagement;
-        inorder(library->GetBookBST()->GetRoot());
+        AddToLibraryList(library->GetBookBST()->GetRoot());
+        
     }
 
     bool LogoutBtnPressed()
@@ -542,7 +586,7 @@ public:
         UnloadTexture(logoutBtnIcon);
         UnloadTexture(librarybtnIcon);
         UnloadTexture(mybooksBtnIcon);
-        UnloadTexture(checkOutBtntIcon);
+        UnloadTexture(confirmBtntIcon);
         UnloadTexture(searchCancel);
     }
 };

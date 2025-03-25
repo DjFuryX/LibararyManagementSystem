@@ -21,12 +21,6 @@ private:
     Color boxColor;
     Color textColor;
 
-    enum Type
-    {
-        normal,
-        success,
-        error
-    };
 
 public:
     PopUp()
