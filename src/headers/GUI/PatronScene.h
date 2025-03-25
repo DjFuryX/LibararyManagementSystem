@@ -289,6 +289,7 @@ public:
             }
             // update stack count
             SetStackCount();
+            library->Getstats()->setTotCheckouts(1);
         }
 
         if (isButtonPressed(addToCartBtnBox) && !stackOptions)

@@ -37,20 +37,27 @@ public:
     }
 
     // Setters
-    void setTotalBooks(int nTotalBooks)
+    void setTotalBooks(int nTotalBooks) //admin func later
     {
         totalBooks = nTotalBooks;
     }
 
-    void setTotalPatrons(int nTotalPatrons)
+    void setTotalPatrons(int nTotalPatrons) //done
     {
         totalPatrons = nTotalPatrons;
     }
 
-    void setTotalCurrentCheckouts(int nTotalCurrentCheckouts)
+    void setTotCheckouts(int nTotalCurrentCheckouts) //done
     {
-        currentCheckouts = nTotalCurrentCheckouts;
+        currentCheckouts += nTotalCurrentCheckouts;
     }
+
+    void setBooktot(int x)
+    {
+        totalBooks+= x;
+    }
+   
+
 
     // Display statistics
     void displayStatistics()

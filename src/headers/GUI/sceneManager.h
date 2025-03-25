@@ -257,6 +257,7 @@ public:
                         library.GetPatronList()->InsertByLibaryNumber(newRegister);
 
                         message->ShowPopUp(2, "Register Succesfully", GREEN);
+                        library.Getstats()->setTotalPatrons(1);
 
                         patronLogin = new LoginScene; // to clear stuff user already entered
                         current = patronLogin;
@@ -299,6 +300,6 @@ public:
     {
         // save libray info
         cout << "Files saved" << endl;
-        filemanager.SaveData(library);
+        filemanager.SaveData(&library);
     }
 };

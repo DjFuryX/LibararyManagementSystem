@@ -66,6 +66,11 @@ public:
         return user;
     }
 
+    Statistics *Getstats()
+    {
+        return &statistics;
+    }
+
     ~LibraryManagement()
     {
     }
