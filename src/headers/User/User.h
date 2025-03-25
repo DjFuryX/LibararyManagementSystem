@@ -60,6 +60,11 @@ public:
 
     }
 
+    virtual BookQueue *GetUserQueue(){
+
+        return NULL;
+    }
+
 
     ~User() {
 

@@ -4,30 +4,26 @@
 
 #include "User.h"
 
-
 class Patron : public User
 {
 private:
     int libraryID; // Used as the Patron Library Card Number
     // queue of book checked out
-    BookQueue *queue;
+    BookQueue queue;
     // TO DO  BookQueue bookqueue
 
 public:
     // Constructor
-    Patron() : User() // initialize base class using its default constructor
+    Patron() : User(),queue() // initialize base class using its default constructor
     {
         libraryID = 0;
-        queue = new BookQueue;
+
     }
 
     // Primary
-    Patron(string name) : User(name) // Create patron and set username  //no password set
+    Patron(string name) : User(name),queue() // Create patron and set username  //no password set
     {
-        // TO do --- ensure Id number does not exist already
         libraryID = 0;
-        // libraryID = 0;
-        queue = new BookQueue;
     }
 
     // Getters
@@ -41,17 +37,23 @@ public:
     {
         libraryID = libNumb;
     }
-    
-    void CheckinBook(Book book){
 
-        queue->enqueue(book);
+    void CheckinBook(Book book)
+    {
 
+        queue.Enqueue(book);
     }
 
-    void CheckOutBook(){
+    void CheckOutBook()
+    {
 
-        queue->dequeue();
-        //can add function to deque specific book
+        queue.Dequeue();
+        // can add function to deque specific book
+    }
+
+    BookQueue *GetUserQueue()
+    {
+        return &queue;
     }
 
     // display patron details

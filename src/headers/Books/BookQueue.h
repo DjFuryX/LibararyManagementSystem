@@ -12,18 +12,31 @@ public:
     // Constructor
     BookQueue() : front(nullptr), rear(nullptr) {}
 
+
+    BookQueueNode * GetFront(){
+        return front;
+
+    }
+
+    BookQueueNode * GetRear(){
+        return rear;
+        
+    }
+
+
+
     // Check if queue is empty
-    bool isEmpty() const
+    bool IsEmpty() const
     {
         return front == nullptr;
     }
 
     // Enqueue method to add a book to the queue
-    void enqueue(const Book &newBook)
+    void Enqueue(const Book &newBook)
     {
         BookQueueNode *newNode = new BookQueueNode(newBook);
 
-        if (isEmpty())
+        if (IsEmpty())
         {
             front = rear = newNode;
         }
@@ -35,38 +48,53 @@ public:
     }
 
     // Dequeue method to remove the front book from the queue
-    void dequeue()
-    {
-        if (isEmpty())
+    Book Dequeue()
+    {   
+        Book bookToReturn;
+
+        if (IsEmpty())
         {
             std::cout << "Queue is empty" << std::endl;
         }
         else
         {
             BookQueueNode *temp = front;
+            bookToReturn = front->GetData();
             front = front->GetNextNode();
+
             delete temp;
             if (front == nullptr)
             {
                 rear = nullptr;
             }
         }
+
+        return bookToReturn;
     }
 
     // Get the front book without removing it
-    Book frontBook() const
+    Book GetFrontBook() const
     {
-        if (isEmpty())
+        if (IsEmpty())
         {
             throw std::runtime_error("Queue is empty");
         }
         return front->GetData();
     }
 
-    // Display all books in the queue
-    void displayQueue() const
+    Book GetRearBook() const
     {
-        if (isEmpty())
+        if (IsEmpty())
+        {
+            throw std::runtime_error("Queue is empty");
+        }
+        return rear->GetData();
+    }
+
+    // Display all books in the queue
+    void DisplayQueue() const
+    {
+        if (IsEmpty())
         {
             std::cout << "Queue is empty" << std::endl;
         }
