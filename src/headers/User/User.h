@@ -3,6 +3,7 @@
 #include <iostream>
 using namespace std;
 #include "src/headers/PasswordMangement/LoginInfo.h"
+#include "src/headers/Books/BookQueue.h"
 // user classs
 class User
 {
@@ -48,7 +49,17 @@ public:
     virtual int GetLibraryNumber()
     {
         return 0;
-    };
+    }
+
+   virtual void CheckinBook(Book book){
+
+    }
+
+    
+   virtual void CheckOutBook(){
+
+    }
+
 
     ~User() {
 

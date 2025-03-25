@@ -212,7 +212,25 @@ public:
 
         if(isButtonPressed(addToCartBtnBox)){// add to cart is pressed
 
-    
+
+            TileNode *curr = tilelist.GetHead(); // point curr to the first element in the list.
+            
+            while (curr != NULL)   // while curr is pointing to a valid node
+            {
+                if (curr->GetDataPtr()->IsSelected()  && (curr->GetDataPtr()->GetBook().getRenteeID()==0) )
+                {
+                    curr->GetDataPtr()->GetBookPtr()->SetRenteeID(library->GetUser()->GetLibraryNumber());
+                    curr->GetDataPtr()->SetSelectState(false);
+                    
+                    library->GetBookStack()->push(curr->GetDataPtr()->GetBook());
+                    
+                    cout<<"Books Selected"<<endl;
+                    cout<<"-------------------------------------------------"<<endl;
+
+                }
+                curr = curr->GetNextNode(); // point curr to IT'S next node
+            }
+     
 
         }
 

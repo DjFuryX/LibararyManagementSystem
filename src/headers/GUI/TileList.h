@@ -112,7 +112,7 @@ private:
 
         panelScroll = EaseExpoOut(animationTime, panelScroll, targetScroll - panelScroll, animationDuration);
 
-        cout << targetScroll << " : " << panelScroll << " : " << absoluteDistance<<" : "<<bottomBound<< endl;
+       // cout << targetScroll << " : " << panelScroll << " : " << absoluteDistance<<" : "<<bottomBound<< endl;
     }
 
 public:

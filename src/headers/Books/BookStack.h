@@ -22,11 +22,16 @@ public:
     }
 
     //
-    void push(Book &book)
+    void push(Book book)
     {
         BookStkNode *newNode = new BookStkNode(book, top);
         top = newNode;
     }
+
+
+
+
+
 
     // Pop a book
     Book pop()

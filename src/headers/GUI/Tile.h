@@ -160,16 +160,21 @@ public:
         // Draw the texture inside the rectangle
         if (selected)
         {
-
+            // draws selected book
             DrawTexturePro(bookCover, (Rectangle){0, 0, (float)bookCover.width, (float)bookCover.height}, bookTile, Vector2Zero(), 0.0f, Fade(YELLOW, 0.95));
-
+            //draw check icon
             DrawTexturePro(checker, (Rectangle){0, 0, (float)checker.width, (float)checker.height},
                            (Rectangle){bookTile.x + 220, bookTile.y + 320, 100, 100}, Vector2Zero(), 0.0f, WHITE);
+        }
+        else if(book.getRenteeID() !=0){
+            DrawTexturePro(bookCover, (Rectangle){0, 0, (float)bookCover.width, (float)bookCover.height}, bookTile, Vector2Zero(), 0.0f, Fade(RED, 0.95));
         }
         else
         {
             DrawTexturePro(bookCover, (Rectangle){0, 0, (float)bookCover.width, (float)bookCover.height}, bookTile, Vector2Zero(), 0.0f, WHITE);
         }
+
+
         // cout<<"Is Box Selected: "<<selected<<endl;
 
         // DrawTextureRec(bookCover, bookTile, position, WHITE);
@@ -193,10 +198,8 @@ public:
 
         if (CheckCollisionPointRec(mousePoint, bookTile))
         {
-
-            if ((IsMouseButtonPressed(MOUSE_LEFT_BUTTON)))
+            if ((IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) && (book.getRenteeID()==0) )
             {
-
                 if (!CheckCollisionPointRec(mousePoint, topbar))
                 {
                     selected = !selected;

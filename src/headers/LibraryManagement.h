@@ -45,6 +45,11 @@ public:
         return &bookList;
     }
 
+    BookStack *GetBookStack(){
+        
+        return &bookstack;
+    }
+
     void SetPatronList(PatronLinkList *plist)
     {
 
