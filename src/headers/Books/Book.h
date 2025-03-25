@@ -85,13 +85,10 @@ public:
         ISBN = nISBN;
     }
     void SetRenteeID(int id){
-        
+
         renteeID=id;
     }
-    void SetrenteeID(int patronId)
-    {
-        renteeID = patronId;
-    }
+  
 
     // display book details
     void Display()

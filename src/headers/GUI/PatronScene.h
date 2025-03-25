@@ -137,7 +137,7 @@ private:
     }
 
     // Function to travese Binary search tree in Post Order and add to GUI List
-    void inorder(BookNode *root)
+    void inorder(BookNode *root)// TO Do Rename to post Order
     {
         if (root == NULL)
         {
@@ -170,6 +170,23 @@ private:
         {
 
             selectedBooks->InsertBook(root->GetData());
+        }
+    }
+
+    void updateBookRentee(BookNode *root,int isbn, int UserId)
+    {
+        if (root == NULL)
+        {
+            return;
+        }
+
+        updateBookRentee(root->GetLeftNode(),isbn,UserId);
+
+        updateBookRentee(root->GetRightNode(),isbn,UserId);
+
+        if (root->GetData().getISBN() == isbn)
+        {
+            root->GetDataPtr()->SetRenteeID(UserId);
         }
     }
 
@@ -221,16 +238,32 @@ public:
                 {
                     curr->GetDataPtr()->GetBookPtr()->SetRenteeID(library->GetUser()->GetLibraryNumber());
                     curr->GetDataPtr()->SetSelectState(false);
-                    
                     library->GetBookStack()->push(curr->GetDataPtr()->GetBook());
                     
-                    cout<<"Books Selected"<<endl;
-                    cout<<"-------------------------------------------------"<<endl;
-
+                   updateBookRentee(library->GetBookBST()->GetRoot(),curr->GetData().GetBook().getISBN(),library->GetUser()->GetLibraryNumber() );
                 }
                 curr = curr->GetNextNode(); // point curr to IT'S next node
             }
      
+
+        }
+
+        if(isButtonPressed(undoBtnBox)){
+
+            Book temp = library->GetBookStack()->pop();
+            updateBookRentee(library->GetBookBST()->GetRoot(),temp.getISBN(),0);
+
+
+            TileNode *curr = tilelist.GetHead(); // point curr to the first element in the list.
+            
+            while (curr != NULL)   // while curr is pointing to a valid node
+            {
+                if (curr->GetDataPtr()->GetBook().getISBN() == temp.getISBN() )
+                {
+                   curr->GetDataPtr()->GetBookPtr()->SetRenteeID(0);
+                }
+                curr = curr->GetNextNode(); // point curr to IT'S next node
+            }
 
         }
 
@@ -241,6 +274,7 @@ public:
             library->GetBookBST()->SortByTitle();
             selectedBooks = tilelist.Clear();
             inorder(library->GetBookBST()->GetRoot());
+
 
             selectedBooks = new BookBST;
         }
@@ -328,9 +362,9 @@ public:
 
         // DrawRectangleRec(cartBtnBox, Fade(PINK, 05));
         isHovered(cartBtnBox);
-        cartBtn = (GuiLabelButton((Rectangle){cartBtnBox.x + 20, cartBtnBox.y + 25, cartBtnBox.width - 10, cartBtnBox.height - 50}, "Cart"));
+        cartBtn = (GuiLabelButton((Rectangle){cartBtnBox.x + 20, cartBtnBox.y + 25, cartBtnBox.width - 10, cartBtnBox.height - 50}, "Checkout"));
         DrawTexturePro(cartBtntexture, (Rectangle){0, 0, (float)cartBtntexture.width, (float)cartBtntexture.height},
-                       (Rectangle){cartBtnBox.x + 10, cartBtnBox.y + 25, cartBtnBox.width - 100, cartBtnBox.height - 60}, Vector2Zero(), 0.0f, WHITE);
+                       (Rectangle){cartBtnBox.x, cartBtnBox.y + 25, 40, 40}, Vector2Zero(), 0.0f, WHITE);
 
         // DrawRectangleRec(logoutBtnBox, YELLOW);
         isHovered(logoutBtnBox);

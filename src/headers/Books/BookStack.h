@@ -11,14 +11,14 @@ private:
 
 public:
     // Consstructor
-    BookStack() : top(nullptr)
+    BookStack() : top(NULL)
     {
     }
 
     // Check if empty
     bool isEmpty()
     {
-        return top == nullptr;
+        return (top == NULL);
     }
 
     //
@@ -27,11 +27,6 @@ public:
         BookStkNode *newNode = new BookStkNode(book, top);
         top = newNode;
     }
-
-
-
-
-
 
     // Pop a book
     Book pop()
@@ -50,21 +45,6 @@ public:
 
         return poppedBook;  // return the book that was popped
     }
-    
-       /*  Book *searchByISBN(const int &isbn)
-        {
-            BookStkNode *current = top;
-            while (current != nullptr)
-            {
-                if (current->GetData().getISBN() == isbn)
-                {
-                    return &(current->GetData()); // Return a pointer to the book
-                }
-                current = current->GetNextNode();
-            }
-            return nullptr; //  book is not found
-        } */
-
         
 };
 

@@ -47,8 +47,7 @@ public:
         current = patronLogin;
 
         filemanager.ReadData(&library);
-        // library.GetPatronList()->DisplayList();
-        ///
+
     }
 
     void Draw()
