@@ -53,6 +53,8 @@ public:
         nameBox = {centerPositionHorizontal(500), 420, 500, 50};
         passwordBox = {centerPositionHorizontal(500), 540, 500, 50};
 
+
+        GuiSetStyle(DEFAULT, TEXT_COLOR_FOCUSED, ColorToInt(SKYBLUE));
         // Load style properties provided
         GuiSetStyle(TEXTBOX, BASE_COLOR_NORMAL, ColorToInt(LIGHTGRAY));
         GuiSetStyle(TEXTBOX, BASE_COLOR_PRESSED, ColorToInt(WHITE));

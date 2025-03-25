@@ -167,6 +167,7 @@ public:
                            (Rectangle){bookTile.x + 220, bookTile.y + 320, 100, 100}, Vector2Zero(), 0.0f, WHITE);
         }
         else if(book.getRenteeID() !=0){
+            
             DrawTexturePro(bookCover, (Rectangle){0, 0, (float)bookCover.width, (float)bookCover.height}, bookTile, Vector2Zero(), 0.0f, Fade(RED, 0.95));
         }
         else
