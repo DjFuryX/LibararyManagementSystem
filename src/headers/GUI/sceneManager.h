@@ -299,6 +299,6 @@ public:
     {
         // save libray info
         cout << "Files saved" << endl;
-        // filemanager.SaveData(library);
+        filemanager.SaveData(library);
     }
 };

@@ -51,6 +51,10 @@ public:
         try
         {
             ofstream outfile("files/PatronList.txt", ios::out);
+            ofstream outfile2("files/PatronQueue.txt", ios::out);
+            BookQueue *tempQueue = new BookQueue;
+
+            BookQueue *userQueue = library.GetUser()->GetUserQueue();
 
             if (outfile.is_open())
             {
@@ -61,8 +65,21 @@ public:
                 {
                     outfile << curr->GetData(); //  the data for that node
 
+                    outfile2 << curr->GetDataPtr()->GetLibraryNumber() << "|";
+
+                    while (userQueue->GetFront() != NULL)
+                    {
+                        tempQueue->Enqueue(userQueue->Dequeue());
+                        outfile2 << userQueue->GetRearBook().getISBN();
+                    }
+                    while (tempQueue->GetFront() != NULL)
+                    {
+                        userQueue->Enqueue(tempQueue->Dequeue());
+                    }
+                    outfile2 <<endl;
                     curr = curr->GetNextNode();
                 }
+                outfile2.close();
                 outfile.close();
             }
             else
@@ -75,7 +92,7 @@ public:
             cerr << e.what() << endl;
         }
 
-        // save Book list
+      /*   // save Book list
         try
         {
             ofstream outfile("files/BookList.txt", ios::out);
@@ -97,8 +114,8 @@ public:
         catch (runtime_error &e)
         {
             cerr << e.what() << endl;
-        }
-    }
+        }*/
+    } 
 
     // To DO // add read and save for the statistics class and the book list
 
