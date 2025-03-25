@@ -123,7 +123,6 @@ public:
 
                     if (newLogin->Login(username, password))
                     {
-                        newLogin->Display();
                         message->ShowPopUp(2, "Login  Successfull", GREEN);
 
                         library.SetUser(newLogin);
@@ -290,6 +289,15 @@ public:
                 {
                     patronScene->SetName(library.GetUser()->GetLoginInfo()->GetUsername()); // show name of current user
                     patronScene->SetID(library.GetUser()->GetLibraryNumber());              // show id of current user
+
+                    string title;
+                    for (int i = 0; i < 100; i++)
+                    {
+                        title = "title " + to_string(i);
+
+                        library.GetBookBST()->InsertBook(Book(i, title, "Author"));
+                    }
+
                     patronScene->PopulateBookGrid(&library);
 
                     current = patronScene;
@@ -301,6 +309,6 @@ public:
     {
         // save libray info
         cout << "Files saved" << endl;
-        filemanager.SaveData(library);
+        // filemanager.SaveData(library);
     }
 };

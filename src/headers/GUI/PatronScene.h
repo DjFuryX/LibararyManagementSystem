@@ -22,7 +22,9 @@ private:
     Rectangle searchBox;
     Rectangle searchTextBox;
     Rectangle searchBtnBox;
+    Rectangle searchCancelBox;
     Texture2D searchIcon;
+    Texture2D searchCancel;
     bool search;
 
     Rectangle undoBtnBox;
@@ -82,6 +84,9 @@ private:
         mybooksBtntexture = LoadTexture("src/resources/images/mybook2.png");
         cartBtntexture = LoadTexture("src/resources/images/cart2.png");
         searchIcon = LoadTexture("src/resources/images/search1.png");
+        searchCancel = LoadTexture("src/resources/images/cancel.png");
+
+        sortBtnTexture = sortBtnTexture1;
 
         // generate higher quilty textures
         GenTextureMipmaps(&undoBtntexture);
@@ -92,6 +97,7 @@ private:
         GenTextureMipmaps(&cartBtntexture);
         GenTextureMipmaps(&librarybtntexture);
         GenTextureMipmaps(&searchIcon);
+        GenTextureMipmaps(&searchCancel);
 
         // set texture filter to prevent blurry textures
         SetTextureFilter(undoBtntexture, TEXTURE_FILTER_TRILINEAR);
@@ -102,6 +108,7 @@ private:
         SetTextureFilter(mybooksBtntexture, TEXTURE_FILTER_TRILINEAR);
         SetTextureFilter(cartBtntexture, TEXTURE_FILTER_TRILINEAR);
         SetTextureFilter(searchIcon, TEXTURE_FILTER_TRILINEAR);
+        SetTextureFilter(searchCancel, TEXTURE_FILTER_TRILINEAR);
     }
 
     void SetRectangles()
@@ -117,11 +124,11 @@ private:
         userIDBox = {sideBar.x + 5, libraryBtnBox.height + 750, sideBar.width - 10, topbar.height};
         logoutBtnBox = {sideBar.x + 5, libraryBtnBox.height + 850, sideBar.width - 10, topbar.height};
 
-        searchTextBox = {topbar.x + 1450, topbar.y + 10, topbar.width - 1480, topbar.height - 20};
+        searchTextBox = {topbar.x + 1400, topbar.y + 10, topbar.width - 1480, topbar.height - 20};
         searchBtnBox = {searchTextBox.x - 80, searchTextBox.y, 75, topbar.height - 20};
-
-        searchBox = {1370, 10, 520, 80};
-
+        searchCancelBox = {searchTextBox.x + 450, topbar.y + 25, 50, 50};
+        searchBox = {1320, 10, 590, 80};
+    
         nameBox = {topbar.x + 10, topbar.y + 10, 200, topbar.height - 20};
 
         addToCartBtnBox = {topbar.x + 400, topbar.y + 5, 250, topbar.height - 10};
@@ -150,6 +157,22 @@ private:
         }
     }
 
+    void addBackBooks(BookNode *root, Book book)
+    {
+        if (root == NULL)
+        {
+            return;
+        }
+        addBackBooks(root->GetLeftNode(), book);
+        addBackBooks(root->GetRightNode(), book);
+
+        if (root->GetData().getISBN() != book.getISBN())
+        {
+
+            selectedBooks->InsertBook(root->GetData());
+        }
+    }
+
 public:
     PatronScene()
     {
@@ -158,6 +181,7 @@ public:
         SetRectangles();
 
         SearchBoxPressed = false;
+        search = false;
         libraryBtn = true;
         cartBtn = false;
         logOutBtn = false;
@@ -185,44 +209,39 @@ public:
     void Update()
     {
 
-        if (isButtonPressed(sortBtnBox)) // sort books
+
+        if(isButtonPressed(addToCartBtnBox)){// add to cart is pressed
+
+    
+
+        }
+
+        if (isButtonPressed(sortBtnBox) && !search) // sort books
         {
+            sort ? (sortBtnTexture = sortBtnTexture1) : (sortBtnTexture = sortBtnTexture2);
+
             library->GetBookBST()->SortByTitle();
             selectedBooks = tilelist.Clear();
             inorder(library->GetBookBST()->GetRoot());
-        }
 
-    
+            selectedBooks = new BookBST;
+        }
 
         if (isButtonPressed(searchBtnBox))
         { // search books
 
             if (IsSearchEmpty())
             {
-                BookBST *temp = new BookBST;
-                Book tempBook;
 
-                temp = selectedBooks;
-
-                if(!tilelist.GetHead()->GetData().IsSelected()){
-
-                    tempBook = tilelist.GetHead()->GetData().GetBook();
-                }
-
-                selectedBooks = tilelist.Clear();
-                
-                addBackBooks(temp->GetRoot(),tempBook);
-
-                inorder(library->GetBookBST()->GetRoot());
-
-                selectedBooks = new BookBST;
+                message.ShowPopUp(2, "Search  Box Empty ", RED);
             }
-            else if (selectedBooks->IsEmpty())
+            else if (!search)
             {
                 Book *temp = library->GetBookBST()->SearchByTitle(SearchInput);
 
                 if (temp != NULL)
                 {
+                    search = true;
 
                     selectedBooks = tilelist.Clear();
 
@@ -242,22 +261,33 @@ public:
                 }
             }
         }
-    }
 
-    void addBackBooks(BookNode *root,Book book)
-    {
-        if (root == NULL)
+        if (isButtonPressed(searchCancelBox))//cancel search
         {
-            return;
-        }
-        addBackBooks(root->GetLeftNode(),book);
-        addBackBooks(root->GetRightNode(),book);
-        
-        if(root->GetData().getISBN() != book.getISBN()){
 
-            selectedBooks->InsertBook(root->GetData());
+            strcpy(SearchInput, SearchInputDefault);
+            search = false;
+            BookBST *temp = new BookBST;
+            Book tempBook;
+
+            temp = selectedBooks;
+
+            if (!tilelist.GetHead()->GetData().IsSelected())
+            {
+
+                tempBook = tilelist.GetHead()->GetData().GetBook();
+            }
+
+            selectedBooks = tilelist.Clear();
+
+            addBackBooks(temp->GetRoot(), tempBook);
+
+            inorder(library->GetBookBST()->GetRoot());
+
+            selectedBooks = new BookBST;
         }
     }
+
 
     void DrawControls()
     {
@@ -318,7 +348,7 @@ public:
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_MIDDLE);
 
         GuiToggle((Rectangle){sortBtnBox.x, sortBtnBox.y, sortBtnBox.width, sortBtnBox.height}, "Sort By Title", &sort);
-        sort ? (sortBtnTexture = sortBtnTexture1) : (sortBtnTexture = sortBtnTexture2);
+        
         DrawTexturePro(sortBtnTexture, (Rectangle){0, 0, (float)sortBtnTexture.width, (float)sortBtnTexture.height},
                        (Rectangle){sortBtnBox.x, sortBtnBox.y + 15, 50, topbar.height - 50}, Vector2Zero(), 0.0f, WHITE);
 
@@ -329,8 +359,10 @@ public:
 
         isHovered(searchBox);
         DrawTexturePro(searchIcon, (Rectangle){0, 0, (float)searchIcon.width, (float)searchIcon.height},
-
                        (Rectangle){searchBtnBox.x + 15, searchBtnBox.y + 12, searchBtnBox.width - 25, searchBtnBox.height - 30}, Vector2Zero(), 0.0f, WHITE);
+
+        DrawTexturePro(searchCancel, (Rectangle){0, 0, (float)searchCancel.width, (float)searchCancel.height},
+                       searchCancelBox, Vector2Zero(), 0.0f, WHITE);
 
         if (GuiTextBox(searchTextBox, SearchInput, maxInputSize, SearchBoxPressed))
         {
@@ -392,6 +424,7 @@ public:
         UnloadTexture(librarybtntexture);
         UnloadTexture(mybooksBtntexture);
         UnloadTexture(cartBtntexture);
+        UnloadTexture(searchCancel);
     }
 };
 

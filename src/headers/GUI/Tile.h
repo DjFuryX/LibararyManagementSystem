@@ -19,6 +19,9 @@ private:
     Texture2D checker;
     bool selected;
 
+    Rectangle topbar = {0, 0, 1920, 100};
+    Vector2 mousePoint;
+
 public:
     Tile() : book()
     {
@@ -71,7 +74,8 @@ public:
         bookCover = texture;
     }
 
-    void SetSelectState(bool isSelected){
+    void SetSelectState(bool isSelected)
+    {
         selected = isSelected;
     }
 
@@ -117,13 +121,11 @@ public:
         return &book;
     }
 
+    bool IsSelected()
+    {
 
-    bool IsSelected(){
-    
-        
         return selected;
     }
-    
 
     float GetHeight()
     {
@@ -131,7 +133,8 @@ public:
         return height;
     }
 
-    Rectangle GetTileRec(){
+    Rectangle GetTileRec()
+    {
 
         return bookTile;
     }
@@ -158,11 +161,10 @@ public:
         if (selected)
         {
 
-            DrawTexturePro(bookCover, (Rectangle){0, 0, (float)bookCover.width, (float)bookCover.height}, bookTile, Vector2Zero(), 0.0f, Fade(YELLOW,0.95));
-           
+            DrawTexturePro(bookCover, (Rectangle){0, 0, (float)bookCover.width, (float)bookCover.height}, bookTile, Vector2Zero(), 0.0f, Fade(YELLOW, 0.95));
+
             DrawTexturePro(checker, (Rectangle){0, 0, (float)checker.width, (float)checker.height},
-                           (Rectangle){bookTile.x+220, bookTile.y+320, 100, 100}, Vector2Zero(), 0.0f, WHITE);
-                           
+                           (Rectangle){bookTile.x + 220, bookTile.y + 320, 100, 100}, Vector2Zero(), 0.0f, WHITE);
         }
         else
         {
@@ -181,20 +183,26 @@ public:
         GuiLabelFont((Rectangle){bookTile.x, bookTile.y - 100, bookTile.width, bookTile.height}, book.getTitle().c_str(), textFont, 25, textColor);
         GuiLabelFont((Rectangle){bookTile.x, bookTile.y, bookTile.width, bookTile.height}, book.getAuthor().c_str(), textFont, 25, textColor);
         GuiLabelFont((Rectangle){bookTile.x, bookTile.y + 100, bookTile.width, bookTile.height}, to_string(book.getISBN()).c_str(), textFont, 25, textColor);
-        //GuiLabelFont((Rectangle){bookTile.x, bookTile.y + 120, bookTile.width, bookTile.height}, to_string(bookTile.y).c_str(), textFont, 25,ColorToInt(RED));
-     
+        // GuiLabelFont((Rectangle){bookTile.x, bookTile.y + 120, bookTile.width, bookTile.height}, to_string(bookTile.y).c_str(), textFont, 25,ColorToInt(RED));
     }
 
     bool isPressed(float scrollOffset)
     {
-
-        Vector2 mousePoint = GetMousePosition();
+        mousePoint = GetMousePosition();
         bookTile.y += scrollOffset;
-        if (CheckCollisionPointRec(mousePoint, bookTile) && (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)))
+
+        if (CheckCollisionPointRec(mousePoint, bookTile))
         {
 
-            selected = !selected;
-            return true;
+            if ((IsMouseButtonPressed(MOUSE_LEFT_BUTTON)))
+            {
+
+                if (!CheckCollisionPointRec(mousePoint, topbar))
+                {
+                    selected = !selected;
+                    return true;
+                }
+            }
         }
         return false;
     }

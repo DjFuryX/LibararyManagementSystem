@@ -35,7 +35,6 @@ private:
 
     void ClearList(TileNode *node, BookBST *&selectedList)
     {
-
         if (!IsEmpty())
         {
 
@@ -48,7 +47,7 @@ private:
             {
 
                 selectedList->InsertByTitle(selectedList->GetRootNode(), node->GetData().GetBook());
-                //selectedList->InsertBook(node->GetData().GetBook());
+                // selectedList->InsertBook(node->GetData().GetBook());
             }
 
             ClearList(node->GetNextNode(), selectedList);
@@ -85,7 +84,6 @@ private:
     void GetMouseScroll()
     {
         mousePoint = GetMousePosition();
-        //  cout<<"Position"<<mousePoint.x<<" : "<<mousePoint.y<<endl;
 
         if (CheckCollisionPointRec(mousePoint, panel))
         {
@@ -113,7 +111,8 @@ private:
         }
 
         panelScroll = EaseExpoOut(animationTime, panelScroll, targetScroll - panelScroll, animationDuration);
-        // cout << targetScroll << " : " << panelScroll << " : " << absoluteDistance<<" : "<<bottomBound<< endl;
+
+        cout << targetScroll << " : " << panelScroll << " : " << absoluteDistance<<" : "<<bottomBound<< endl;
     }
 
 public:
@@ -174,6 +173,7 @@ public:
         {
             cerr << "Error! List is full (Out of Memory), can NOT add a new node" << endl;
         }
+
         CaculateTilePosition();
     }
 
@@ -316,6 +316,7 @@ public:
             }
             coloum++;
         }
+
         coloumnCount = coloum - 2;
         bottomBound = -(coloumnCount * 450);
     }
@@ -383,6 +384,11 @@ public:
         BookBST *SelectedBooks = new BookBST;
 
         ClearList(GetHead(), SelectedBooks);
+
+        absoluteDistance = 0;
+        animationTime = 0;
+        targetScroll = 0;
+        panelScroll = 0;
 
         return SelectedBooks;
     }

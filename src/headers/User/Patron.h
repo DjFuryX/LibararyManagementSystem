@@ -18,7 +18,7 @@ public:
     Patron() : User() // initialize base class using its default constructor
     {
         libraryID = 0;
-        queue = NULL;
+        queue = new BookQueue;
     }
 
     // Primary
@@ -27,7 +27,7 @@ public:
         // TO do --- ensure Id number does not exist already
         libraryID = 0;
         // libraryID = 0;
-        queue = NULL;
+        queue = new BookQueue;
     }
 
     // Getters

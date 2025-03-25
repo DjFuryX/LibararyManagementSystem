@@ -21,6 +21,8 @@ int main()
   MaximizeWindow(); // makes window fullscreeen
 
   SetWindowMinSize(GetScreenWidth(), GetScreenHeight()); // fix window size
+ 
+ // ToggleFullscreen();
 
   SetTargetFPS(60); // set fps of window
 
