@@ -48,39 +48,41 @@ public:
     {
 
         // save patron list
+
         try
         {
-            ofstream outfile("files/PatronList.txt", ios::out);
-            ofstream outfile2("files/PatronQueue.txt", ios::out);
-            BookQueue *tempQueue = new BookQueue;
+            ofstream patronfile("files/PatronList.txt", ios::out);
+            ofstream queueFile("files/PatronQueue.txt", ios::out);
 
-            BookQueue *userQueue = library.GetUser()->GetUserQueue();
-
-            if (outfile.is_open())
+            if (patronfile.is_open() && queueFile.is_open())
             {
-
                 PatronNode *curr = library.GetPatronList()->GetHead(); // point curr to the first element in the list.
-
+                Book temp;
                 while (curr != NULL) // while curr is pointing to a valid node
                 {
-                    outfile << curr->GetData(); //  the data for that node
+                    patronfile << curr->GetData(); //  the data for that node
+                    queueFile << curr->GetData().GetLibraryNumber();
 
-                    outfile2 << curr->GetDataPtr()->GetLibraryNumber() << "|";
+                    if (curr->GetData().GetUserQueue()->GetFront() != NULL)
+                    {  
+                        queueFile<<endl;
 
-                    while (userQueue->GetFront() != NULL)
-                    {
-                        tempQueue->Enqueue(userQueue->Dequeue());
-                        outfile2 << userQueue->GetRearBook().getISBN();
+                        while (curr->GetData().GetUserQueue()->GetFront() != NULL)
+                        {
+                            temp = curr->GetDataPtr()->GetUserQueue()->Dequeue();
+                            queueFile << temp.getISBN() << "|";
+                        }
+                        queueFile<<endl;
                     }
-                    while (tempQueue->GetFront() != NULL)
+                    else
                     {
-                        userQueue->Enqueue(tempQueue->Dequeue());
+                        queueFile<<endl;
                     }
-                    outfile2 <<endl;
+
                     curr = curr->GetNextNode();
                 }
-                outfile2.close();
-                outfile.close();
+                patronfile.close();
+                queueFile.close();
             }
             else
             {
@@ -92,7 +94,7 @@ public:
             cerr << e.what() << endl;
         }
 
-      /*   // save Book list
+        // save Book list
         try
         {
             ofstream outfile("files/BookList.txt", ios::out);
@@ -114,8 +116,8 @@ public:
         catch (runtime_error &e)
         {
             cerr << e.what() << endl;
-        }*/
-    } 
+        }
+    }
 
     // To DO // add read and save for the statistics class and the book list
 

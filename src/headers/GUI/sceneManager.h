@@ -128,7 +128,6 @@ public:
 
                         welcome->SetName(username);
                         welcome->SetID(newLogin->GetLibraryNumber());
-
                         current = welcome;
                     }
                     else
@@ -239,7 +238,10 @@ public:
                         library.GetPatronList()->GetPatron(username)->GetLoginInfo()->SetPassword(password);
                         library.GetPatronList()->GetPatron(username)->GetLoginInfo()->HashPassword();
 
+                        
+
                         message->ShowPopUp(2, "Reset Successfull", GREEN);
+
                         patronLogin = new LoginScene; // to clear stuff user already entered
                         current = patronLogin;
                     }
@@ -255,10 +257,9 @@ public:
                         }
 
                         library.GetPatronList()->InsertByLibaryNumber(newRegister);
-
-                        message->ShowPopUp(2, "Register Succesfully", GREEN);
                         library.Getstats()->setTotalPatrons(1);
 
+                        message->ShowPopUp(2, "Register Succesfully", GREEN);
                         patronLogin = new LoginScene; // to clear stuff user already entered
                         current = patronLogin;
                     }
@@ -287,6 +288,7 @@ public:
                 }
                 else
                 {
+                    patronScene = new PatronScene;
                     patronScene->SetName(library.GetUser()->GetLoginInfo()->GetUsername()); // show name of current user
                     patronScene->SetID(library.GetUser()->GetLibraryNumber());              // show id of current user
                     patronScene->PopulateBookGrid(&library);
@@ -297,9 +299,7 @@ public:
         }
     }
     ~SceneManager()
-    {
-        // save libray info
-        cout << "Files saved" << endl;
-        filemanager.SaveData(&library);
+    {   //save library info
+        filemanager.SaveData(library);
     }
 };
