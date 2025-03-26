@@ -46,9 +46,9 @@ public:
         admin = new Admin;
 
         // first scene that is shown
-         library.SetUser(admin);
-         current= welcome;
-        //current = patronLogin;
+       //  library.SetUser(admin);
+         //current= welcome;
+        current = patronLogin;
 
         filemanager.ReadData(&library);
     }

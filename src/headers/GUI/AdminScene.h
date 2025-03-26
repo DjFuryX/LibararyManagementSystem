@@ -200,7 +200,7 @@ public:
        
         listChange ? (patronList.DrawList()) : (libraryList.DrawList());
 
-        createBook.Draw();
+        //createBook.Draw();
         
         GuiSetStyle(DEFAULT, TEXT_COLOR_FOCUSED, ColorToInt(BLACK));
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
