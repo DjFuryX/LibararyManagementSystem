@@ -13,9 +13,8 @@ private:
     PopUp message;
 
     bool SearchBoxPressed;
-    char SearchInput[maxInputSize] = "Search..";
-    char SearchInputDefault[maxInputSize] = "Search..";
-
+    char SearchInput[maxInputSize] = "Search By Title..";
+    char SearchInputDefault[maxInputSize] = "Search By Title..";
     char stackCount[maxInputSize] = "";
 
     Rectangle topbar;
@@ -132,7 +131,7 @@ private:
         confirmBtnBox = {sideBar.x + 5, myBooksBtnBox.height + 240, sideBar.width - 10, topbar.height};
 
         nameBox = {topbar.x + 10, topbar.y + 10, 200, 20};
-        userNameBox = {topbar.x + 10, topbar.y + 40, 100, 20};
+        userNameBox = {topbar.x + 10, topbar.y + 40, 300, 20};
         userIDBox = {topbar.x + 10, topbar.y + 60, 100, 20};
 
         logoutBtnBox = {sideBar.x + 5, libraryBtnBox.height + 850, sideBar.width - 10, topbar.height};
