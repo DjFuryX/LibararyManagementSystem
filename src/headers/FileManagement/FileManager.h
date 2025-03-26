@@ -107,6 +107,27 @@ public:
         {
             cerr << e.what() << endl;
         }
+
+        try
+        {
+            ofstream statsfile("files/Statistics.txt", ios::out);
+            if (statsfile.is_open())
+            {
+                int totbooks = library.Getstats()->getTotalBooks(), totpat = library.Getstats()->getTotalPatrons(), totcheck = library.Getstats()->getTotalCurrentCheckouts();
+                statsfile << totbooks << endl;
+                statsfile << totpat << endl;
+                statsfile << totcheck;
+                statsfile.close();
+            }
+            else
+            {
+                throw runtime_error("cannot Open  file");
+            }
+        }
+        catch (const std::exception &e)
+        {
+            std::cerr << e.what() << '\n';
+        }
     }
 
     // To DO // add read and save for the statistics class and the book list
@@ -237,6 +258,31 @@ public:
         catch (runtime_error &e) // display error
         {
             cerr << e.what() << endl;
+        }
+
+        try
+        {
+            ifstream readstats("Statistics.txt", ios::in);
+            int totbooks, totpat, totcheck = 0;
+            if (readstats.is_open())
+            {
+
+                readstats >> totbooks;
+                readstats >> totpat;
+                readstats >> totcheck;
+                library->Getstats()->setTotalBooks(totbooks);
+                library->Getstats()->setTotalPatrons(totpat);
+                library->Getstats()->setTotCheckouts(totcheck);
+                readstats.close();
+            }
+            else
+            {
+                throw runtime_error("cannot Open  file");
+            }
+        }
+        catch (const std::exception &e)
+        {
+            std::cerr << e.what() << '\n';
         }
     }
 };

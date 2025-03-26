@@ -39,12 +39,12 @@ public:
     // Setters
     void setTotalBooks(int nTotalBooks) //admin func later
     {
-        totalBooks = nTotalBooks;
+        totalBooks += nTotalBooks;
     }
 
     void setTotalPatrons(int nTotalPatrons) //done
     {
-        totalPatrons = nTotalPatrons;
+        totalPatrons += nTotalPatrons;
     }
 
     void setTotCheckouts(int nTotalCurrentCheckouts) //done
@@ -52,11 +52,6 @@ public:
         currentCheckouts += nTotalCurrentCheckouts;
     }
 
-    void setBooktot(int x)
-    {
-        totalBooks+= x;
-    }
-   
 
 
     // Display statistics
