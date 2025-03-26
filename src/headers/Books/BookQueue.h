@@ -23,8 +23,6 @@ public:
         
     }
 
-
-
     // Check if queue is empty
     bool IsEmpty() const
     {

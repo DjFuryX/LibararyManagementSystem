@@ -3,8 +3,10 @@
 #define ADMINSCENE_H
 
 #include "PopUp.h"
-#include "TileList.h"
+#include "src/headers/GUI/BookGUI/TileList.h"
+#include "src/headers/GUI/PatronGUI/PatronTileList.h"
 #include "src/headers/LibraryManagement.h"
+#include "src/headers/GUI/BookGUI/CreateBook.h"
 
 class AdminScene : public Scene
 {
@@ -69,7 +71,8 @@ private:
     Texture2D background;
 
     TileList libraryList;
-    TileList CheckoutList;
+    PatronTileList patronList;
+    CreateBook createBook;
 
 
     void SetTextures()
@@ -77,7 +80,6 @@ private:
 
         // load default textures
         background = LoadTexture("src/resources/images/LibraryAisle.jpg");
-
         sortBtnIcon1 = LoadTexture("src/resources/images/sort1.png");
         sortBtnIcon2 = LoadTexture("src/resources/images/sort2.png");
         logoutBtnIcon = LoadTexture("src/resources/images/logout2.png");
@@ -138,7 +140,7 @@ private:
         sortBtnBox = {1040, 5, 250, 90};
     }
 
-    void AddToLibraryList(BookNode *root) // TO Do Rename to post Order
+    void AddToLibraryList(BookNode *root) 
     {
         if (root == NULL)
         {
@@ -147,10 +149,27 @@ private:
 
         AddToLibraryList(root->GetLeftNode());
         AddToLibraryList(root->GetRightNode());
-
-       
         libraryList.InsertAtBack(root->GetData());
         
+    }
+
+    void AddToPatronList(PatronNode *head,bool mode){
+        PatronNode *curr= head;
+        patronList.Clear();
+
+        while (curr != NULL)
+        {
+            if(mode){
+                patronList.InsertAtFront(curr->GetData());
+            }
+            else{
+                patronList.InsertAtBack(curr->GetData());
+            }
+           
+            curr = curr->GetNextNode();
+        }
+        
+
     }
 
 
@@ -168,6 +187,7 @@ public:
         addBookBtn = false;
         logOutBtn = false;
         sort = false;
+        listChange = false;
     
     }
 
@@ -177,8 +197,11 @@ public:
         ClearBackground(WHITE);
         DrawTexture(background, 0, 0, WHITE);
 
-        listChange ? (libraryList.DrawList()) : (CheckoutList.DrawList());
+       
+        listChange ? (patronList.DrawList()) : (libraryList.DrawList());
 
+       // createBook.Draw();
+        
         GuiSetStyle(DEFAULT, TEXT_COLOR_FOCUSED, ColorToInt(BLACK));
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
         GuiSetStyle(DEFAULT, TEXT_COLOR_NORMAL, ColorToInt(BLACK));
@@ -197,20 +220,27 @@ public:
 
         if (isButtonPressed(showPatronListBox))
         {
+            listChange=true;
+            search = false;
             strcpy(sortType, "Sort By Name");
+            strcpy( SearchInput,"Search By Name..");
+            strcpy( SearchInputDefault,"Search By Name..");
+            
+            AddToPatronList(library->GetPatronList()->GetHead(),sort);
             
         }
 
         if (isButtonPressed(libraryBtnBox))
-        {
+        {   listChange=false;
+            search = false;
+            strcpy(sortType, "Sort By Title");
+            strcpy( SearchInput,"Search By Title..");
+            strcpy( SearchInputDefault,"Search By Title..");
             libraryList.Clear();
             AddToLibraryList(library->GetBookBST()->GetRoot());
-
-            strcpy(sortType, "Sort By Title");
-            listChange = true;
         }
 
-        if (isButtonPressed(sortBtnBox) && !search && listChange) // sort books
+        if (isButtonPressed(sortBtnBox) && !search && !listChange) // sort books
         {
             sort ? (sortBtnIcon = sortBtnIcon1) : (sortBtnIcon = sortBtnIcon2);
 
@@ -219,12 +249,12 @@ public:
             AddToLibraryList(library->GetBookBST()->GetRoot());
         }
 
-        if (isButtonPressed(sortBtnBox) && !listChange) // sort books
-        {
-        
+        if (isButtonPressed(sortBtnBox) && listChange) // sort books
+        {  sort ? (sortBtnIcon = sortBtnIcon1) : (sortBtnIcon = sortBtnIcon2);
+            AddToPatronList(library->GetPatronList()->GetHead(),sort);
         }
 
-        if (isButtonPressed(searchBtnBox) && listChange)
+        if (isButtonPressed(searchBtnBox) && !listChange)
         { // search books
 
             if (IsSearchEmpty())
@@ -254,8 +284,8 @@ public:
             }
         }
 
-        if (isButtonPressed(searchBtnBox) && !listChange)
-        {
+        if (isButtonPressed(searchBtnBox) && listChange)
+        {// searches patrons
             if (IsSearchEmpty())
             {
 
@@ -263,27 +293,38 @@ public:
             }
             else if (!search)
             {
+                Patron *temp = library->GetPatronList()->GetPatronNoCase(SearchInput);
+
+                if(temp != NULL){
+
+                    patronList.Clear();
+                    patronList.InsertAtFront(*temp);
+
+                    message.ShowPopUp(2, "User Found", GREEN);
+
+                }
+                else{
+                    message.ShowPopUp(2, "USer Not Found", RED);
+                }
                 
             }
-        }
-
-        if (isButtonPressed(searchCancelBox)) // cancel search
-        {
-
-            strcpy(SearchInput, SearchInputDefault);
-            search = false;
-            Book tempBook;
-
-            libraryList.Clear();
-
-            AddToLibraryList(library->GetBookBST()->GetRoot());
         }
 
         if (isButtonPressed(searchCancelBox) && !listChange) // cancel search
         {
 
             strcpy(SearchInput, SearchInputDefault);
-     
+            search = false;
+            Book tempBook;
+            libraryList.Clear();
+
+            AddToLibraryList(library->GetBookBST()->GetRoot());
+        }
+
+        if (isButtonPressed(searchCancelBox) && listChange) // cancel search
+        {
+            AddToPatronList(library->GetPatronList()->GetHead(),sort);
+            strcpy(SearchInput, SearchInputDefault);
         }
 
         if (isButtonPressed(logoutBtnBox))

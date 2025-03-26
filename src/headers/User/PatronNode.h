@@ -1,6 +1,6 @@
 // Node.h
-#ifndef Node_H
-#define Node_H
+#ifndef PATRONNODE_H
+#define PATRONNODE_H
 #include "Patron.h"
 using namespace std;
 // Node object

@@ -14,14 +14,13 @@ private:
 
 public:
     // Constructor
-    Patron() : User(),queue() // initialize base class using its default constructor
+    Patron() : User(), queue() // initialize base class using its default constructor
     {
         libraryID = 0;
-
     }
 
     // Primary
-    Patron(string name) : User(name),queue() // Create patron and set username  //no password set
+    Patron(string name) : User(name), queue() // Create patron and set username  //no password set
     {
         libraryID = 0;
     }
@@ -84,10 +83,9 @@ public:
 // Overrides How the objects of this class are stored as string
 ostream &operator<<(ostream &out, Patron c)
 {
-    if(c.GetLibraryNumber() !=0){
-        out << c.GetLibraryNumber() << "|" << c.GetLoginInfo()->GetUsername() << "|" << c.GetLoginInfo()->GetPassword() << endl;
-    }
-   
+
+    out << c.GetLibraryNumber() << "|" << c.GetLoginInfo()->GetUsername() << "|" << c.GetLoginInfo()->GetPassword() << endl;
+
     return out;
 }
 

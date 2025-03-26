@@ -6,7 +6,6 @@
 #include "WelcomeScene.h"
 #include "PatronScene.h"
 #include "AdminScene.h"
-#include "TileList.h"
 #include "PopUp.h"
 #include <algorithm>
 #include <string>
@@ -47,6 +46,8 @@ public:
         admin = new Admin;
 
         // first scene that is shown
+        // library.SetUser(admin);
+        // current= welcome;
         current = patronLogin;
 
         filemanager.ReadData(&library);
@@ -74,7 +75,7 @@ public:
         }
 
         if (current == adminScene)
-        {// on Admin operation screen
+        { // on Admin operation screen
             adminScene->Update();
 
             if (adminScene->LogoutBtnPressed())
@@ -262,13 +263,14 @@ public:
                         newRegister.GetLoginInfo()->SetPassword(password);
                         newRegister.GetLoginInfo()->HashPassword();
 
-                        while (library.GetPatronList()->SearchByID(newRegister.GetLibraryNumber()))
+                        do
                         {
                             // generate a random library id until a unique one is found
                             newRegister.SetLibraryNumber(newRegister.GenerateLibraryID());
-                        }
+                        } while (library.GetPatronList()->SearchByID(newRegister.GetLibraryNumber()));
 
                         library.GetPatronList()->InsertByLibaryNumber(newRegister);
+
                         library.Getstats()->setTotalPatrons(1);
 
                         message->ShowPopUp(2, "Register Succesfully", GREEN);

@@ -181,6 +181,22 @@ public:
 
     }
 
+    Patron* GetPatronNoCase(string username){
+        PatronNode *curr = Head;   // point curr to the first element in the list.
+        while (curr != NULL) // while curr is pointing to a valid node
+        {
+            if ( strcasecmp( curr->GetDataPtr()->GetLoginInfo()->GetUsername().c_str(), username.c_str())==0) // if the curr node has the data we are searching for
+            {
+                return curr->GetDataPtr();
+                break;          // jump out of loop
+            }
+            curr = curr->GetNextNode(); // point curr to IT'S next node
+        }
+    
+        return NULL;
+
+    }
+
     Patron* GetPatron(int patronid) 
     {
         PatronNode *curr = Head;   // point curr to the first element in the list.
