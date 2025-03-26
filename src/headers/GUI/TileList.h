@@ -149,9 +149,34 @@ public:
         Head = head;
     }
 
+
+    void InsertAtFront(Book bookToInsert)
+    {
+       TileNode *temp = new TileNode(bookToInsert, textFont, bookTexture, checkerTexture); // initialize temp1 using the primary constructor 3 | Reserve Memory Space;     // declare temp as a pointer to the memory address of a node
+      
+
+        if (temp != NULL) // if memory was allocated successfully
+        {
+            if (Head == NULL) // if the list is empty
+            {
+                Head = temp;
+            }
+            else // if the list was not empty
+            {
+                temp->SetNextNode(Head); // points temps next node to head
+                Head = temp;             // makes temp the new first node in the list
+            }
+        }
+        else // if memory was not allocated successfully
+        {
+            cerr << "Error! List is full (Out of Memory), can NOT add a new node" << endl;
+        }
+        CaculateTilePosition();
+    }
+
     void InsertAtBack(Book bookToInsert)
     {
-        TileNode *temp = new TileNode(bookToInsert, textFont, bookTexture, checkerTexture); // initialize temp1 using the primary constructor 3 | Reserve Memory Space
+        TileNode *temp = new TileNode(bookToInsert, textFont, bookTexture, checkerTexture); // initialize temp1 
 
         if (temp != NULL) // if memory was allocated successfully
         {
