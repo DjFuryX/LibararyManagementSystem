@@ -152,6 +152,36 @@ public:
         return temp;
     }
 
+
+    Book *SearchById(int id)
+    {
+
+        Book *temp = NULL;
+
+        searchInt(rootNode, id, temp);
+
+        return temp;
+    }
+    // function to search a key in a BST
+    void searchInt(BookNode *&root, int key, Book *&book)
+    {
+
+        // Base Cases: root is null or key
+        // is present at root
+        if (root == NULL ||    root->GetDataPtr()->getISBN() == key)
+        {
+            if (root != NULL)
+            {
+                book = root->GetDataPtr();
+            }
+            return;
+        }
+        //cout << root->GetDataPtr()->getTitle() << " : " << key << endl;
+        // can change to traverse tree optimally if its sortered fisrt
+        searchInt(root->GetLeftNode(), key, book);
+        searchInt(root->GetRightNode(), key, book);
+    }
+
     // function to search a key in a BST
     void search(BookNode *&root, string key, Book *&book)
     {

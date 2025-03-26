@@ -69,6 +69,7 @@ public:
                         queueFile << temp.getISBN() << "|";
                     }
                     queueFile << endl;
+
                     curr = curr->GetNextNode();
                 }
                 patronfile.close();
@@ -177,6 +178,68 @@ public:
         {
             cerr << e.what() << endl;
         }
+
+        // Read Patron Queue Information
+        try
+        {
+            ifstream patronQueue("files/PatronQueue.txt", ios::in); // create output file
+
+            if (patronQueue.is_open()) // opened succesfully
+            {
+                int patronId = 0;
+                int BookId = 0;
+                char delim;
+                Patron *temp;
+                Book *book;
+                string title;
+                string title1;
+
+                while (!patronQueue.eof()) // read file until the end is detected.
+                {
+
+                    patronQueue >> patronId >> delim;
+
+                    temp = library->GetPatronList()->GetPatron(patronId);
+
+                    if (temp != NULL)
+                    {
+
+                        getline(patronQueue, title);
+                        stringstream ss(title);
+                        string word;
+                        while (!ss.eof())
+                        {
+                            getline(ss, word, '|');
+
+                            if (word != "")
+                            {
+                                BookId = stoi(word);
+
+                                book = library->GetBookBST()->SearchById(BookId);
+
+                                if (book != NULL)
+                                {
+                                    temp->GetUserQueue()->Enqueue(book);
+                                }
+                            }
+
+                            ss.peek();
+                        }
+                    }
+
+                    patronQueue.peek(); // ensure the end of the file is not passed
+                }
+
+                patronQueue.close(); // clos file
+            }
+            else // throw runtime error if file cannot be opened
+            {
+                throw runtime_error("cannot Open  file");
+            }
+        }
+        catch (runtime_error &e) // display error
+        {
+            cerr << e.what() << endl;
+        }
     }
-    
 };
