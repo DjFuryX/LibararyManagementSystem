@@ -5,6 +5,7 @@
 #include "ResetScene.h"
 #include "WelcomeScene.h"
 #include "PatronScene.h"
+#include "AdminScene.h"
 #include "TileList.h"
 #include "PopUp.h"
 #include <algorithm>
@@ -19,6 +20,7 @@ private:
     ResetScene *reset;
     WelcomeScene *welcome;
     PatronScene *patronScene;
+    AdminScene *adminScene;
     PopUp *message;
 
     Scene *current;
@@ -38,6 +40,7 @@ public:
         Register = new RegisterScene;
         welcome = new WelcomeScene;
         patronScene = new PatronScene;
+        adminScene = new AdminScene;
         message = new PopUp;
         adminLogin = new AdminLoginScene;
         reset = new ResetScene;
@@ -47,7 +50,6 @@ public:
         current = patronLogin;
 
         filemanager.ReadData(&library);
-
     }
 
     void Draw()
@@ -64,6 +66,18 @@ public:
             patronScene->Update();
 
             if (patronScene->LogoutBtnPressed())
+            {
+                patronLogin = new LoginScene(); // to clear stuff user already entered
+                current = patronLogin;
+                message->ShowPopUp(2, "Logout Successfull", WHITE);
+            }
+        }
+
+        if (current == adminScene)
+        {// on Admin operation screen
+            adminScene->Update();
+
+            if (adminScene->LogoutBtnPressed())
             {
                 patronLogin = new LoginScene(); // to clear stuff user already entered
                 current = patronLogin;
@@ -238,8 +252,6 @@ public:
                         library.GetPatronList()->GetPatron(username)->GetLoginInfo()->SetPassword(password);
                         library.GetPatronList()->GetPatron(username)->GetLoginInfo()->HashPassword();
 
-                        
-
                         message->ShowPopUp(2, "Reset Successfull", GREEN);
 
                         patronLogin = new LoginScene; // to clear stuff user already entered
@@ -285,12 +297,13 @@ public:
                 if (library.GetUser() == admin)
                 {
                     // got to admin scene
+                    adminScene->PopulateBookGrid(&library);
+                    current = adminScene;
                 }
                 else
                 {
                     patronScene = new PatronScene;
 
-                    
                     patronScene->SetName(library.GetUser()->GetLoginInfo()->GetUsername()); // show name of current user
                     patronScene->SetID(library.GetUser()->GetLibraryNumber());              // show id of current user
                     patronScene->PopulateBookGrid(&library);
@@ -301,7 +314,7 @@ public:
         }
     }
     ~SceneManager()
-    {   //save library info
-       filemanager.SaveData(library);
+    { // save library info
+        filemanager.SaveData(library);
     }
 };
