@@ -76,157 +76,7 @@ private:
 
     BookBST *selectedBooks;
 
-    void SetTextures()
-    {
-
-        // load default textures
-        background = LoadTexture("src/resources/images/LibraryAisle.jpg");
-        undoBtnIcon = LoadTexture("src/resources/images/undo1.png");
-        sortBtnIcon1 = LoadTexture("src/resources/images/sort1.png");
-        sortBtnIcon2 = LoadTexture("src/resources/images/sort2.png");
-        checkoutBtnIcon = LoadTexture("src/resources/images/checkout.png");
-        returnBtnIcon = LoadTexture("src/resources/images/return.png");
-        logoutBtnIcon = LoadTexture("src/resources/images/logout2.png");
-        librarybtnIcon = LoadTexture("src/resources/images/library2.png");
-        mybooksBtnIcon = LoadTexture("src/resources/images/mybook1.png");
-        confirmBtntIcon = LoadTexture("src/resources/images/cart1.png");
-        searchIcon = LoadTexture("src/resources/images/search1.png");
-        searchCancel = LoadTexture("src/resources/images/cancel.png");
-        sortBtnIcon = sortBtnIcon1;
-
-        // generate higher quilty textures
-        GenTextureMipmaps(&undoBtnIcon);
-        GenTextureMipmaps(&sortBtnIcon1);
-        GenTextureMipmaps(&sortBtnIcon2);
-        GenTextureMipmaps(&checkoutBtnIcon);
-        GenTextureMipmaps(&logoutBtnIcon);
-        GenTextureMipmaps(&mybooksBtnIcon);
-        GenTextureMipmaps(&confirmBtntIcon);
-        GenTextureMipmaps(&librarybtnIcon);
-        GenTextureMipmaps(&searchIcon);
-        GenTextureMipmaps(&searchCancel);
-        GenTextureMipmaps(&returnBtnIcon);
-
-        // set texture filter to prevent blurry textures
-        SetTextureFilter(undoBtnIcon, TEXTURE_FILTER_TRILINEAR);
-        SetTextureFilter(sortBtnIcon1, TEXTURE_FILTER_TRILINEAR);
-        SetTextureFilter(sortBtnIcon2, TEXTURE_FILTER_TRILINEAR);
-        SetTextureFilter(checkoutBtnIcon, TEXTURE_FILTER_TRILINEAR);
-        SetTextureFilter(logoutBtnIcon, TEXTURE_FILTER_TRILINEAR);
-        SetTextureFilter(librarybtnIcon, TEXTURE_FILTER_TRILINEAR);
-        SetTextureFilter(mybooksBtnIcon, TEXTURE_FILTER_TRILINEAR);
-        SetTextureFilter(confirmBtntIcon, TEXTURE_FILTER_TRILINEAR);
-        SetTextureFilter(searchIcon, TEXTURE_FILTER_TRILINEAR);
-        SetTextureFilter(searchCancel, TEXTURE_FILTER_TRILINEAR);
-        SetTextureFilter(returnBtnIcon, TEXTURE_FILTER_BILINEAR);
-    }
-
-    void SetRectangles()
-    {
-
-        topbar = {0, 0, (float)GetScreenWidth(), 100};
-        sideBar = {0, 100, 150, (float)GetScreenHeight()};
-        libraryBtnBox = {sideBar.x + 5, topbar.y + 105, sideBar.width - 10, topbar.height};
-        myBooksBtnBox = {sideBar.x + 5, libraryBtnBox.height + 120, sideBar.width - 10, topbar.height};
-        confirmBtnBox = {sideBar.x + 5, myBooksBtnBox.height + 240, sideBar.width - 10, topbar.height};
-
-        nameBox = {topbar.x + 10, topbar.y + 10, 200, 20};
-        userNameBox = {topbar.x + 10, topbar.y + 40, 300, 20};
-        userIDBox = {topbar.x + 10, topbar.y + 60, 100, 20};
-
-        logoutBtnBox = {sideBar.x + 5, libraryBtnBox.height + 850, sideBar.width - 10, topbar.height};
-
-        searchTextBox = {topbar.x + 1400, topbar.y + 10, topbar.width - 1480, topbar.height - 20};
-        searchBtnBox = {searchTextBox.x - 80, searchTextBox.y, 75, topbar.height - 20};
-        searchCancelBox = {searchTextBox.x + 450, topbar.y + 25, 50, 50};
-        searchBox = {1320, 10, 590, 80};
-
-        returnBtnBox = {topbar.x + 400, topbar.y + 5, 250, topbar.height - 10};
-        undoBtnBox = {returnBtnBox.x + returnBtnBox.width + 40, topbar.y + 5, returnBtnBox.width, topbar.height - 10};
-        sortBtnBox = {undoBtnBox.x + undoBtnBox.width + 100, topbar.y + 5, undoBtnBox.width, topbar.height - 10};
-    }
-
-    void AddToLibraryList(BookNode *root) // TO Do Rename to post Order
-    {
-        if (root == NULL)
-        {
-            return;
-        }
-
-        AddToLibraryList(root->GetLeftNode());
-        AddToLibraryList(root->GetRightNode());
-
-        if (selectedBooks->SearchByTitle(root->GetData().getTitle()) != NULL)
-        {
-            libraryList.InsertAtBack(root->GetData(), true);
-        }
-        else
-        {
-            libraryList.InsertAtBack(root->GetData());
-        }
-    }
-
-    void PopulateCheckoutList(bool mode) // TO Do Rename to post Order
-    {
-        BookQueue *tempQueue = new BookQueue;
-
-        BookQueue *userQueue = library->GetUser()->GetUserQueue();
-
-        CheckoutList.Clear();
-
-        while (userQueue->GetFront() != NULL)
-        {
-
-            tempQueue->Enqueue(userQueue->Dequeue());
-
-            if (mode)
-            {
-                CheckoutList.InsertAtBack(tempQueue->GetRearBook());
-            }
-            else
-            {
-                CheckoutList.InsertAtFront(tempQueue->GetRearBook());
-            }
-        }
-        while (tempQueue->GetFront() != NULL)
-        {
-            userQueue->Enqueue(tempQueue->Dequeue());
-        }
-    }
-
-    void addBackBooks(BookNode *root, Book book)
-    {
-        if (root == NULL)
-        {
-            return;
-        }
-        addBackBooks(root->GetLeftNode(), book);
-        addBackBooks(root->GetRightNode(), book);
-
-        if (root->GetData().getISBN() != book.getISBN())
-        {
-
-            selectedBooks->InsertBook(root->GetData());
-        }
-    }
-
-    void updateBookRentee(BookNode *root, int isbn, int UserId)
-    {
-        if (root == NULL)
-        {
-            return;
-        }
-
-        updateBookRentee(root->GetLeftNode(), isbn, UserId);
-
-        updateBookRentee(root->GetRightNode(), isbn, UserId);
-
-        if (root->GetData().getISBN() == isbn)
-        {
-            root->GetDataPtr()->SetRenteeID(UserId);
-        }
-    }
-
+   
 public:
     PatronScene()
     {
@@ -251,9 +101,7 @@ public:
 
         ClearBackground(WHITE);
         DrawTexture(background, 0, 0, WHITE);
-
         stackOptions ? (libraryList.DrawList()) : (CheckoutList.DrawList());
-
         GuiSetStyle(DEFAULT, TEXT_COLOR_FOCUSED, ColorToInt(BLACK));
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
         GuiSetStyle(DEFAULT, TEXT_COLOR_NORMAL, ColorToInt(BLACK));
@@ -642,6 +490,158 @@ public:
         }
         return false;
     }
+
+private:
+void SetTextures()
+{
+
+    // load default textures
+    background = LoadTexture("src/resources/images/LibraryAisle.jpg");
+    undoBtnIcon = LoadTexture("src/resources/images/undo1.png");
+    sortBtnIcon1 = LoadTexture("src/resources/images/sort1.png");
+    sortBtnIcon2 = LoadTexture("src/resources/images/sort2.png");
+    checkoutBtnIcon = LoadTexture("src/resources/images/checkout.png");
+    returnBtnIcon = LoadTexture("src/resources/images/return.png");
+    logoutBtnIcon = LoadTexture("src/resources/images/logout2.png");
+    librarybtnIcon = LoadTexture("src/resources/images/library2.png");
+    mybooksBtnIcon = LoadTexture("src/resources/images/mybook1.png");
+    confirmBtntIcon = LoadTexture("src/resources/images/cart1.png");
+    searchIcon = LoadTexture("src/resources/images/search1.png");
+    searchCancel = LoadTexture("src/resources/images/cancel.png");
+    sortBtnIcon = sortBtnIcon1;
+
+    // generate higher quilty textures
+    GenTextureMipmaps(&undoBtnIcon);
+    GenTextureMipmaps(&sortBtnIcon1);
+    GenTextureMipmaps(&sortBtnIcon2);
+    GenTextureMipmaps(&checkoutBtnIcon);
+    GenTextureMipmaps(&logoutBtnIcon);
+    GenTextureMipmaps(&mybooksBtnIcon);
+    GenTextureMipmaps(&confirmBtntIcon);
+    GenTextureMipmaps(&librarybtnIcon);
+    GenTextureMipmaps(&searchIcon);
+    GenTextureMipmaps(&searchCancel);
+    GenTextureMipmaps(&returnBtnIcon);
+
+    // set texture filter to prevent blurry textures
+    SetTextureFilter(undoBtnIcon, TEXTURE_FILTER_TRILINEAR);
+    SetTextureFilter(sortBtnIcon1, TEXTURE_FILTER_TRILINEAR);
+    SetTextureFilter(sortBtnIcon2, TEXTURE_FILTER_TRILINEAR);
+    SetTextureFilter(checkoutBtnIcon, TEXTURE_FILTER_TRILINEAR);
+    SetTextureFilter(logoutBtnIcon, TEXTURE_FILTER_TRILINEAR);
+    SetTextureFilter(librarybtnIcon, TEXTURE_FILTER_TRILINEAR);
+    SetTextureFilter(mybooksBtnIcon, TEXTURE_FILTER_TRILINEAR);
+    SetTextureFilter(confirmBtntIcon, TEXTURE_FILTER_TRILINEAR);
+    SetTextureFilter(searchIcon, TEXTURE_FILTER_TRILINEAR);
+    SetTextureFilter(searchCancel, TEXTURE_FILTER_TRILINEAR);
+    SetTextureFilter(returnBtnIcon, TEXTURE_FILTER_BILINEAR);
+}
+
+void SetRectangles()
+{
+
+    topbar = {0, 0, (float)GetScreenWidth(), 100};
+    sideBar = {0, 100, 150, (float)GetScreenHeight()};
+    libraryBtnBox = {sideBar.x + 5, topbar.y + 105, sideBar.width - 10, topbar.height};
+    myBooksBtnBox = {sideBar.x + 5, libraryBtnBox.height + 120, sideBar.width - 10, topbar.height};
+    confirmBtnBox = {sideBar.x + 5, myBooksBtnBox.height + 240, sideBar.width - 10, topbar.height};
+
+    nameBox = {topbar.x + 10, topbar.y + 10, 200, 20};
+    userNameBox = {topbar.x + 10, topbar.y + 40, 300, 20};
+    userIDBox = {topbar.x + 10, topbar.y + 60, 100, 20};
+
+    logoutBtnBox = {sideBar.x + 5, libraryBtnBox.height + 850, sideBar.width - 10, topbar.height};
+
+    searchTextBox = {topbar.x + 1400, topbar.y + 10, topbar.width - 1480, topbar.height - 20};
+    searchBtnBox = {searchTextBox.x - 80, searchTextBox.y, 75, topbar.height - 20};
+    searchCancelBox = {searchTextBox.x + 450, topbar.y + 25, 50, 50};
+    searchBox = {1320, 10, 590, 80};
+
+    returnBtnBox = {topbar.x + 400, topbar.y + 5, 250, topbar.height - 10};
+    undoBtnBox = {returnBtnBox.x + returnBtnBox.width + 40, topbar.y + 5, returnBtnBox.width, topbar.height - 10};
+    sortBtnBox = {undoBtnBox.x + undoBtnBox.width + 100, topbar.y + 5, undoBtnBox.width, topbar.height - 10};
+}
+
+void AddToLibraryList(BookNode *root) // TO Do Rename to post Order
+{
+    if (root == NULL)
+    {
+        return;
+    }
+
+    AddToLibraryList(root->GetLeftNode());
+    AddToLibraryList(root->GetRightNode());
+
+    if (selectedBooks->SearchByTitle(root->GetData().getTitle()) != NULL)
+    {
+        libraryList.InsertAtBack(root->GetData(), true);
+    }
+    else
+    {
+        libraryList.InsertAtBack(root->GetData());
+    }
+}
+
+void PopulateCheckoutList(bool mode) // TO Do Rename to post Order
+{
+    BookQueue *tempQueue = new BookQueue;
+
+    BookQueue *userQueue = library->GetUser()->GetUserQueue();
+
+    CheckoutList.Clear();
+
+    while (userQueue->GetFront() != NULL)
+    {
+
+        tempQueue->Enqueue(userQueue->Dequeue());
+
+        if (mode)
+        {
+            CheckoutList.InsertAtBack(tempQueue->GetRearBook());
+        }
+        else
+        {
+            CheckoutList.InsertAtFront(tempQueue->GetRearBook());
+        }
+    }
+    while (tempQueue->GetFront() != NULL)
+    {
+        userQueue->Enqueue(tempQueue->Dequeue());
+    }
+}
+
+void addBackBooks(BookNode *root, Book book)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    addBackBooks(root->GetLeftNode(), book);
+    addBackBooks(root->GetRightNode(), book);
+
+    if (root->GetData().getISBN() != book.getISBN())
+    {
+
+        selectedBooks->InsertBook(root->GetData());
+    }
+}
+
+void updateBookRentee(BookNode *root, int isbn, int UserId)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+
+    updateBookRentee(root->GetLeftNode(), isbn, UserId);
+
+    updateBookRentee(root->GetRightNode(), isbn, UserId);
+
+    if (root->GetData().getISBN() == isbn)
+    {
+        root->GetDataPtr()->SetRenteeID(UserId);
+    }
+}
 
     ~PatronScene()
     {

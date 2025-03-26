@@ -10,7 +10,7 @@ public:
     BookQueueNode *rear;
 
     // Constructor
-    BookQueue() : front(nullptr), rear(nullptr) {}
+    BookQueue() : front(NULL), rear(NULL) {}
 
 
     BookQueueNode * GetFront(){
@@ -28,7 +28,7 @@ public:
     // Check if queue is empty
     bool IsEmpty() const
     {
-        return front == nullptr;
+        return front == NULL;
     }
 
     // Enqueue method to add a book to the queue
@@ -63,9 +63,9 @@ public:
             front = front->GetNextNode();
 
             delete temp;
-            if (front == nullptr)
+            if (front == NULL)
             {
-                rear = nullptr;
+                rear = NULL;
             }
         }
 
@@ -101,7 +101,7 @@ public:
         else
         {
             BookQueueNode *temp = front;
-            while (temp != nullptr)
+            while (temp != NULL)
             {
                 temp->GetData().Display();
                 temp = temp->GetNextNode();

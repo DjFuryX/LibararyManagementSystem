@@ -184,7 +184,7 @@ public:
     Patron* GetPatron(int patronid) 
     {
         PatronNode *curr = Head;   // point curr to the first element in the list.
-        Patron * temp;
+        Patron * temp = NULL;
         while (curr != NULL) // while curr is pointing to a valid node
         {
             if (curr->GetDataPtr()->GetLibraryNumber() == patronid) // if the curr node has the data we are searching for

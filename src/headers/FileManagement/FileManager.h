@@ -69,7 +69,6 @@ public:
                         queueFile << temp.getISBN() << "|";
                     }
                     queueFile << endl;
-
                     curr = curr->GetNextNode();
                 }
                 patronfile.close();
@@ -189,10 +188,9 @@ public:
                 int patronId = 0;
                 int BookId = 0;
                 char delim;
-                Patron *temp;
-                Book *book;
+                Patron *temp = new Patron;
+                Book *book = new Book;
                 string title;
-                string title1;
 
                 while (!patronQueue.eof()) // read file until the end is detected.
                 {
@@ -222,7 +220,6 @@ public:
                                     temp->GetUserQueue()->Enqueue(book);
                                 }
                             }
-
                             ss.peek();
                         }
                     }
