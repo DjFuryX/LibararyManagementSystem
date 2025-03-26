@@ -300,6 +300,6 @@ public:
     }
     ~SceneManager()
     {   //save library info
-      //  filemanager.SaveData(library);
+       filemanager.SaveData(library);
     }
 };

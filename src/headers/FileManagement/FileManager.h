@@ -61,24 +61,14 @@ public:
                 while (curr != NULL) // while curr is pointing to a valid node
                 {
                     patronfile << curr->GetData(); //  the data for that node
-                    queueFile << curr->GetData().GetLibraryNumber();
+                    queueFile << curr->GetData().GetLibraryNumber() << "|";
 
-                    if (curr->GetData().GetUserQueue()->GetFront() != NULL)
-                    {  
-                        queueFile<<endl;
-
-                        while (curr->GetData().GetUserQueue()->GetFront() != NULL)
-                        {
-                            temp = curr->GetDataPtr()->GetUserQueue()->Dequeue();
-                            queueFile << temp.getISBN() << "|";
-                        }
-                        queueFile<<endl;
-                    }
-                    else
+                    while (curr->GetData().GetUserQueue()->GetFront() != NULL)
                     {
-                        queueFile<<endl;
+                        temp = curr->GetDataPtr()->GetUserQueue()->Dequeue();
+                        queueFile << temp.getISBN() << "|";
                     }
-
+                    queueFile << endl;
                     curr = curr->GetNextNode();
                 }
                 patronfile.close();
@@ -188,4 +178,5 @@ public:
             cerr << e.what() << endl;
         }
     }
+    
 };
