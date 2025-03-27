@@ -89,7 +89,7 @@ public:
             idmessage = "Welcome Administrator";
         }
         else
-        {
+        {   idmessage = "Library Number: ";
             idmessage = idmessage + to_string(id);
         }
         strcpy(idString, idmessage.c_str());

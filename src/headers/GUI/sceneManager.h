@@ -173,6 +173,7 @@ public:
 
                     library.SetUser(admin);
                     message->ShowPopUp(2, "Login succesfull", GREEN);
+                    welcome = new WelcomeScene();
                     welcome->SetName(username);
                     welcome->SetID(0);
                     current = welcome;
@@ -303,11 +304,9 @@ public:
                 else
                 {
                     patronScene = new PatronScene;
-
                     patronScene->SetName(library.GetUser()->GetLoginInfo()->GetUsername()); // show name of current user
                     patronScene->SetID(library.GetUser()->GetLibraryNumber());              // show id of current user
                     patronScene->PopulateBookGrid(&library);
-
                     current = patronScene;
                 }
             }

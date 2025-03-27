@@ -40,7 +40,7 @@ public:
     }
     void Draw()
     {
-        DrawRectangleRounded(box,0.2, 20, Fade(RED,0.9));
+        DrawRectangleRounded(box, 0.2, 20, Fade(RED, 0.9));
 
         GuiLabelFont((Rectangle){850, box.y + 40, 400}, "Create Book", headingFont, 30, ColorToInt(BLACK));
 
@@ -98,9 +98,13 @@ public:
 
     bool Save()
     {
-        return saveBtn;
+        if (saveBtn == true)
+        {
+            saveBtn = false;
+            return true;
+        }
+        return false;
     }
-
 
     bool InputValid()
     {
@@ -128,13 +132,22 @@ public:
 
     bool IsbnVaild()
     {
+        int count = 0;
 
         for (int i = 0; i < maxInputSize; i++)
         {
+            count++;
             if (bookIsbn[i] == '\0')
             {
                 return true;
             }
+
+            if (count > 9)
+            {
+
+                return false;
+            }
+
             if (isdigit(bookIsbn[i]) == false)
             {
 

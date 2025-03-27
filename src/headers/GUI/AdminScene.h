@@ -72,7 +72,7 @@ private:
 
     TileList libraryList;
     PatronTileList patronList;
-    CreateBook createBook;
+    CreateBook *createBook;
 
     void SetTextures()
     {
@@ -185,6 +185,7 @@ public:
         sort = false;
         listChange = false;
         addBook = false;
+        createBook = new CreateBook();
     }
 
     void Draw()
@@ -195,7 +196,7 @@ public:
 
         if (addBook)
         {
-            createBook.Draw();
+            createBook->Draw();
         }
         else
         {
@@ -335,16 +336,16 @@ public:
         if (addBook)
         {
 
-            if (isButtonPressed(createBook.Cancel()))
+            if (isButtonPressed(createBook->Cancel()))
             {
 
                 addBook = false;
             }
 
-            if (createBook.Save())
+            if (createBook->Save())
             {
 
-                Book *newBook = createBook.GetNewBook();
+                Book *newBook = createBook->GetNewBook();
                 if (newBook == NULL)
                 {
 
@@ -355,9 +356,9 @@ public:
                     library->GetBookBST()->InsertBook(newBook);
                     libraryList.Clear();
                     AddToLibraryList(library->GetBookBST()->GetRoot());
-
                     library->Getstats()->setTotalBooks(1);
                     SetStats();
+                    createBook = new CreateBook();
                     message.ShowPopUp(2, "Book Created", GREEN);
                     addBook = false;
                 }
