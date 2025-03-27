@@ -27,9 +27,9 @@ private:
     FileManager filemanager;   // Filemanager to save patron list,statistiscs and book list
     LibraryManagement library; // Library Manager with all list and user classes
 
-    Patron newRegister;
-    Patron *newLogin;
-    Admin *admin;
+    Patron newRegister; // for a new register
+    Patron *newLogin;   //user alread in patron list
+    Admin *admin;       //admin user
 
 public:
     SceneManager()
@@ -58,9 +58,9 @@ public:
     }
 
     void Update()
-    { // on  user operations screen
+    { 
         if (current == patronScene)
-        {
+        {// on  user operations screen
             patronScene->Update();
 
             if (patronScene->LogoutBtnPressed())
@@ -136,10 +136,11 @@ public:
                     {
                         message->ShowPopUp(2, "Login  Successfull", GREEN);
 
-                        library.SetUser(newLogin);
+                        library.SetUser(newLogin); //set current user to librayry
 
                         welcome->SetName(username);
                         welcome->SetID(newLogin->GetLibraryNumber());
+
                         current = welcome;
                     }
                     else
@@ -174,6 +175,7 @@ public:
                 {
 
                     library.SetUser(admin);
+
                     message->ShowPopUp(2, "Login succesfull", GREEN);
                     welcome = new WelcomeScene();
                     welcome->SetName(username);
@@ -225,7 +227,7 @@ public:
             }
 
             if(Register->cancelBtnPressed()){
-                
+                //clears input box
             }
         }
 
@@ -271,8 +273,7 @@ public:
                         newRegister.GetLoginInfo()->SetPassword(password); //set password to user value
                         newRegister.GetLoginInfo()->HashPassword();  //hash password
 
-                        do
-                        {
+                        do{
                             // generate a random library id until a unique one is found
                             newRegister.SetLibraryNumber(newRegister.GenerateLibraryID());
                         } while (library.GetPatronList()->SearchByID(newRegister.GetLibraryNumber()));

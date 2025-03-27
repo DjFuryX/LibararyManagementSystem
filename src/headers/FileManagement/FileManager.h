@@ -211,32 +211,32 @@ public:
                 while (!patronQueue.eof()) // read file until the end is detected.
                 {
 
-                    patronQueue >> patronId >> delim;
+                    patronQueue >> patronId >> delim;  //read patron id
 
-                    temp = library->GetPatronList()->GetPatron(patronId);
+                    temp = library->GetPatronList()->GetPatron(patronId); //find patron in patron list
 
-                    if (temp != NULL)
+                    if (temp != NULL) //if patron was found
                     {
 
-                        getline(patronQueue, title);
-                        stringstream ss(title);
+                        getline(patronQueue, title); //get line of books checked out
+                        stringstream ss(title); //create a stream from the string
                         string word;
-                        while (!ss.eof())
+                        while (!ss.eof()) //read entire string
                         {
-                            getline(ss, word, '|');
+                            getline(ss, word, '|'); //read each book seperated by "|"
 
-                            if (word != "")
+                            if (word != "")//check if patron has no books checked out
                             {
-                                BookId = stoi(word);
+                                BookId = stoi(word); //convert string to integer
 
-                                book = library->GetBookBST()->SearchById(BookId);
+                                book = library->GetBookBST()->SearchById(BookId); //search book bst for books
 
-                                if (book != NULL)
+                                if (book != NULL) //if book was found add to user queue
                                 {
                                     temp->GetUserQueue()->Enqueue(book);
                                 }
                             }
-                            ss.peek();
+                            ss.peek();// ensure the end of the file is not passed
                         }
                     }
 
@@ -257,14 +257,15 @@ public:
 
         try
         {
-            ifstream readstats("Statistics.txt", ios::in);
-            int totbooks, totpat, totcheck = 0;
+            ifstream readstats("files/Statistics.txt", ios::in);
+            int totbooks=0, totpat=0, totcheck = 0;
             if (readstats.is_open())
             {
 
-                readstats >> totbooks;
-                readstats >> totpat;
-                readstats >> totcheck;
+                readstats >> totbooks; //read total books
+                readstats >> totpat;    //read total patrons
+                readstats >> totcheck;  //read totalcheckoouts;
+
                 library->Getstats()->setTotalBooks(totbooks);
                 library->Getstats()->setTotalPatrons(totpat);
                 library->Getstats()->setTotCheckouts(totcheck);

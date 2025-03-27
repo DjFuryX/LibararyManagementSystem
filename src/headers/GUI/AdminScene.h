@@ -319,7 +319,6 @@ public:
             search = false;
             Book tempBook;
             libraryList.Clear();
-
             AddToLibraryList(library->GetBookBST()->GetRoot());
         }
 

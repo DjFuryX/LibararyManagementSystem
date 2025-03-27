@@ -93,7 +93,6 @@ public:
         sort = false;
         stackOptions = true;
         selectedBooks = new BookBST;
-        // add books to gui
     }
 
     void Draw()
@@ -122,7 +121,9 @@ public:
                 if (curr->GetDataPtr()->IsSelected() && (curr->GetDataPtr()->GetBook().getRenteeID() == 0))
                 {
                     curr->GetDataPtr()->GetBookPtr()->SetRenteeID(library->GetUser()->GetLibraryNumber());
+                    
                     curr->GetDataPtr()->SetSelectState(false);
+
                     library->GetBookStack()->push(curr->GetDataPtr()->GetBook());
 
                     updateBookRentee(library->GetBookBST()->GetRoot(), curr->GetData().GetBook().getISBN(), library->GetUser()->GetLibraryNumber());
@@ -135,7 +136,6 @@ public:
 
         if (isButtonPressed(confirmBtnBox) && stackOptions)
         {
-
             Book temp;
             while (library->GetBookStack()->GetTop() != NULL)
             {
@@ -148,7 +148,7 @@ public:
             library->Getstats()->setTotCheckouts(1);
         }
 
-        if (isButtonPressed(returnBtnBox) && !stackOptions)
+        if (isButtonPressed(returnBtnBox) && !stackOptions)//user is returning a book
         {
 
             Book temp = library->GetUser()->GetUserQueue()->Dequeue();
@@ -177,6 +177,8 @@ public:
                 lib = lib->GetNextNode(); // point curr to IT'S next node
             }
 
+            library->Getstats()->ReduceTotalCheckouts(1);// reduce total books checked out
+     
             CheckoutList.DeleteANode(temp.getISBN());
             CheckoutList.CaculateTilePosition();
         }

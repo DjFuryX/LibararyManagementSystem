@@ -1,4 +1,4 @@
-// overal System manager handles input and flow of program
+// overall System manager handles input and flow of program
 #ifndef LIBRARYMANAGEMENT_H
 #define LIBRARYMANAGEMENT_H
 #include "User/PatronLinkList.h"
@@ -18,7 +18,6 @@ private:
     BookBST bookList;
     // stack of books //checkout system
     BookStack bookstack;
-
     // Statistic object
     Statistics statistics;
 
@@ -65,7 +64,6 @@ public:
     {
         return &statistics;
     }
-
     ~LibraryManagement()
     {
     }

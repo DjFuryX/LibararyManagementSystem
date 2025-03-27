@@ -85,9 +85,16 @@ public:
             }
         }
 
-        InsertByTitle(root->GetLeftNode(), book);
-
-        InsertByTitle(root->GetRightNode(), book);
+         // if the given key is less than the root node, recur for the left subtree
+         if (book.getTitle() < root->GetData().getTitle())
+         {
+            InsertByTitle(root->GetLeftNode(), book);
+         }
+         // if the given key is more than the root node, recur for the right subtree
+         else
+         {
+            InsertByTitle(root->GetRightNode(), book);
+         }
     }
 
     void InsertBook(Book book) // insert book with key as ISBN
@@ -166,15 +173,22 @@ public:
             }
             return;
         }
-        searchInt(root->GetLeftNode(), key, book);
-        searchInt(root->GetRightNode(), key, book);
+         // if the given key is less than the root node, recur for the left subtree
+         if (key < root->GetData().getISBN())
+         {
+            searchInt(root->GetLeftNode(), key, book);
+         }
+         // if the given key is more than the root node, recur for the right subtree
+         else
+         {
+            searchInt(root->GetRightNode(), key, book);
+         }
     }
 
     // function to search a key in a BST
     void search(BookNode *&root, string key, Book *&book)
-    {
-
-        // Base Cases: root is null or key
+    { 
+        SortByTitle();
         // is present at root
         if (root == NULL || strcasecmp(root->GetDataPtr()->getTitle().c_str(), key.c_str()) == 0)
         {

@@ -23,16 +23,17 @@ public:
         srand(time(NULL)); // Initialization, should only be called once to get random seed
     };
 
-    LoginInfo(string name)
-    {
-        username = name;
-        password = "Notset";
-    }
-
+    //primary constructor
     LoginInfo(string name, string pass)
     { // used with admin class only
         username = name;
         password = pass;
+    }
+
+    LoginInfo(string name)
+    {
+        username = name;
+        password = "Notset";
     }
 
     // Accessors
@@ -92,7 +93,6 @@ public:
 
     void HashPassword()
     {
-
         password = compute_hash(password + key);
     }
 

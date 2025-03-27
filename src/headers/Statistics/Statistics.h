@@ -49,6 +49,10 @@ public:
         currentCheckouts += nTotalCurrentCheckouts;
     }
 
+    void ReduceTotalCheckouts(int checkouts){
+        currentCheckouts-=checkouts;
+    }
+
     // Display statistics
     void displayStatistics()
     {

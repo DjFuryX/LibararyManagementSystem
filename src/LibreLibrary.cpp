@@ -16,12 +16,12 @@ int main()
   SetWindowIcon(icon);                            // set window image
   MaximizeWindow();
   SetWindowMinSize(GetScreenWidth(), GetScreenHeight()); // fix window size
-  ToggleFullscreen();
+ // ToggleFullscreen();
   SetTargetFPS(60); // set fps of window
 
   SceneManager *scene = new SceneManager; // Creates a Scene Manager that shows the login screen
 
-  while (!WindowShouldClose())
+  while (!WindowShouldClose())//runs unot escape is pressed
   {
     BeginDrawing(); // start gui draw call
 
