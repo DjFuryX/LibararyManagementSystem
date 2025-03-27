@@ -12,7 +12,7 @@ private:
 
 public:
     // default constructor
-    PatronLinkList() // Creates an empty list || 99% used
+    PatronLinkList() // Creates an empty list
     {
         Head = NULL;
     }

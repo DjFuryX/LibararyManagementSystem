@@ -24,21 +24,7 @@ private:
         SavePreOrder(node->GetRightNode(), outfile);
     }
 
-    // Preorder Traversal
-    void ReadPreOrder(BookNode *node, ofstream &outfile)
-    {
-        if (node == NULL)
-        {
-            return;
-        }
-        // Visit Node
-        outfile << node->GetData(); //  the data for that node
-        // Traverse left subtree
-        SavePreOrder(node->GetLeftNode(), outfile);
-
-        // Traverse right subtree
-        SavePreOrder(node->GetRightNode(), outfile);
-    }
+   
 
 public:
     FileManager() {};
@@ -47,7 +33,6 @@ public:
     void SaveData(LibraryManagement library)
     {
         // save patron list
-
         try
         {
             ofstream patronfile("files/PatronList.txt", ios::out); 
@@ -125,7 +110,7 @@ public:
         }
         catch (const std::exception &e)
         {
-            std::cerr << e.what() << '\n';
+            std::cerr << e.what();
         }
     }
     void ReadData(LibraryManagement *library) // read Library information from sequential access file
@@ -134,7 +119,7 @@ public:
         Patron newPatron;
         try
         {
-            ifstream readfile("files/PatronList.txt", ios::in); // create output file
+            ifstream readfile("files/PatronList.txt", ios::in); // read input file
 
             if (readfile.is_open()) // opened succesfully
             {

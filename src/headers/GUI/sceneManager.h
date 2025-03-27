@@ -59,6 +59,7 @@ public:
 
     void Update()
     { 
+
         if (current == patronScene)
         {// on  user operations screen
             patronScene->Update();
@@ -87,6 +88,7 @@ public:
         { // new register button pressed
             if (patronLogin->RegisterBtnPressed())
             {
+                Register = new RegisterScene;
                 current = Register;
             }
 
@@ -197,6 +199,7 @@ public:
 
             if (Register->LoginBtnPressed())
             { // user pressed button to go back to login screen
+                patronLogin = new LoginScene;
                 current = patronLogin;
             }
 
@@ -312,9 +315,10 @@ public:
             if (welcome->ScreenPressed())
             {
                 if (library.GetUser() == admin) //if user is admin go to the admin scene
-                {
+                {  adminScene = new AdminScene;
                     // got to admin scene
                     adminScene->PopulateBookGrid(&library);
+                   
                     current = adminScene;
                 }
                 else //user is a patron

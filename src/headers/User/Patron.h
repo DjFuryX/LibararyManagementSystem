@@ -83,7 +83,10 @@ public:
 ostream &operator<<(ostream &out, Patron c)
 {
 
-    out << c.GetLibraryNumber() << "|" << c.GetLoginInfo()->GetUsername() << "|" << c.GetLoginInfo()->GetPassword() << endl;
+    if (c.GetLibraryNumber() != 0)
+    {
+        out << c.GetLibraryNumber() << "|" << c.GetLoginInfo()->GetUsername() << "|" << c.GetLoginInfo()->GetPassword() << endl;
+    }
 
     return out;
 }

@@ -108,7 +108,7 @@ private:
 
 public:
     // default constructor
-    PatronTileList() // Creates an empty list || 99% used
+    PatronTileList() // Creates an empty list
     {
 
         Head = NULL;

@@ -13,19 +13,19 @@ private:
 
 public:
     // default constructor
-    PatronNode() : data() // initialize (composition) student using its default constructor
+    PatronNode() : data() // initialize (composition)
     {
         NextNode = NULL;
     }
 
     // primary constructor 1
-    PatronNode(Patron info, PatronNode *nextNode) : data(info) // initialize (composition) student using its copy constructor
+    PatronNode(Patron info, PatronNode *nextNode) : data(info) // initialize (composition)
     {
         NextNode = nextNode;
     }
 
     // primary constructor 2
-    PatronNode(Patron info) : data(info) // initialize (composition) student using its copy constructor
+    PatronNode(Patron info) : data(info) // initialize (composition) 
     {
         NextNode = NULL; // set the next node to null
     }

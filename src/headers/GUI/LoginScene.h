@@ -51,18 +51,24 @@ public:
         GuiLabelFont((Rectangle){position - 200, 380, 1000, 50}, "Username", textFont, 25, 0x000000ff);
         DrawRectangleRec(nameBox, WHITE);
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);
-        if (GuiTextBox((Rectangle){centerPositionHorizontal(500), 420, 500, 50}, nameInput, maxInputSize, usernameTextBox))
+        
+        if (GuiTextBox(nameBox, nameInput, maxInputSize, usernameTextBox))
         {
             buttonClear(usernameTextBox, nameInput, (char *)"Please enter name");
+                passwordTextBox =false;
         };
+
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
         GuiLabelFont((Rectangle){position - 200, 500, 1000, 50}, "Password", textFont, 25, 0x000000ff);
 
         DrawRectangleRec(passwordBox, WHITE);
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);
+
         if (GuiTextBox(passwordBox, PasswordInput, maxInputSize, passwordTextBox))
         {
             buttonClear(passwordTextBox, PasswordInput, (char *)"Please enter Password");
+            usernameTextBox = false;
+
         };
 
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
@@ -81,7 +87,6 @@ public:
 
     string GetNameInput()
     {
-
         return nameInput;
     }
 

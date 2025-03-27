@@ -117,7 +117,7 @@ private:
 
 public:
     // default constructor
-    TileList() // Creates an empty list || 99% used
+    TileList() // Creates an empty list 
     {
 
         Head = NULL;
