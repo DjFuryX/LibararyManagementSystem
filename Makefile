@@ -197,7 +197,7 @@ endif
 CFLAGS += -Wall -std=c++14 -D_DEFAULT_SOURCE -Wno-missing-braces
 
 ifeq ($(BUILD_MODE),DEBUG)
-    CFLAGS += -g -O0 -Wno-enum-compare
+    CFLAGS += -g -O0 -Wno-enum-compare  -mwindows 
 else
     CFLAGS += -s -O1 -mwindows -Wno-enum-compare
 endif
