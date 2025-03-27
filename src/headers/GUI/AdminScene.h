@@ -202,11 +202,8 @@ public:
             listChange ? (patronList.DrawList()) : (libraryList.DrawList());
         }
 
-<<<<<<< HEAD
-        //createBook.Draw();
+
         
-=======
->>>>>>> 55a691eac6ef850f92f178193128b85ff92847b4
         GuiSetStyle(DEFAULT, TEXT_COLOR_FOCUSED, ColorToInt(BLACK));
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
         GuiSetStyle(DEFAULT, TEXT_COLOR_NORMAL, ColorToInt(BLACK));
@@ -358,6 +355,9 @@ public:
                     library->GetBookBST()->InsertBook(newBook);
                     libraryList.Clear();
                     AddToLibraryList(library->GetBookBST()->GetRoot());
+
+                    library->Getstats()->setTotalBooks(1);
+                    SetStats();
                     message.ShowPopUp(2, "Book Created", GREEN);
                     addBook = false;
                 }
@@ -452,6 +452,13 @@ public:
     {
         library = libraryManagement;
         AddToLibraryList(library->GetBookBST()->GetRoot());
+
+        SetStats();
+    
+    }
+
+
+    void SetStats(){
 
         strcpy(totalBooks, to_string(library->Getstats()->getTotalBooks()).c_str());
         strcpy(totalCheckouts, to_string(library->Getstats()->getTotalCurrentCheckouts()).c_str());
