@@ -41,17 +41,16 @@ private:
     }
 
 public:
-    FileManager(/* args */) {};
+    FileManager() {};
     ~FileManager() {};
 
     void SaveData(LibraryManagement library)
     {
-
         // save patron list
 
         try
         {
-            ofstream patronfile("files/PatronList.txt", ios::out);
+            ofstream patronfile("files/PatronList.txt", ios::out); 
             ofstream queueFile("files/PatronQueue.txt", ios::out);
 
             if (patronfile.is_open() && queueFile.is_open())
@@ -129,9 +128,6 @@ public:
             std::cerr << e.what() << '\n';
         }
     }
-
-    // To DO // add read and save for the statistics class and the book list
-
     void ReadData(LibraryManagement *library) // read Library information from sequential access file
     {
         // Read patron list
@@ -153,7 +149,7 @@ public:
                     readfile.peek(); // ensure the end of the file is not passed
                 }
 
-                readfile.close(); // clos file
+                readfile.close(); // closes file
             }
             else // throw runtime error if file cannot be opened
             {

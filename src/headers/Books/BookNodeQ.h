@@ -1,35 +1,39 @@
 #ifndef BookQueueNode_h
 #define BookQueueNode_h
-
 #include "Book.h"
-
+// class to store books user has checkout in a Queue
 class BookQueueNode
 {
 private:
-    Book book;
-    BookQueueNode *next;
+    Book book;           // Book information
+    BookQueueNode *next; // Node Pointer
 public:
+    // Primary Constructor
     BookQueueNode(Book newbook)
     {
-        book =newbook;
+        book = newbook;
         next = NULL;
     }
-
-    void SetNextNode(BookQueueNode *node){
-        next=node;
+    // Setters
+    void SetNextNode(BookQueueNode *node)
+    {
+        next = node;
     }
-    void SetData(Book newBook){
-        book=newBook;
+    void SetData(Book newBook)
+    {
+        book = newBook;
     }
-    BookQueueNode *GetNextNode(){
+    // Getters
+    BookQueueNode *GetNextNode()
+    {
 
         return next;
     }
 
-    Book GetData(){
+    Book GetData()
+    {
 
         return book;
     }
-
 };
 #endif //  BookNodeQ.h

@@ -12,30 +12,25 @@
 class LibraryManagement
 {
 private:
-    /* data */
     // list of patrons
     PatronLinkList patronList;
-
-    // link list of books
-    //---- BooKList bookList
     // Binary search tree of books
     BookBST bookList;
     // stack of books //checkout system
     BookStack bookstack;
 
     // Statistic object
-    // TO Do
     Statistics statistics;
 
     User *user;
 
 public:
-    LibraryManagement(/* args */) : patronList(), bookList(), statistics()
+    LibraryManagement() : patronList(), bookList(), statistics()
     {
         user = new User;
     }
 
-    PatronLinkList *GetPatronList()
+    PatronLinkList *GetPatronList()// 
     {
 
         return &patronList;

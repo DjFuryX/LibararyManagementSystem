@@ -33,12 +33,6 @@ public:
         this->rightNode = rNode;
     }
 
-    // primary constructor 3
-    BookNode(string title, string author, int isbn) : Data(title, author, isbn) // initialize (composition) student using its primary constructor
-    {
-        leftNode = NULL; // empty pointer to left node
-        rightNode = NULL;   //empyt pointer to right nodel
-    }
 
     // copy constructor
     BookNode(BookNode *node)

@@ -22,19 +22,18 @@ private:
     AdminScene *adminScene;
     PopUp *message;
 
-    Scene *current;
+    Scene *current; //current scene being drawn to screen
 
     FileManager filemanager;   // Filemanager to save patron list,statistiscs and book list
     LibraryManagement library; // Library Manager with all list and user classes
 
     Patron newRegister;
-    // remove later
     Patron *newLogin;
     Admin *admin;
 
 public:
     SceneManager()
-    {
+    { //initialise scenes
         patronLogin = new LoginScene;
         Register = new RegisterScene;
         welcome = new WelcomeScene;
@@ -51,11 +50,11 @@ public:
        filemanager.ReadData(&library);
     }
 
-    void Draw()
+    void Draw() //main draw call
     {
 
         current->Draw();
-        message->Draw();
+        message->Draw(); //show popup message if any
     }
 
     void Update()
@@ -106,7 +105,7 @@ public:
             if (patronLogin->passwordBoxpressed() && IsKeyDown(KEY_V) && IsKeyDown(KEY_LEFT_CONTROL))
             {
                 string clipboardText = GetClipboardText();
-                if (clipboardText == newRegister.GetLoginInfo()->GetPassword())
+                if (clipboardText == newRegister.GetLoginInfo()->GetPassword())//get pass word copied to clipboard
                 {
                     clipboardText.resize(maxInputSize);
                     patronLogin->SetPasswordText(clipboardText);
@@ -230,7 +229,7 @@ public:
             }
         }
 
-        if (current == reset)
+        if (current == reset) //setting or resettting password
         {
             string username = reset->GetNameInput();          // store username entered
             string password = reset->GetPasswordInput();      // store password entered
@@ -256,7 +255,7 @@ public:
                 }
                 else
                 {
-                    if (library.GetPatronList()->SearchByName(username))
+                    if (library.GetPatronList()->SearchByName(username)) //search patron list for cutomer
                     {
 
                         library.GetPatronList()->GetPatron(username)->GetLoginInfo()->SetPassword(password);
@@ -267,10 +266,10 @@ public:
                         patronLogin = new LoginScene; // to clear stuff user already entered
                         current = patronLogin;
                     }
-                    else if (newRegister.GetLoginInfo()->GetUsername() == username)
+                    else if (newRegister.GetLoginInfo()->GetUsername() == username) // if the user is new
                     {
-                        newRegister.GetLoginInfo()->SetPassword(password);
-                        newRegister.GetLoginInfo()->HashPassword();
+                        newRegister.GetLoginInfo()->SetPassword(password); //set password to user value
+                        newRegister.GetLoginInfo()->HashPassword();  //hash password
 
                         do
                         {
@@ -278,23 +277,24 @@ public:
                             newRegister.SetLibraryNumber(newRegister.GenerateLibraryID());
                         } while (library.GetPatronList()->SearchByID(newRegister.GetLibraryNumber()));
 
-                        library.GetPatronList()->InsertByLibaryNumber(newRegister);
+                        library.GetPatronList()->InsertByLibaryNumber(newRegister); //insert new user into the patron list
 
-                        library.Getstats()->setTotalPatrons(1);
+                        library.Getstats()->setTotalPatrons(1); //update total patron count
 
-                        message->ShowPopUp(2, "Register Succesfully", GREEN);
+                        message->ShowPopUp(2, "Register Succesfully", GREEN);//show success message
+
                         patronLogin = new LoginScene; // to clear stuff user already entered
                         current = patronLogin;
                     }
                     else
                     {
-                        message->ShowPopUp(2, "User Not found", RED);
+                        message->ShowPopUp(2, "User Not found", RED); //show error message
                     }
                 }
 
             }
 
-            if (reset->patronBtnpressed())
+            if (reset->patronBtnpressed())// go back to main login screen
             {
                 patronLogin = new LoginScene; // to clear stuff user already entered
                 current = patronLogin;
@@ -305,18 +305,18 @@ public:
             }
         }
 
-        if (current == welcome)
+        if (current == welcome) // user has logged in successfully 
         { // on welcome screen
 
             if (welcome->ScreenPressed())
             {
-                if (library.GetUser() == admin)
+                if (library.GetUser() == admin) //if user is admin go to the admin scene
                 {
                     // got to admin scene
                     adminScene->PopulateBookGrid(&library);
                     current = adminScene;
                 }
-                else
+                else //user is a patron
                 {
                     patronScene = new PatronScene;
                     patronScene->SetName(library.GetUser()->GetLoginInfo()->GetUsername()); // show name of current user

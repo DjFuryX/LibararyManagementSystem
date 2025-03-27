@@ -12,15 +12,13 @@ public:
     // Constructor
     BookQueue() : front(NULL), rear(NULL) {}
 
-
+    //Getter
     BookQueueNode * GetFront(){
         return front;
-
     }
-
     BookQueueNode * GetRear(){
         return rear;
-        
+
     }
 
     // Check if queue is empty
@@ -75,7 +73,7 @@ public:
     {
         if (IsEmpty())
         {
-            throw std::runtime_error("Queue is empty");
+            throw runtime_error("Queue is empty");
         }
         return front->GetData();
     }
@@ -84,7 +82,7 @@ public:
     {
         if (IsEmpty())
         {
-            throw std::runtime_error("Queue is empty");
+            throw runtime_error("Queue is empty");
         }
         return rear->GetData();
     }
@@ -94,7 +92,7 @@ public:
     {
         if (IsEmpty())
         {
-            std::cout << "Queue is empty" << std::endl;
+            cout << "Queue is empty" << endl;
         }
         else
         {

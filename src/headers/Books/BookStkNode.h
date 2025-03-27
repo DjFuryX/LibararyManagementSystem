@@ -24,12 +24,6 @@ public:
         Top = nextNode;
     }
 
-    // primary constructor 2
-    BookStkNode(Book info) : data(info) // initialize (composition) student using its copy constructor
-    {
-        Top = NULL; // set the next node to null
-    }
-
 
     // copy constructor
     BookStkNode(BookStkNode *node)

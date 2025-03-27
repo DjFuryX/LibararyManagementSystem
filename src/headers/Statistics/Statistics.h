@@ -1,6 +1,3 @@
-/*- totalBooks: int
-- TotalPatrons: int
-- TotalCurrentCheckouts: int*/
 #ifndef STATISTICS_H
 #define STATISTICS_H
 #include <iostream>
@@ -37,7 +34,7 @@ public:
     }
 
     // Setters
-    void setTotalBooks(int nTotalBooks) //admin func later
+    void setTotalBooks(int nTotalBooks) 
     {
         totalBooks += nTotalBooks;
     }
@@ -51,8 +48,6 @@ public:
     {
         currentCheckouts += nTotalCurrentCheckouts;
     }
-
-
 
     // Display statistics
     void displayStatistics()

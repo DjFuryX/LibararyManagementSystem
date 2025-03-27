@@ -1,6 +1,6 @@
+
 #ifndef BOOK_H
 #define BOOK_H
-
 #include <iostream>
 using namespace std;
 
@@ -12,7 +12,7 @@ private:
     int ISBN;
     int renteeID;
 public:
-    // Constructor
+    // Default Constructor
     Book()
     {
         title = "NotSet";
@@ -20,7 +20,7 @@ public:
         ISBN = 0;
         renteeID = 0;
     }
-
+    //Primary Constructor
     Book(string nTitle, string nAuthor, int nISBN)
     {
         title = nTitle;
@@ -29,14 +29,8 @@ public:
         renteeID = 0;
     }
 
-    Book(int nISBN, string nTitle, string nAuthor)
-    {
-        title = nTitle;
-        author = nAuthor;
-        ISBN = nISBN;
-        renteeID = 0;
-    }
-
+  
+    //Copy Constructor
     Book(const Book &newBook)
     {
         title = newBook.title;
@@ -45,6 +39,7 @@ public:
         renteeID = newBook.renteeID;
     }
 
+    //Copy Pointer Constructor
     Book (Book *book){
         title = book->title;
         author = book->author;

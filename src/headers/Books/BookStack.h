@@ -8,10 +8,10 @@ class BookStack
 {
 private:
     BookStkNode *top; // point to top
-    int totalBooks;
+    int totalBooks; //total books in stack
 
 public:
-    // Constructor
+    // Default Constructor
     BookStack() : top(NULL)
     {
         totalBooks = 0;
@@ -23,18 +23,17 @@ public:
     {
         return (top == NULL);
     }
-
-
-    BookStkNode *GetTop(){
-
+    //Getters
+    BookStkNode *GetTop(){//returns top of stack
+        
         return top;
     }
 
-    int GetTotalBooks(){
+    int GetTotalBooks(){ //get book count
         return totalBooks;
     }
     //
-    void push(Book book)
+    void push(Book book) //adds a book to the stack
     {
         BookStkNode *newNode = new BookStkNode(book, top);
         top = newNode;
@@ -42,7 +41,7 @@ public:
     }
 
     // Pop a book
-    Book pop()
+    Book pop() //removes a book from the stack and returns it
     {
         if (isEmpty())
         {
@@ -52,8 +51,8 @@ public:
         BookStkNode *temp = top;  // stores the current top 
         Book poppedBook = temp->GetData();
         top = top->GetNextNode();    // update the top pointer
-        delete temp;
-        totalBooks--;
+        delete temp;    //free up memmory
+        totalBooks--;  //decrease book conut
         return poppedBook;  // return the book that was popped
     }
         

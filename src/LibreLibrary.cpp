@@ -1,7 +1,5 @@
 
 #include <raylib.h>
-
-// testing Remove afterwards
 #include "./headers/GUI/SceneManager.h"
 int main()
 {
@@ -15,30 +13,28 @@ int main()
   SetConfigFlags(FLAG_MSAA_4X_HINT);
 
   InitWindow(screenWidth, screenHeight, "LIBRE"); // creates window
-
-  SetWindowIcon(icon); // set window image
-
-  MaximizeWindow(); // makes window fullscreeen
-
+  SetWindowIcon(icon);                            // set window image
+  MaximizeWindow();
   SetWindowMinSize(GetScreenWidth(), GetScreenHeight()); // fix window size
- 
- // ToggleFullscreen();
-
+  ToggleFullscreen();
   SetTargetFPS(60); // set fps of window
 
   SceneManager *scene = new SceneManager; // Creates a Scene Manager that shows the login screen
 
   while (!WindowShouldClose())
   {
-    BeginDrawing();
-    scene->Draw();
-    
-    scene->Update();
-    EndDrawing();
+    BeginDrawing(); // start gui draw call
+
+    scene->Draw(); // draw for current scene
+
+    scene->Update(); // update scene functions
+
+    EndDrawing(); // end gui draw call
   }
 
-  delete scene;
+  delete scene; // call destructor and save library information
 
-  UnloadImage(icon);
-  CloseWindow();
+  UnloadImage(icon); // free image from memory
+
+  CloseWindow(); // closes the window
 }

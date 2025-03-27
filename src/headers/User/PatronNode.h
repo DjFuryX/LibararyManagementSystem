@@ -30,11 +30,7 @@ public:
         NextNode = NULL; // set the next node to null
     }
 
-    // primary constructor 3
-    PatronNode(string name) : data(name) // initialize (composition) student using its primary constructor
-    {
-        NextNode = NULL; // set the next node to null
-    }
+
 
     // copy constructor
     PatronNode(PatronNode *node)

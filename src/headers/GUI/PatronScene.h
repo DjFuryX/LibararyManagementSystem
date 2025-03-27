@@ -562,7 +562,7 @@ void SetRectangles()
     sortBtnBox = {undoBtnBox.x + undoBtnBox.width + 100, topbar.y + 5, undoBtnBox.width, topbar.height - 10};
 }
 
-void AddToLibraryList(BookNode *root) // TO Do Rename to post Order
+void AddToLibraryList(BookNode *root)
 {
     if (root == NULL)
     {
@@ -582,7 +582,7 @@ void AddToLibraryList(BookNode *root) // TO Do Rename to post Order
     }
 }
 
-void PopulateCheckoutList(bool mode) // TO Do Rename to post Order
+void PopulateCheckoutList(bool mode)
 {
     BookQueue *tempQueue = new BookQueue;
 

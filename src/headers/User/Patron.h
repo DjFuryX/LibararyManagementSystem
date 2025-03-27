@@ -10,7 +10,6 @@ private:
     int libraryID; // Used as the Patron Library Card Number
     // queue of book checked out
     BookQueue queue;
-    // TO DO  BookQueue bookqueue
 
 public:
     // Constructor

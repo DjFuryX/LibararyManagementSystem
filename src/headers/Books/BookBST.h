@@ -8,7 +8,6 @@ private:
     BookNode *rootNode;
 
 public:
-    // constructor
     //  default constructor
     BookBST() // Creates an empty tree
     {
@@ -68,7 +67,7 @@ public:
         }
     }
 
-    // Recursive function to insert a key into a BST by reference
+    // Recursive function to insert a a book into the binary search tree by title
     void InsertByTitle(BookNode *&root, Book book)
     {
         // if the root is null, create a new node and return it
@@ -86,24 +85,17 @@ public:
             }
         }
 
-        // if the given key is less than the root node, recur for the left subtree
-        if (book.getAuthor() < root->GetData().getAuthor())
-        {
-            InsertByTitle(root->GetLeftNode(), book);
-        }
-        // if the given key is more than the root node, recur for the right subtree
-        else
-        {
-            InsertByTitle(root->GetRightNode(), book);
-        }
+        InsertByTitle(root->GetLeftNode(), book);
+
+        InsertByTitle(root->GetRightNode(), book);
     }
 
-    void InsertBook(Book book)
+    void InsertBook(Book book) // insert book with key as ISBN
     {
         InsertByISBN(rootNode, book);
     }
 
-    void DisplayInorder()
+    void DisplayInorder() // Display all books using inorder traversal
     {
         inorder(rootNode);
     }
@@ -142,24 +134,22 @@ public:
         return true;
     }
 
-    Book *SearchByTitle(string title)
+    Book *SearchByTitle(string title) // returns a book if found in the BST else null
     {
-        SortByTitle();
-        
+
         Book *temp = NULL;
 
-        search(rootNode, title, temp);
+        search(rootNode, title, temp); // recursive search function
 
         return temp;
     }
 
-
-    Book *SearchById(int id)
+    Book *SearchById(int id) // search by Id
     {
 
         Book *temp = NULL;
 
-        searchInt(rootNode, id, temp);
+        searchInt(rootNode, id, temp); // recursive search function
 
         return temp;
     }
@@ -168,7 +158,7 @@ public:
     {
 
         // is present at root
-        if (root == NULL ||    root->GetDataPtr()->getISBN() == key)
+        if (root == NULL || root->GetDataPtr()->getISBN() == key)
         {
             if (root != NULL)
             {
@@ -186,7 +176,7 @@ public:
 
         // Base Cases: root is null or key
         // is present at root
-        if (root == NULL ||   strcasecmp( root->GetDataPtr()->getTitle().c_str(),key.c_str())==0)
+        if (root == NULL || strcasecmp(root->GetDataPtr()->getTitle().c_str(), key.c_str()) == 0)
         {
             if (root != NULL)
             {
@@ -195,21 +185,19 @@ public:
             return;
         }
 
-         // if the given key is less than the root node, recur for the left subtree
-         if (key < root->GetData().getTitle())
-         {
+        // if the given key is less than the root node, recur for the left subtree
+        if (key < root->GetData().getTitle())
+        {
             search(root->GetLeftNode(), key, book);
-         }
-         // if the given key is more than the root node, recur for the right subtree
-         else
-         {
+        }
+        // if the given key is more than the root node, recur for the right subtree
+        else
+        {
             search(root->GetRightNode(), key, book);
-         }
-
-    
+        }
     }
 
-    void SortByTitle() // TO Do
+    void SortByTitle() // Sorts book by title
     {
         BookBST *temp = new BookBST;
 
@@ -218,7 +206,7 @@ public:
         rootNode = temp->GetRoot();
     }
 
-    void SortAndAdd(BookNode *root, BookBST *sortedBSt)
+    void SortAndAdd(BookNode *root, BookBST *sortedBSt) // recursive function to sort and add books by title;
     {
         if (root == NULL)
         {
