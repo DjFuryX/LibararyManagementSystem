@@ -1,3 +1,4 @@
 40002302|Tom Sawyer|Mark Twain|0
+12|New Book|Marcus|0
 50005401|Huckleberry Finn|Mark Twain|0
 40002334|Bob Sawyer|Mark Twain|0
