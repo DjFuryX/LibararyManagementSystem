@@ -47,7 +47,7 @@ public:
         loginBtn = GuiButton((Rectangle){centerPositionHorizontal(400), 700, 400, 50}, "Login");
 
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
-        GuiButton((Rectangle){centerPositionHorizontal(400), 800, 400, 50}, "Cancel");
+       cancelBtn = GuiButton((Rectangle){centerPositionHorizontal(400), 800, 400, 50}, "Cancel");
 
         patronBtn = GuiLabelButton((Rectangle){position + 600, 900, 200, 50}, "Patron Login");
         GuiLabelButton((Rectangle){position + 600, 900, 200, 50}, "__________");
@@ -62,6 +62,8 @@ public:
         }
         return false;
     }
+
+  
 
 };
 #endif

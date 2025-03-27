@@ -55,7 +55,7 @@ public:
         registerBtn = GuiButton((Rectangle){centerPositionHorizontal(400), 700, 400, 50}, "Register");
 
         GuiSetStyle(DEFAULT, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
-        GuiButton((Rectangle){centerPositionHorizontal(400), 800, 400, 50}, "Cancel");
+       cancelBtn = GuiButton((Rectangle){centerPositionHorizontal(400), 800, 400, 50}, "Cancel");
 
         loginBtn = GuiLabelButton((Rectangle){position + 250, 850, 200, 50}, "Back to Login");
     }

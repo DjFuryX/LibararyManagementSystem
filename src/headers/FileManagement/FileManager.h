@@ -182,7 +182,6 @@ public:
 
                     library->GetBookBST()->InsertBook(newBook); // add book to library
 
-                    // To DO Add function here to search patron list and assign rentee
 
                     readfile.peek(); // ensure the end of the file is not passed
                 }

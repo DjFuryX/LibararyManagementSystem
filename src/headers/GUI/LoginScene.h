@@ -144,10 +144,14 @@ public:
         return false;
     }
 
-    bool cancelBtnPressed()
+    virtual bool cancelBtnPressed()
     {
         if (cancelBtn == true)
         {
+            strcpy(nameInput, "Please enter name");
+
+            strcpy(PasswordInput, "Please enter Password");
+
             cancelBtn = false;
             return true;
         }

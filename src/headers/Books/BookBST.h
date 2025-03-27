@@ -144,7 +144,8 @@ public:
 
     Book *SearchByTitle(string title)
     {
-
+        SortByTitle();
+        
         Book *temp = NULL;
 
         search(rootNode, title, temp);
@@ -166,7 +167,6 @@ public:
     void searchInt(BookNode *&root, int key, Book *&book)
     {
 
-        // Base Cases: root is null or key
         // is present at root
         if (root == NULL ||    root->GetDataPtr()->getISBN() == key)
         {
@@ -176,8 +176,6 @@ public:
             }
             return;
         }
-        //cout << root->GetDataPtr()->getTitle() << " : " << key << endl;
-        // can change to traverse tree optimally if its sortered fisrt
         searchInt(root->GetLeftNode(), key, book);
         searchInt(root->GetRightNode(), key, book);
     }
@@ -196,10 +194,19 @@ public:
             }
             return;
         }
-        //cout << root->GetDataPtr()->getTitle() << " : " << key << endl;
-        // can change to traverse tree optimally if its sortered fisrt
-        search(root->GetLeftNode(), key, book);
-        search(root->GetRightNode(), key, book);
+
+         // if the given key is less than the root node, recur for the left subtree
+         if (key < root->GetData().getTitle())
+         {
+            search(root->GetLeftNode(), key, book);
+         }
+         // if the given key is more than the root node, recur for the right subtree
+         else
+         {
+            search(root->GetRightNode(), key, book);
+         }
+
+    
     }
 
     void SortByTitle() // TO Do

@@ -153,6 +153,9 @@ public:
                     message->ShowPopUp(2, "User Not found", RED);
                 }
             }
+
+            if(patronLogin->cancelBtnPressed()){
+            }
         }
 
         if (current == adminLogin)
@@ -182,6 +185,9 @@ public:
                 {
                     message->ShowPopUp(2, "Login unsuccesfull", RED);
                 }
+            }
+            if(adminLogin->cancelBtnPressed()){
+
             }
         }
 
@@ -217,6 +223,10 @@ public:
                 SetClipboardText(Register->GetTempPasswordText().c_str());
 
                 message->ShowPopUp(2, "Temporary Password copied", WHITE);
+            }
+
+            if(Register->cancelBtnPressed()){
+                
             }
         }
 
@@ -281,12 +291,17 @@ public:
                         message->ShowPopUp(2, "User Not found", RED);
                     }
                 }
+
             }
 
             if (reset->patronBtnpressed())
             {
                 patronLogin = new LoginScene; // to clear stuff user already entered
                 current = patronLogin;
+            }
+
+            if(reset->cancelBtnPressed()){
+                
             }
         }
 

@@ -74,6 +74,20 @@ public:
         return false;
     }
 
+    bool cancelBtnPressed()
+    {
+        if (cancelBtn == true)
+        {
+            strcpy(nameInput, "Please enter name");
+            strcpy(PasswordInput, "Please enter Password");
+            strcpy(confirmPasswordInput, "Please enter Password");
+
+            cancelBtn = false;
+            return true;
+        }
+        return false;
+    }
+
     string getConfirmText()
     {
         return confirmPasswordInput;
