@@ -1,15 +1,17 @@
 
 #ifndef PATRON_H
 #define PATRON_H
-
 #include "User.h"
-
+/**Patron class that stores user information - inherits from User class
+ * Username
+ * Password
+ * Library Id - Generated Automaticaly and is a number between (5000 and 7000)
+ */
 class Patron : public User
 {
 private:
-    int libraryID; // Used as the Patron Library Card Number
-    // queue of book checked out
-    BookQueue queue;
+    int libraryID;   // Used as the Patron Library Card Number
+    BookQueue queue; // queue of book checked out
 
 public:
     // Constructor
@@ -29,29 +31,26 @@ public:
     {
         return libraryID;
     }
+    // return pointer to user queue so it can be modified
+    BookQueue *GetUserQueue()
+    {
+        return &queue;
+    }
 
     // Setter methods
     void SetLibraryNumber(int libNumb) // will propblaby not be used id is genereated automatically
     {
         libraryID = libNumb;
     }
-
+    // function to add a  book to the queue
     void CheckinBook(Book book)
     {
-
         queue.Enqueue(book);
     }
-
+    // function to deque book from queue
     void CheckOutBook()
     {
-
         queue.Dequeue();
-        // can add function to deque specific book
-    }
-
-    BookQueue *GetUserQueue()
-    {
-        return &queue;
     }
 
     // display patron details
@@ -64,7 +63,7 @@ public:
 
     int GenerateLibraryID()
     {
-        // usese random generation function from LoginInfo class
+        // uses random generation function from LoginInfo class
         return GetLoginInfo()->GenerateRandomNumber(5000, 7000); // new ID in range specified
     }
 
@@ -82,12 +81,12 @@ public:
 // Overrides How the objects of this class are stored as string
 ostream &operator<<(ostream &out, Patron c)
 {
-
-    if (c.GetLibraryNumber() != 0)
+    if (c.GetLibraryNumber() != 0)//ensure the patron id is not 0
     {
         out << c.GetLibraryNumber() << "|" << c.GetLoginInfo()->GetUsername() << "|" << c.GetLoginInfo()->GetPassword() << endl;
+        // outputs information in the format libraryID|Username|Password
     }
-
+    //return user stream
     return out;
 }
 

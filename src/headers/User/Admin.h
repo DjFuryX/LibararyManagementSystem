@@ -1,4 +1,4 @@
-// Admin class with features such as add and update book
+// Admin class with features such as add
 // password and username should be "Admin"
 
 #ifndef ADMIN_H
@@ -15,7 +15,9 @@ public:
 
     };
 
-    ~Admin(){
+    ~Admin()
+    //destructor
+    { 
 
     };
 

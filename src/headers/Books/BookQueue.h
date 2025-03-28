@@ -1,24 +1,24 @@
 #ifndef BOOKQUEUE_H
 #define BOOKQUEUE_H
-
 #include "BookNodeQ.h"
-
+/**class to store user books checkedout in a Queue*/
 class BookQueue
 {
 public:
-    BookQueueNode *front;
-    BookQueueNode *rear;
+    BookQueueNode *front; // front of queue
+    BookQueueNode *rear;  // rear of queue
 
     // Constructor
     BookQueue() : front(NULL), rear(NULL) {}
 
-    //Getter
-    BookQueueNode * GetFront(){
+    // Getter
+    BookQueueNode *GetFront()
+    {
         return front;
     }
-    BookQueueNode * GetRear(){
+    BookQueueNode *GetRear()
+    {
         return rear;
-
     }
 
     // Check if queue is empty
@@ -34,18 +34,18 @@ public:
 
         if (IsEmpty())
         {
-            front = rear = newNode;
+            front = rear = newNode; // is queue is empty assign new book to front and rear pointer
         }
         else
         {
-            rear->SetNextNode(newNode);
-            rear = newNode;
+            rear->SetNextNode(newNode); // set next node to new Book
+            rear = newNode;             // the rear is now the new node
         }
     }
 
     // Dequeue method to remove the front book from the queue
     Book Dequeue()
-    {   
+    {
         Book bookToReturn;
 
         if (IsEmpty())
@@ -54,11 +54,11 @@ public:
         }
         else
         {
-            BookQueueNode *temp = front;
-            bookToReturn = front->GetData();
-            front = front->GetNextNode();
+            BookQueueNode *temp = front;     // assigns front value temporarily to Node
+            bookToReturn = front->GetData(); // stores the dequeued book data
+            front = front->GetNextNode();    // changes front of queue to next node
 
-            delete temp;
+            delete temp; // gets rid of temp
             if (front == NULL)
             {
                 rear = NULL;
@@ -77,7 +77,7 @@ public:
         }
         return front->GetData();
     }
-
+    // Get the rear book without removing it
     Book GetRearBook() const
     {
         if (IsEmpty())
@@ -105,7 +105,7 @@ public:
         }
     }
 
-    ~BookQueue()
+    ~BookQueue() // destructor
     {
     }
 };

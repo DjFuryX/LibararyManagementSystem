@@ -2,12 +2,13 @@
 #define STATISTICS_H
 #include <iostream>
 using namespace std;
+/** Statistics class to store information on the total books, total checkouts and total patrons in the library */
 class Statistics
 {
 private:
-    int totalBooks;
-    int totalPatrons;
-    int currentCheckouts;
+    int totalBooks; // Total number of books in the library 
+    int totalPatrons; // Totalnumber of registered Patrons
+    int currentCheckouts; // Nummber of books checked out
 
 public:
     Statistics()
@@ -17,7 +18,7 @@ public:
         currentCheckouts = 0;
     };
 
-    // Getters
+    // Getter Methods
     int getTotalBooks()
     {
         return totalBooks;
@@ -33,23 +34,24 @@ public:
         return currentCheckouts;
     }
 
-    // Setters
-    void setTotalBooks(int nTotalBooks) 
+    // Setters 
+    void setTotalBooks(int nTotalBooks) //adds accepted int to book total
     {
         totalBooks += nTotalBooks;
     }
 
-    void setTotalPatrons(int nTotalPatrons) //done
+    void setTotalPatrons(int nTotalPatrons) //adds accepted int to patron total
     {
         totalPatrons += nTotalPatrons;
     }
 
-    void setTotCheckouts(int nTotalCurrentCheckouts) //done
+    void setTotCheckouts(int nTotalCurrentCheckouts) //adds accepted int to checkout total
     {
         currentCheckouts += nTotalCurrentCheckouts;
     }
 
-    void ReduceTotalCheckouts(int checkouts){
+    void ReduceTotalCheckouts(int checkouts) // reduces checkout once a book is returned 
+    {
         currentCheckouts-=checkouts;
     }
 
@@ -61,6 +63,6 @@ public:
         cout << "Total Current Checkouts: " << currentCheckouts << endl;
     }
 
-    ~Statistics() {}
+    ~Statistics() {} //destructor
 };
 #endif

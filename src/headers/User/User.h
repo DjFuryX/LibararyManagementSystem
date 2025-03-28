@@ -55,13 +55,10 @@ public:
 
     }
 
-    
    virtual void CheckOutBook(){
-
     }
 
     virtual BookQueue *GetUserQueue(){
-
         return NULL;
     }
 

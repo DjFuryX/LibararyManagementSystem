@@ -1,7 +1,7 @@
 #ifndef BookQueueNode_h
 #define BookQueueNode_h
 #include "Book.h"
-// class to store books user has checkout in a Queue
+/**Node used by book queue to store book an pointer*/
 class BookQueueNode
 {
 private:
@@ -24,15 +24,13 @@ public:
         book = newBook;
     }
     // Getters
-    BookQueueNode *GetNextNode()
+    BookQueueNode *GetNextNode() // returns node's Next node
     {
-
         return next;
     }
 
-    Book GetData()
+    Book GetData() // return books information
     {
-
         return book;
     }
 };

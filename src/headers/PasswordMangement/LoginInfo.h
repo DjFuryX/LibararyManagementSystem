@@ -91,17 +91,19 @@ public:
         return randomNumber;
     }
 
+//Changes password to hashed value using key
     void HashPassword()
     {
-        password = compute_hash(password + key);
+        password = compute_hash(password + key); 
     }
 
+//compares password with hashed value
     bool comparePassword(string pass)
     {
 
-        pass = compute_hash(pass + key);
+        pass = compute_hash(pass + key); //create a has from string with key
 
-        if (pass == password)
+        if (pass == password)//if hash is equal to has stored password is correct
         {
             return true;
         }
@@ -109,6 +111,6 @@ public:
     }
 };
 
-string LoginInfo::key = "One and Only";
-int LoginInfo::tempPasswordlenght = 6; // lenght of password
+string LoginInfo::key = "One and Only"; 
+int LoginInfo::tempPasswordlenght = 6; // length of password
 #endif

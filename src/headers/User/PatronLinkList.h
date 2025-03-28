@@ -1,9 +1,13 @@
 #ifndef PatronLinkList_H
 #define PatronLinkList_H
-
 #include "PatronNode.h"
+/** Patron link list that contains all patron in the library
+ * Search - Id or Username
+ * Insert - Using library number or at front
+ * Delete
+ * Count
+ */
 
-// PatronNode object
 class PatronLinkList
 {
     // Class attribues

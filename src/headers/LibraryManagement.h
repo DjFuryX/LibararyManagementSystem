@@ -29,7 +29,7 @@ public:
         user = new User;
     }
 
-    PatronLinkList *GetPatronList()// 
+    PatronLinkList *GetPatronList() 
     {
 
         return &patronList;

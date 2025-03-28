@@ -3,8 +3,8 @@
 #include "./headers/GUI/SceneManager.h"
 int main()
 {
-  constexpr int screenWidth = 800;
-  constexpr int screenHeight = 600;
+  constexpr int screenWidth = 1920;
+  constexpr int screenHeight = 1080;
 
   Image icon = LoadImage("src/resources/images/Icon.png");
 
@@ -14,12 +14,11 @@ int main()
 
   InitWindow(screenWidth, screenHeight, "LIBRE"); // creates window
   SetWindowIcon(icon);                            // set window image
-  MaximizeWindow();
-  SetWindowMinSize(GetScreenWidth(), GetScreenHeight()); // fix window size
- // ToggleFullscreen();
+  SetWindowMinSize(screenWidth, screenHeight); // fix window size
+  ToggleFullscreen();
   SetTargetFPS(60); // set fps of window
 
-  SceneManager *scene = new SceneManager; // Creates a Scene Manager that shows the login screen
+  SceneManager *scene = new SceneManager; // Creates a Scene Manager that controls the flow of the program
 
   while (!WindowShouldClose())//runs unot escape is pressed
   {

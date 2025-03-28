@@ -3,13 +3,13 @@
 #define BOOKSTKNODE_H
 #include "Book.h"
 using namespace std;
-// Node object
+/**Node object for Book Stack*/
 class BookStkNode
 {
     // Class Attributes
 private:
-    Book data;    // Data portion - Composition
-    BookStkNode *Top; // Link portion (dynamically declared)
+    Book data;    // Data portion
+    BookStkNode *Top; // Link portion
 
 public:
     // default constructor
@@ -24,7 +24,6 @@ public:
         Top = nextNode;
     }
 
-
     // copy constructor
     BookStkNode(BookStkNode *node)
     {
@@ -37,7 +36,6 @@ public:
     {
         return data;
     }
-
     BookStkNode *GetNextNode()
     {
         return Top;
@@ -48,7 +46,6 @@ public:
     {
         data = info;
     }
-
     void SetNextNode(BookStkNode *nextNode)
     {
         Top = nextNode;
